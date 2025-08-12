@@ -56,7 +56,7 @@ const Sidebar = () => {
             <div className={`submenu-wrapper ${activeTab === 1 && isToggleSubmenu === true ? 'expanded' : 'collapsed'}`}>
               <ul className="submenu">
                 <li> <Link to="/Emplyees"> Employees List</Link> </li>
-                <li> <Link to="/Emplyees/add"> Employees Upload</Link> </li>
+                <li> <Link to="/Emplyees/add"> Employees Add</Link> </li>
               </ul>
             </div>
           </li>
@@ -69,7 +69,7 @@ const Sidebar = () => {
             <div className={`submenu-wrapper ${activeTab === 2 && isToggleSubmenu === true ? 'expanded' : 'collapsed'}`}>
               <ul className="submenu">
                 <li> <Link to="/attendence">Today Attendance</Link> </li>
-                <li> <Link to="/attendence/add">Add Employees Attendance</Link> </li>
+                <li> <Link to="/attendence/add">Attendance Add</Link> </li>
               </ul>
             </div>
           </li>

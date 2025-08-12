@@ -2,16 +2,32 @@ const express = require('express');
 const attendanceData = require('../models/attendanceData');
 const router  = express.Router();
 
+// router.get('/', async (req, res) => {
+//     try {
+        
+//         const attendancelist = await attendanceData.find();
+
+//         if (!attendancelist) {
+//             return res.status(500).json({ success: false });
+//         }
+
+//         res.send(attendancelist);
+//     } catch (error) {
+//         res.status(500).json({ success: false, error: error.message });
+//     }
+// });
+
+
 router.get('/', async (req, res) => {
     try {
-        
-        const attendancelist = await attendanceData.find();
+        const attendancelist = await attendanceData.find()
+            .populate('name', 'name');  
 
         if (!attendancelist) {
             return res.status(500).json({ success: false });
         }
 
-        res.send(attendancelist);
+        res.json(attendancelist);
     } catch (error) {
         res.status(500).json({ success: false, error: error.message });
     }

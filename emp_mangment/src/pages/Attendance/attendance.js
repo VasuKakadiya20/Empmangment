@@ -114,8 +114,8 @@ const Attendance = () => {
                   <tr key={index}>
                     <td><input type="checkbox" /></td>
                     <td className="emp-name">
-                      <img src={userimg} alt={item.name} />
-                      {item.name}
+                      <img src={userimg} alt={item.name?.name} />
+                   {item.name?.name}
                     </td>
                     <td>{item.firstIn}</td>
                     <td>{item.break}</td>

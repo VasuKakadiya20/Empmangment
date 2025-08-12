@@ -77,10 +77,10 @@ const HomeAttendance = () => {
                 {attendance.map((item, index) => (
                   <tr key={index}>
                     <td><input type="checkbox" /></td>
-                    <td className="emp-name">
-                      <img src={userimg} alt={item.name} />
-                      {item.name}
-                    </td>
+                     <td className="emp-name">
+                                         <img src={userimg} alt={item.name?.name} />
+                                      {item.name?.name}
+                                       </td>
                     <td>{item.firstIn}</td>
                     <td>{item.break}</td>
                     <td>{item.breakOut}</td>

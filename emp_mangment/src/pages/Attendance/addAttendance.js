@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./addAttendance.css";
-import { postData } from "../../uttils/api";
+import { fetchDataFromApi, postData } from "../../uttils/api";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const AddAttendance = () => {
+  const [employees, setEmployees] = useState([]);
   const [form, setForm] = useState({
     name: "",
     firstIn: "",
@@ -22,6 +23,12 @@ const AddAttendance = () => {
       [e.target.name]: e.target.value,
     });
   };
+
+  useEffect(() =>{
+    fetchDataFromApi(`/emp/`).then((res)=>{
+      setEmployees(res);
+    })
+  })
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -70,11 +77,21 @@ const AddAttendance = () => {
               <h2 className="form-title">New Entry</h2>
               <form className="employee-form" onSubmit={handleSubmit}>
                 <div className="form-row">
-                  <div className="form-group">
-                    <label>Name*</label>
-                    <input type="text" name="name" value={form.name} onChange={handleChange}
-                      placeholder="Enter The Name..." />
-                    <i className="fas fa-user"></i>
+                   <div className="form-group">
+                    <label>Employee Name*</label>
+                    <select
+                      name="name"
+                      value={form.name}
+                      onChange={handleChange}
+                      required
+                    >
+                      <option value="">Select Employee</option>
+                      {employees.map((emp) => (
+                        <option key={emp._id} value={emp._id}>
+                          {emp.name}
+                        </option>
+                      ))}
+                    </select>
                   </div>
                   <div className="form-group">
                     <label>First In*</label>
