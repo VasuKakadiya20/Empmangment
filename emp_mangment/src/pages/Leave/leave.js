@@ -16,59 +16,52 @@ const leaveData = [
   {
     id: 1,
     name: "Brian Shelton",
-    empId: "E132",
     department: "Finance",
     leaveType: "Medical Leave",
     from: "06/07/2025",
     to: "07/07/2025",
     days: 1,
-    duration: "Full-day",
-    status: "Approved",
-    reason: "Shop 4, Shanti Nagar",
+    status: "Rejected",
+    reason: "Personal illness",
     requested: "05/07/2025",
-    approvedBy: "Michael Green",
-    approvalDate: "05/07/2025",
+    approvedBy: "",
+    approvalDate: "",
   },
   {
     id: 2,
     name: "Sarah Smith",
-    empId: "E124",
     department: "Finance",
     leaveType: "Medical Leave",
     from: "20/06/2025",
     to: "24/06/2025",
     days: 4,
-    duration: "Half-day",
-    status: "Rejected",
-    reason: "Shanti Nagar",      
-    requested: "15/06/2025",
-    approvedBy: "",
-    approvalDate: "",
+     status: "Approved",
+    reason: "Personal illness",
+    requested: "18/06/2025",
+    approvedBy: "Michael Green",
+    approvalDate: "19/06/2025",
+    reason: "Injury recovery",      
   },
   {
     id: 3,
     name: "Jeannie Ellis",
-    empId: "E134",
     department: "Research",
     leaveType: "Maternity Leave",
     from: "02/08/2025",
     to: "04/08/2025",
     days: 3,
-    duration: "Full-day",
     status: "pending",
-    reason: "Plot 129, D 1",
+    reason: "House-related work",
     requested: "25/07/2025",
   },
   {
     id: 4,
     name: "Emily  Johnson",
-    empId: "E105",
     department: "HR",
     leaveType: "Casual Leave",
     from: "12/08/2025",
     to: "13/08/2025",
     days: 2,
-    duration: "Full-day",
     status: "Pending",
     reason: "Personal work",
     requested: "10/08/2025",
@@ -78,13 +71,11 @@ const leaveData = [
   {
     id: 5,
     name: "David Lee",
-    empId: "E119",
     department: "IT",
     leaveType: "Medical Leave",
     from: "01/08/2025",
     to: "03/08/2025",
     days: 3,
-    duration: "Full-day",
     status: "Approved",
     reason: "Fever and rest",
     requested: "30/07/2025",
@@ -94,13 +85,11 @@ const leaveData = [
   {
     id: 6,
     name: "Jessica Taylor",
-    empId: "E108",
     department: "Marketing",
     leaveType: "Casual Leave",
     from: "15/07/2025",
     to: "16/07/2025",
     days: 2,
-    duration: "Half-day",
     status: "Rejected",
     reason: "Family Event",
     requested: "13/07/2025",
@@ -110,13 +99,11 @@ const leaveData = [
   {
     id: 7,
     name: "Robert Brown",
-    empId: "E140",
     department: "Logistics",
     leaveType: "Medical Leave",
     from: "10/08/2025",
     to: "11/08/2025",
     days: 2,
-    duration: "Full-day",
     status: "Approved",
     reason: "Back pain",
     requested: "08/08/2025",
@@ -126,13 +113,11 @@ const leaveData = [
   {
     id: 8,
     name: "Olivia Davis",
-    empId: "E122",
     department: "Sales",
     leaveType: "Casual Leave",
     from: "05/08/2025",
     to: "05/08/2025",
     days: 1,
-    duration: "Half-day",
     status: "Pending",
     reason: "Urgent work",
     requested: "04/08/2025",
@@ -142,13 +127,11 @@ const leaveData = [
   {
     id: 9,
     name: "Daniel Wilson",
-    empId: "E155",
     department: "HR",
     leaveType: "Maternity Leave",
     from: "01/07/2025",
     to: "31/07/2025",
     days: 31,
-    duration: "Full-day",
     status: "Approved",
     reason: "Maternity",
     requested: "15/06/2025",
@@ -158,13 +141,11 @@ const leaveData = [
   {
     id: 10,
     name: "Sophia Martinez",
-    empId: "E163",
     department: "Admin",
     leaveType: "Medical Leave",
     from: "09/08/2025",
     to: "10/08/2025",
     days: 2,
-    duration: "Full-day",
     status: "Rejected",
     reason: "Cold and cough",
     requested: "08/08/2025",
@@ -204,15 +185,12 @@ const LeaveRequests = () => {
           <table>
             <thead>
               <tr>
-                <th></th>
                 <th>Employee Name</th>
-                <th>Employee ID</th>
                 <th>Department</th>
                 <th>Leave Type</th>
                 <th>Leave From</th>
                 <th>Leave To</th>
                 <th>Number of Days</th>
-                <th>Duration Type</th>
                 <th>Status</th>
                 <th>Reason</th>
                 <th>Requested On</th>
@@ -224,20 +202,15 @@ const LeaveRequests = () => {
             <tbody>
               {leaveData.map((leave) => (
                 <tr key={leave.id}>
-                  <td>
-                    <input type="checkbox" />
-                  </td>
                   <td className="emp-name">
                     <img src={userimg} alt={leave.name} />
                     {leave.name}
                   </td>
-                  <td>{leave.empId}</td>
                   <td>{leave.department}</td>
                   <td>{leave.leaveType}</td>
                   <td>{leave.from}</td>
                   <td>{leave.to}</td>
                   <td>{leave.days}</td>
-                  <td>{leave.duration}</td>
                   <td>
                     <span className={`status ${leave.status.toLowerCase()}`}>
                       {leave.status}
