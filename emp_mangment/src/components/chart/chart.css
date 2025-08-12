@@ -1,0 +1,39 @@
+.project-survey-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 25px 30px;
+  box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.06);
+  margin-top: 90px !important;
+  width: calc(100% - 40px); 
+  margin: auto; 
+}
+
+
+.project-survey-card .header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.project-survey-card h4 {
+  font-size: 20px;
+  text-align: center;
+  font-weight: 600;
+  margin: 0;
+  color: #333;
+}
+
+.apexcharts-canvas {
+  padding: 10px 0;
+}
+
+.apexcharts-toolbar {
+  margin-right: 5px;
+}
+
+.apexcharts-canvas * {
+  transition: all 0.2s ease-in-out;
+} 
