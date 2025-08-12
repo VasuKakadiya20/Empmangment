@@ -23,6 +23,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
+import logo from "../../assets/images/logo.png";
 
 export const Header = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -80,8 +81,9 @@ const [snack, setSnack] = useState({
       <div className="container-fluid w-100">
         <div className="row d-flex align-items-center w-100">
           <div className="col-sm-2 part1">
-            <Link to={"/"} className="d-flex align-items-center logo">
-              <span className="ml-2">Emplyees</span>
+            <Link to={"/"} className="d-flex align-items-center logo gap-2">
+              <img src={logo} alt="logo" />
+              <span className="ml-2">TeamTrack</span>
             </Link>
           </div>
           {context.windowWidth > 992 && (
