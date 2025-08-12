@@ -1,6 +1,5 @@
 import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
-import logo from "../../assets/images/logo.png";
 import Button from "@mui/material/Button";
 import { MdOutlineMenuOpen } from "react-icons/md";
 import { MdOutlineMenu } from "react-icons/md";
@@ -82,8 +81,7 @@ const [snack, setSnack] = useState({
         <div className="row d-flex align-items-center w-100">
           <div className="col-sm-2 part1">
             <Link to={"/"} className="d-flex align-items-center logo">
-              <img src={logo} alt="logo" />
-              <span className="ml-2">emp</span>
+              <span className="ml-2">Emplyees</span>
             </Link>
           </div>
           {context.windowWidth > 992 && (
