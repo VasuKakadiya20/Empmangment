@@ -127,7 +127,7 @@ const AddLeave = () => {
 
               <div className="form-row">
                                 <div class="form-group">
-                                  <label>leave type*</label>
+                                  <label>Leave type*</label>
                                   <select name="leavetype"
                                     value={form.leavetype} onChange={handleChange} >
                                     <option value="">Select The Leave</option>
@@ -139,7 +139,7 @@ const AddLeave = () => {
                                 </div>
 
                                 <div class="form-group">
-                                  <label>leave From*</label>
+                                  <label>Leave From*</label>
                                    <input type="Date" name="leaveFrom"
                                     value={form.leaveFrom}  onChange={handleChange}/>
                                 </div>
@@ -149,7 +149,7 @@ const AddLeave = () => {
 
                  <div className="form-row">
                                 <div class="form-group">
-                                  <label>leave To*</label>
+                                  <label>Leave To*</label>
                                     <input type="Date"  name="leaveTo" value={form.leaveTo}  onChange={handleChange} />
                                 </div>
 
