@@ -260,7 +260,7 @@ const Sidebar = () => {
           <Link to="/leave/add">
           <Button className={`w-100 ${activeTab === 1 ? "active" : ""}`}>
               <span className="icons"><SlNote /></span>
-              Add Attendance
+              Add Leave
               <span className="arrows"><FaAngleRight /></span>
             </Button>
           </Link>
