@@ -1,0 +1,121 @@
+       <td><FaEdit className="action-icon" onClick={() => handleOpenDialog(leave)} />
+                    <Dialog
+                      open={openDialog}
+                      onClose={handleCloseDialog}
+                      maxWidth="md"
+                      fullWidth
+                      BackdropProps={{
+                        sx: {
+                          backgroundColor: 'transparent',
+                          backdropFilter: 'blur(2px)',
+                        },
+                      }}
+                      PaperProps={{
+                        sx: {
+                          boxShadow: 'none',
+                          backgroundColor: '#fff',
+                          borderRadius: 2,
+                        },
+                      }}
+                    >
+                      <DialogContent className="dialog-form-container">
+                        <div className="leave-form-container">
+                          <form className="leave-form">
+                            <div className="form-group">
+                              <label>Name*</label>
+                              <input type="text" value={selectedLeave?.name} />
+                            </div>
+
+                            <div className="form-group">
+                              <label>Employee ID*</label>
+                              <input type="text" placeholder="Enter The Employee ID" value={selectedLeave?.empId} />
+                            </div>
+
+                            <div className="form-group">
+                              <label>Department*</label>
+                              <input type="text" placeholder="Enter The Department Name" value={selectedLeave?.department} />
+                            </div>
+
+                            <div className="form-group">
+                              <label>Leave Type*</label>
+                              <select value={selectedLeave?.leaveType}>
+                                <option>Medical Leave</option>
+                                <option>Maternity Leave</option>
+                                <option>Casual Leave</option>
+                              </select>
+                            </div>
+
+                            <div className="form-group">
+                              <label>Leave From*</label>
+                              <input type="date" value={
+                                selectedLeave?.from
+                                  ? parseDate(selectedLeave.from).toISOString().split("T")[0]
+                                  : ""
+                              } />
+                            </div>
+
+                            <div className="form-group">
+                              <label>Leave To*</label>
+                              <input type="date" value={
+                                selectedLeave?.to
+                                  ? parseDate(selectedLeave.to).toISOString().split("T")[0]
+                                  : ""
+                              } />
+                            </div>
+
+                            <div className="form-group">
+                              <label>No Of Days*</label>
+                              <input type="number" value={selectedLeave?.days} /> {/* */}
+                            </div>
+
+                            <div className="form-group">
+                              <label>Duration Type*</label>
+                              <input type="text" value={selectedLeave?.duration} /> {/*  */}
+                            </div>
+
+                            <div className="form-group">
+                              <label>Status*</label>
+                              <select value={selectedLeave?.status}> {/*  */}
+                                <option>Approved</option>
+                                <option>Rejected</option>
+                                <option>Pending</option>
+                              </select>
+                            </div>
+
+                            <div className="form-group">
+                              <label>Requested On*</label>
+                              <input type="date" value={
+                                selectedLeave?.requested
+                                  ? parseDate(selectedLeave.requested).toISOString().split("T")[0]
+                                  : ""
+                              } />
+                            </div>
+
+                            <div className="form-group full-width">
+                              <label>Reason*</label>
+                              <textarea value={selectedLeave?.reason} /> {/*  */}
+                            </div>
+
+
+                            <div className="form-group">
+                              <label>Approved By</label>
+                              <input type="text" placeholder="Enter the Approved By Name" value={selectedLeave?.approvedBy} />  {/*   */}
+                            </div>
+
+                            <div className="form-group">
+                              <label>Approval Date</label>
+                              <input type="date" value={
+                                selectedLeave?.approvalDate
+                                  ? parseDate(selectedLeave.approvalDate).toISOString().split("T")[0]
+                                  : ""
+                              } />
+                            </div>
+                            <div class="button-group">
+                              <button onClick={handleCloseDialog} class="save-btn">Save</button>
+                              <button onClick={handleCloseDialog} class="cancel-btn">Cancel</button>
+                            </div>
+                          </form>
+                        </div>
+                      </DialogContent>
+                    </Dialog>
+                  </td>

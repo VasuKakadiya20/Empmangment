@@ -13,12 +13,13 @@ import AllEmployees from './pages/employee/emplist';
 import AddEmployeeForm from './pages/employee/addemp';
 import LoginSignupForm from './pages/login/login';
 import EmployeeCharts from './components/chart2/chart2';
+import AddLeave from './pages/Leave/addLeave';
 const mycontext = createContext()
 
 function App() {
   const [isToggleSidebar, setIsToggleSidebar] = useState(false);
   const [isHideSidebarAndHeader, setIsHideSidebarAndHeader] = useState(false);
-  const [islogin, setislogin] = useState(true)
+  const [islogin, setislogin] = useState(false)
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [isOpenNav, setIsOpenNav] = useState(false);
 
@@ -75,15 +76,14 @@ function App() {
 
             <div className={`content ${isHideSidebarAndHeader === true && 'full '} ${isToggleSidebar === true ? 'toggle' : ''}`}>
               <Routes>
-                <Route path="/" element={<Dashboard />} exact={true} />
+                <Route path="/" element={<LoginSignupForm />} exact={true} />
                 <Route path="/Dashboard" element={<Dashboard />} exact={true} />
                 <Route path="/Emplyees" element={<AllEmployees />} exact={true} />
                 <Route path="/Emplyees/add" element={<AddEmployeeForm />} exact={true} />
                 <Route path="/attendence" element={<Attendance />} exact={true} />
                 <Route path="/attendence/add" element={<AddAttendance />} exact={true} />
                 <Route path="/leave" element={<LeaveRequests />} exact={true} />
-                <Route path="/login" element={<LoginSignupForm />} exact={true} />
-                <Route path="/singup" element={<LeaveRequests />} exact={true} />
+                <Route path='/leave/add'element = {<AddLeave/>} exact={true}/>
               </Routes>
             </div>
           </div>

@@ -89,7 +89,6 @@ const Attendance = () => {
       <div className="attendance mt-5">
         <div className="attendance-container mt-5">
           <h2 className="table-title">Today Attendance</h2>
-
           <div className="table-wrapper">
             <div className="table-header">
               <span>Attendance</span>

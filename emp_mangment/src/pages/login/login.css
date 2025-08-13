@@ -70,6 +70,7 @@
     margin-top: 15px !important;
 }
 
+
 .auth-link {
   font-size: 14px;
   margin-top: -10px;
@@ -130,4 +131,43 @@
   .auth-submit {
     font-size: 16px;
   }
+}
+
+.auth-dropdown select {
+  width: 100%;
+  padding: 12px 14px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  outline: none;
+  background-color: #fff;
+  color: #333;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.auth-dropdown {
+  position: relative;
+}
+
+.auth-dropdown::after {
+  content: "▼";
+  font-size: 12px;
+  color: #666;
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.auth-dropdown select:focus {
+  border-color: #1976d2; /* MUI primary color */
+  box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.2);
+}
+
+.auth-dropdown select option {
+  padding: 10px;
 }

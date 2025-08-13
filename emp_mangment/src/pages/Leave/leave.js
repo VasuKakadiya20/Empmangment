@@ -11,173 +11,69 @@ import { FaChevronLeft } from "react-icons/fa";
 import { FaChevronRight } from "react-icons/fa";
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
+import { useEffect } from "react";
+import { deletedata, editdata, fetchDataFromApi } from "../../uttils/api";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import DeleteIcon from '@mui/icons-material/Delete';
 
-const leaveData = [
-  {
-    id: 1,
-    name: "Brian Shelton",
-    department: "Finance",
-    leaveType: "Medical Leave",
-    from: "06/07/2025",
-    to: "07/07/2025",
-    days: 1,
-    status: "Rejected",
-    reason: "Personal illness",
-    requested: "05/07/2025",
-    approvedBy: "",
-    approvalDate: "",
-  },
-  {
-    id: 2,
-    name: "Sarah Smith",
-    department: "Finance",
-    leaveType: "Medical Leave",
-    from: "20/06/2025",
-    to: "24/06/2025",
-    days: 4,
-     status: "Approved",
-    reason: "Personal illness",
-    requested: "18/06/2025",
-    approvedBy: "Michael Green",
-    approvalDate: "19/06/2025",
-    reason: "Injury recovery",      
-  },
-  {
-    id: 3,
-    name: "Jeannie Ellis",
-    department: "Research",
-    leaveType: "Maternity Leave",
-    from: "02/08/2025",
-    to: "04/08/2025",
-    days: 3,
-    status: "pending",
-    reason: "House-related work",
-    requested: "25/07/2025",
-  },
-  {
-    id: 4,
-    name: "Emily  Johnson",
-    department: "HR",
-    leaveType: "Casual Leave",
-    from: "12/08/2025",
-    to: "13/08/2025",
-    days: 2,
-    status: "Pending",
-    reason: "Personal work",
-    requested: "10/08/2025",
-    approvedBy: "",
-    approvalDate: ""
-  },
-  {
-    id: 5,
-    name: "David Lee",
-    department: "IT",
-    leaveType: "Medical Leave",
-    from: "01/08/2025",
-    to: "03/08/2025",
-    days: 3,
-    status: "Approved",
-    reason: "Fever and rest",
-    requested: "30/07/2025",
-    approvedBy: "Anna Clark",
-    approvalDate: "31/07/2025"
-  },
-  {
-    id: 6,
-    name: "Jessica Taylor",
-    department: "Marketing",
-    leaveType: "Casual Leave",
-    from: "15/07/2025",
-    to: "16/07/2025",
-    days: 2,
-    status: "Rejected",
-    reason: "Family Event",
-    requested: "13/07/2025",
-    approvedBy: "Michael Green",
-    approvalDate: "14/07/2025"
-  },
-  {
-    id: 7,
-    name: "Robert Brown",
-    department: "Logistics",
-    leaveType: "Medical Leave",
-    from: "10/08/2025",
-    to: "11/08/2025",
-    days: 2,
-    status: "Approved",
-    reason: "Back pain",
-    requested: "08/08/2025",
-    approvedBy: "Samantha Reed",
-    approvalDate: "09/08/2025"
-  },
-  {
-    id: 8,
-    name: "Olivia Davis",
-    department: "Sales",
-    leaveType: "Casual Leave",
-    from: "05/08/2025",
-    to: "05/08/2025",
-    days: 1,
-    status: "Pending",
-    reason: "Urgent work",
-    requested: "04/08/2025",
-    approvedBy: "",
-    approvalDate: ""
-  },
-  {
-    id: 9,
-    name: "Daniel Wilson",
-    department: "HR",
-    leaveType: "Maternity Leave",
-    from: "01/07/2025",
-    to: "31/07/2025",
-    days: 31,
-    status: "Approved",
-    reason: "Maternity",
-    requested: "15/06/2025",
-    approvedBy: "Helen Moore",
-    approvalDate: "16/06/2025"
-  },
-  {
-    id: 10,
-    name: "Sophia Martinez",
-    department: "Admin",
-    leaveType: "Medical Leave",
-    from: "09/08/2025",
-    to: "10/08/2025",
-    days: 2,
-    status: "Rejected",
-    reason: "Cold and cough",
-    requested: "08/08/2025",
-    approvedBy: "Sarah White",
-    approvalDate: "08/08/2025"
-  },
-];
 
 const LeaveRequests = () => {
   const [age, setAge] = React.useState('');
   const [openDialog, setOpenDialog] = useState(false);
-  const [selectedLeave, setSelectedLeave] = useState(null);
+ const [updatedate, setupdatedate] = useState([])
+  const [leaveData,setleaveData] = useState([])
   const handleChange = (event) => {
     setAge(event.target.value);
   };
+
   const handleCloseDialog = () => {
     setOpenDialog(false);
   };
-  const handleOpenDialog = (leave) => {
-    setSelectedLeave(leave);
+
+  const updateattendance = (_id) => {
     setOpenDialog(true);
+    fetchDataFromApi(`/leave/${_id}`).then((res) => {
+      setupdatedate(res)
+    })
+  }
+
+    useEffect(() => {
+    fetchDataFromApi('/leave/').then((res) => {
+      setleaveData(res)
+    })
+    window.scrollTo(0, 0);
+  }, [])
+
+    const handleSaveUpdate = async (e) => {
+     e.preventDefault(); 
+     try{
+        await editdata(`/leave/${updatedate._id}`, updatedate);
+    console.log(updatedate)
+    setleaveData((prev) =>
+      prev.map((item) => (item._id === updatedate._id ? updatedate : item))
+    );
+    toast.success("Attendance update successfully !");
+    setOpenDialog(false);
+     } catch (error){
+        toast.error("Failed to update Attendance");
+        console.error(error);
+      }
   };
-  function parseDate(dateStr) {
-    const [day, month, year] = dateStr.split("/");
-    return new Date(`${year}-${month}-${day}`);
+
+  const deletedataemp =(_id) =>{
+    deletedata(`/leave/${_id}`).then((res)=>{
+    toast.success("Employee Data Delete successfully!");
+     fetchDataFromApi('/leave/').then((res) => {
+      setleaveData(res)
+    })
+    })
   }
 
   return (
     <div className="attendance mt-5">
       <div className="attendance-container mt-5">
         <h2 className="table-title">Leave Requests</h2>
-
         <div className="table-wrapper">
           <div className="table-header">
             <span>Leave Requests</span>
@@ -200,147 +96,167 @@ const LeaveRequests = () => {
               </tr>
             </thead>
             <tbody>
-              {leaveData.map((leave) => (
-                <tr key={leave.id}>
+              {leaveData.map((item,index) => (
+                <tr key={item.id}>
                   <td className="emp-name">
-                    <img src={userimg} alt={leave.name} />
-                    {leave.name}
+                    <img src={userimg} alt= {item.name?.name} />
+                   {item.name?.name}
                   </td>
-                  <td>{leave.department}</td>
-                  <td>{leave.leaveType}</td>
-                  <td>{leave.from}</td>
-                  <td>{leave.to}</td>
-                  <td>{leave.days}</td>
-                  <td>
-                    <span className={`status ${leave.status.toLowerCase()}`}>
-                      {leave.status}
-                    </span>
-                  </td>
-                  <td>{leave.reason}</td>
-                  <td>{leave.requested}</td>
-                  <td>{leave.approvedBy}</td>
-                  <td>{leave.approvalDate}</td>
-                  <td><FaEdit className="action-icon" onClick={() => handleOpenDialog(leave)} />
-                    <Dialog
-                      open={openDialog}
-                      onClose={handleCloseDialog}
-                      maxWidth="md"
-                      fullWidth
-                      BackdropProps={{
-                        sx: {
-                          backgroundColor: 'transparent',
-                          backdropFilter: 'blur(2px)',
-                        },
-                      }}
-                      PaperProps={{
-                        sx: {
-                          boxShadow: 'none',
-                          backgroundColor: '#fff',
-                          borderRadius: 2,
-                        },
-                      }}
-                    >
-                      <DialogContent className="dialog-form-container">
-                        <div className="leave-form-container">
-                          <form className="leave-form">
-                            <div className="form-group">
-                              <label>Name*</label>
-                              <input type="text" value={selectedLeave?.name} />
-                            </div>
+                  <td>{item.Department}</td>
+                  <td>{item.leavetype}</td>
+                  <td>{item.leaveFrom}</td>
+                  <td>{item.leaveTo}</td>
+                  <td>{item.Numberofdays}</td>
+                <td>
+  <span className={`status ${item.Status || "pending"}`}>
+    {item.Status || "pending"}
+  </span>
+</td>
 
-                            <div className="form-group">
-                              <label>Employee ID*</label>
-                              <input type="text" placeholder="Enter The Employee ID" value={selectedLeave?.empId} />
-                            </div>
+                  <td>{item.Reason}</td>
+                  <td>{item.RequestedOn}</td>
+                  <td>{item.ApprovedBy}</td>
+                  <td>{item.ApprovedDate}</td>
+                   <td>
+                     <div className="action">
+                      <FaEdit className="action-icon" onClick={() => updateattendance(item._id)} />
+                      <DeleteIcon className="action-icon2" onClick = {() => deletedataemp(item._id)}/>
+                      </div>
+                      <Dialog
+                        open={openDialog}
+                        onClose={handleCloseDialog}
+                        maxWidth="md"
+                        fullWidth
+                        BackdropProps={{
+                          sx: {
+                            backgroundColor: 'transparent',
+                            backdropFilter: 'blur(2px)',
+                          },
+                        }}
+                        PaperProps={{
+                          sx: {
+                            boxShadow: 'none',
+                            backgroundColor: '#fff',
+                            borderRadius: 2,
+                          },
+                        }}
+                      >
+                        <DialogContent className="dialog-form-container">
+                          <h2 className="text-align-center">Update the leave Data</h2>
+                          {updatedate && (
+                            <form class="form-container">
+                              <div className="form-row">
+                                <div class="form-group">
+                                  <label>Name*</label>
+                                  <input type="text"
+                                    value={updatedate?.name}
+                                    onChange={(e) => setupdatedate({ ...updatedate, name: e.target.value })} />
+                                </div>
 
-                            <div className="form-group">
-                              <label>Department*</label>
-                              <input type="text" placeholder="Enter The Department Name" value={selectedLeave?.department} />
-                            </div>
+                                <div class="form-group">
+                                   <label>Department*</label>
+                                  <input type="text"
+                                    value={updatedate?.Department}
+                                    onChange={(e) => setupdatedate({ ...updatedate, Department: e.target.value })} />
+                                </div>
 
-                            <div className="form-group">
-                              <label>Leave Type*</label>
-                              <select value={selectedLeave?.leaveType}>
-                                <option>Medical Leave</option>
-                                <option>Maternity Leave</option>
-                                <option>Casual Leave</option>
-                              </select>
-                            </div>
-
-                            <div className="form-group">
-                              <label>Leave From*</label>
-                              <input type="date" value={
-                                selectedLeave?.from
-                                  ? parseDate(selectedLeave.from).toISOString().split("T")[0]
-                                  : ""
-                              } />
-                            </div>
-
-                            <div className="form-group">
-                              <label>Leave To*</label>
-                              <input type="date" value={
-                                selectedLeave?.to
-                                  ? parseDate(selectedLeave.to).toISOString().split("T")[0]
-                                  : ""
-                              } />
-                            </div>
-
-                            <div className="form-group">
-                              <label>No Of Days*</label>
-                              <input type="number" value={selectedLeave?.days} /> {/* */}
-                            </div>
-
-                            <div className="form-group">
-                              <label>Duration Type*</label>
-                              <input type="text" value={selectedLeave?.duration} /> {/*  */}
-                            </div>
-
-                            <div className="form-group">
-                              <label>Status*</label>
-                              <select value={selectedLeave?.status}> {/*  */}
-                                <option>Approved</option>
-                                <option>Rejected</option>
-                                <option>Pending</option>
-                              </select>
-                            </div>
-
-                            <div className="form-group">
-                              <label>Requested On*</label>
-                              <input type="date" value={
-                                selectedLeave?.requested
-                                  ? parseDate(selectedLeave.requested).toISOString().split("T")[0]
-                                  : ""
-                              } />
-                            </div>
-
-                            <div className="form-group full-width">
-                              <label>Reason*</label>
-                              <textarea value={selectedLeave?.reason} /> {/*  */}
-                            </div>
+                              </div>
 
 
-                            <div className="form-group">
-                              <label>Approved By</label>
-                              <input type="text" placeholder="Enter the Approved By Name" value={selectedLeave?.approvedBy} />  {/*   */}
-                            </div>
+                              <div className="form-row">
+                                <div class="form-group">
+                                  <label>leave type*</label>
+                                  <select
+                                    value={updatedate?.leavetype}
+                                    onChange={(e) => setupdatedate({ ...updatedate, leavetype: e.target.value })}
+                                  >
+                                    <option value="">Select The Leave</option>
+                                    <option >Casual Leave </option>
+                                    <option >Medical Leave</option>
+                                    <option>Maternity Leave</option>
+                                    <option>Unpaid Leave</option>
+                                  </select>
+                                </div>
 
-                            <div className="form-group">
-                              <label>Approval Date</label>
-                              <input type="date" value={
-                                selectedLeave?.approvalDate
-                                  ? parseDate(selectedLeave.approvalDate).toISOString().split("T")[0]
-                                  : ""
-                              } />
-                            </div>
-                            <div class="button-group">
-                              <button onClick={handleCloseDialog} class="save-btn">Save</button>
-                              <button onClick={handleCloseDialog} class="cancel-btn">Cancel</button>
-                            </div>
-                          </form>
-                        </div>
-                      </DialogContent>
-                    </Dialog>
-                  </td>
+                                <div class="form-group">
+                                  <label>leave From*</label>
+                                   <input type="Date"
+                                    value={updatedate?.leaveFrom}
+                                    onChange={(e) => setupdatedate({ ...updatedate, leaveFrom: e.target.value })} />
+                                </div>
+
+                              </div>
+
+                              <div className="form-row">
+                                <div class="form-group">
+                                  <label>leave To*</label>
+                                    <input type="Date"
+                                    value={updatedate?.leaveTo}
+                                    onChange={(e) => setupdatedate({ ...updatedate, leaveTo: e.target.value })} />
+                                </div>
+
+                                <div class="form-group">
+                                  <label>Number of days*</label>
+                                    <input type="number"
+                                    value={updatedate?.Numberofdays}
+                                    onChange={(e) => setupdatedate({ ...updatedate, Numberofdays: e.target.value })} />
+                                </div>
+                              </div>
+
+                              <div className="form-row">
+                                <div class="form-group">
+                                  <label>Status*</label>
+                                  <select
+                                    value={updatedate.Status || ""}
+                                    onChange={(e) => setupdatedate({ ...updatedate, Status: e.target.value })}
+                                  >
+                                    <option>approved</option>
+                                    <option>rejected</option>
+                                    <option>pending</option>
+                                  </select>
+                                  <i class="fas fa-chevron-down"></i>
+                                </div>
+
+                                <div class="form-group ">
+                                  <label>Reason*</label>
+                                    <input type="text"
+                                    value={updatedate?.Reason}
+                                    onChange={(e) => setupdatedate({ ...updatedate, Reason: e.target.value })} />
+                                </div>
+                              </div>
+
+                              <div className="form-row">
+                                <div class="form-group">
+                                  <label>Requested On*</label>
+                                      <input type="Date"
+                                    value={updatedate?.RequestedOn}
+                                    onChange={(e) => setupdatedate({ ...updatedate, RequestedOn: e.target.value })} />
+                                </div>
+
+                                <div class="form-group ">
+                                  <label>Approved By*</label>
+                                    <input type="text"
+                                    value={updatedate?.ApprovedBy}
+                                    onChange={(e) => setupdatedate({ ...updatedate, ApprovedBy: e.target.value })} />
+                                </div>
+                              </div>
+  
+                                <div className="form-group">
+                                   <label>Approved Date*</label>
+                                    <input type="date"
+                                    value={updatedate?.ApprovedDate}
+                                    onChange={(e) => setupdatedate({ ...updatedate, ApprovedDate: e.target.value })} />
+                                </div>
+    
+                              <div class="button-group">
+                                <button onClick={handleSaveUpdate} class="save-btn">Save</button>
+                                <button onClick={handleCloseDialog} class="cancel-btn">Cancel</button>
+                              </div>
+                            </form>
+                          )}
+                        </DialogContent>
+                      </Dialog>
+                    </td>
                 </tr>
               ))}
             </tbody>

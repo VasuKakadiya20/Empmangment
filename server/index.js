@@ -17,12 +17,13 @@ app.use(express.json());
 const employeeRoutes = require('./routes/employee');
 const signupRoutes = require('./routes/singup');
 const attendanceRoutes = require('./routes/attendanceData');
+const leaveRoutes = require('./routes/leave')
 app.use('/emp', employeeRoutes);
 app.use('/signup', signupRoutes);
 app.use('/att',attendanceRoutes)
+app.use('/leave',leaveRoutes)
 
 
-// Database
 mongoose.connect(process.env.CONNECTION_STRING)
   .then(() => {
     console.log('Database Connection is ready...');

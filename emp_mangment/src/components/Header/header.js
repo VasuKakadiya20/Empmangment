@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
 import { MdOutlineMenuOpen } from "react-icons/md";
 import { MdOutlineMenu } from "react-icons/md";
@@ -19,10 +19,6 @@ import UserImg from "../UserImg/UserImg";
 import Admin from "../../assets/images/admin.png"
 import { mycontext } from "../../App";
 import LockOutlineIcon from "@mui/icons-material/LockOutline";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import Snackbar from "@mui/material/Snackbar";
-import Alert from "@mui/material/Alert";
 import logo from "../../assets/images/logo.png";
 
 export const Header = () => {
@@ -30,6 +26,7 @@ export const Header = () => {
   const [isOpennotificationsDrop, setIsOpenNotificationsDrop] = useState(null);
   const storedUser = JSON.parse(localStorage.getItem("user")) || {};
   const context = useContext(mycontext);
+  const navigate = useNavigate();
 
   const openMyacc = Boolean(anchorEl);
   const handleOpenMyAccDrop = (event) => {
@@ -48,285 +45,267 @@ export const Header = () => {
     setIsOpenNotificationsDrop(false);
   };
 
-const [snack, setSnack] = useState({
-    open: false,
-    message: "",
-    severity: "success", 
-  });
-
-  const handleSnackClose = (event, reason) => {
-    if (reason === "clickaway") return;
-    setSnack({ ...snack, open: false });
-  };
-
-  const showSnackbar = (message, severity = "success") => {
-    setSnack({ open: true, message, severity });
-  };
+  const logout = () => {
+    context.setislogin(false);
+    localStorage.removeItem("user");
+    handleCloseMyAccDrop();
+          navigate("/");
+  }
 
   return (
-      <>
-      <ToastContainer
-    position="top-right"
-    autoClose={3000}
-    hideProgressBar={false}
-    newestOnTop={false}
-    closeOnClick
-    rtl={false}
-    pauseOnFocusLoss
-    draggable
-    pauseOnHover
-    theme="colored"
-  />
-    <header className="d-flex align-items-center">
-      <div className="container-fluid w-100">
-        <div className="row d-flex align-items-center w-100">
-          <div className="col-sm-2 part1">
-            <Link to={"/"} className="d-flex align-items-center logo gap-2">
-              <img src={logo} alt="logo" />
-              <span className="ml-2">TeamTrack</span>
-            </Link>
-          </div>
-          {context.windowWidth > 992 && (
-            <div className="col-sm-3 d-flex align-items-center part2 res-hide gap-2">
-              <Button
-                className="rounded-circle mr-3"
-                onClick={() =>
-                  context.setIsToggleSidebar(!context.isToggleSidebar)
-                }>
-                {context.isToggleSidebar === false ? (
-                  <MdOutlineMenuOpen />
-                ) : (
-                  <MdOutlineMenu />
-                )}
-              </Button>
-              <SearchBox />
-            </div>
-          )}
-
-          <div className="col-sm-7 d-flex align-items-center justify-content-end gap-3 part3">
-
-            <div className="dropdownWrapper position-relative ml-5">
-              <Button
-                className="rounded-circle mr-3"
-                onClick={handleOpenNotificationsDrop}>
-                {" "}
-                <MdOutlineNotifications />
-              </Button>
-
-              <Button
-                className="rounded-circle mr-3 isopennav"
-                onClick={() => context.openNav()}>
-                {" "}
-                <IoMenu />
-              </Button>
-
-              <Menu
-                anchorEl={isOpennotificationsDrop}
-                id="notifications"
-                className="notifications dropdown_list head"
-                open={openNotifications}
-                onClose={handleOpenNotificationsDrop}
-                onClick={handleCloseNotificationsDrop}
-                slotProps={{
-                  paper: {
-                    elevation: 0,
-                    sx: {
-                      overflow: "visible",
-                      filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
-                      "& .MuiAvatar-root": {
-                        width: 32,
-                        height: 32,
-                        ml: -0.5,
-                        mr: 1,
-                      },
-                    },
-                  },
-                }}
-                transformOrigin={{ horizontal: "right", vertical: "top" }}
-                anchorOrigin={{ horizontal: "right", vertical: "bottom" }}>
-                <div className="heads pl-3 pb-0">
-                  <h4 id="orders" style={{ fontSize: "1.3rem" }}>
-                    Notificatrions
-                  </h4>
-                </div>
-
-                <Divider className="mb-1" />
-
-                <div className="scroll">
-                  <MenuItem onClick={handleCloseNotificationsDrop}>
-                    <div className="d-flex">
-                      <div>
-                        <UserImg img={user} />
-                      </div>
-                      <div className="dropdown-info">
-                        <h4>
-                          <span>
-                            <b>kenil </b>
-                            <br/>
-                          Web Designer
-                          <br/>
-                            <b>requested leave for 2 days</b>
-                          </span>
-                        </h4>
-                        <p className="text-sky mb-0">few seconds ago</p>
-                      </div>
-                    </div>
-                  </MenuItem>
-                  <MenuItem onClick={handleCloseNotificationsDrop}>
-                    <div className="d-flex">
-                      <div>
-                        <div className="user-img">
-                          <span className="rounded-circle">
-                            <img src={user} alt="user" />
-                          </span>
-                        </div>
-                      </div>
-                      <div className="dropdown-info">
-                        <h4>
-                          <span>
-                            <b>Mahmudul </b>
-                            <br/>
-                              UI Developer
-                            <br/>
-                            <b>was approved for remote work</b>
-                          </span>
-                        </h4>
-                        <p className="text-sky mb-0">5 minutes ago</p>
-                      </div>
-                    </div>
-                  </MenuItem>
-                  <MenuItem onClick={handleCloseNotificationsDrop}>
-                    <div className="d-flex">
-                      <div>
-                        <div className="user-img">
-                          <span className="rounded-circle">
-                            <img src={user} alt="user" />
-                          </span>
-                        </div>
-                      </div>
-                      <div className="dropdown-info">
-                        <h4>
-                          <span>
-                            <b>Anjali </b>
-                            <br/>
-                            HR Executive
-                            <br/>
-                            <b>submitted attendance report</b>
-                          </span>
-                        </h4>
-                        <p className="text-sky mb-0">10 minutes ago</p>
-                      </div>
-                    </div>
-                  </MenuItem>
-                  <MenuItem onClick={handleCloseNotificationsDrop}>
-                    <div className="d-flex">
-                      <div>
-                        <div className="user-img">
-                          <span className="rounded-circle">
-                            <img src={user} alt="user" />
-                          </span>
-                        </div>
-                      </div>
-                      <div className="dropdown-info">
-                        <h4>
-                          <span>
-                            <b>Vikram </b>
-                             <br/>
-                            Backend Developer
-                            <br/>
-                            <b> applied for casual leave</b>
-                          </span>
-                        </h4>
-                        <p className="text-sky mb-0">15 minutes ago</p>
-                      </div>
-                    </div>
-                  </MenuItem>
-                </div>
-                <div className="pl-5 pr-5 pb-1 mt-2 w-100">
-                  <Button className="btn-blue w-100 py-2 px-3">
-                    View all notifications
-                  </Button>
-                </div>
-              </Menu>
-            </div>
-
-            {context.islogin !== true ? (
-              <Link to={"/login"}>
-                <Button className="btn-blue btn-big btn-round">Sign in</Button>
+    <>
+      <header className="d-flex align-items-center">
+        <div className="container-fluid w-100">
+          <div className="row d-flex align-items-center w-100">
+            <div className="col-sm-2 part1">
+              <Link to={"#"} className="d-flex align-items-center logo gap-2">
+                <img src={logo} alt="logo" />
+                <span className="ml-2">TeamTrack</span>
               </Link>
-            ) : (
-              <div className="myacc-wrapper">
+            </div>
+            {context.windowWidth > 992 && (
+              <div className="col-sm-3 d-flex align-items-center part2 res-hide gap-2">
                 <Button
-                  className="myacc d-flex align-items-center"
-                  onClick={handleOpenMyAccDrop}>
-                  <div className="user-img">
-                    <span className="rounded-circle">
-                      <img src={Admin} alt="user" />
-                    </span>
-                  </div>
-                  <div className="use-info res-hide">
-                    <h4>
-                      {storedUser.name || "Admin"}
-                      <MdArrowDropDown style={{ fontSize: "22px" }} />
-                    </h4>
-                    <p className="mb-0">{storedUser.Email || "Admin@gmail.com"}</p>
-                  </div>
+                  className="rounded-circle mr-3"
+                  onClick={() =>
+                    context.setIsToggleSidebar(!context.isToggleSidebar)
+                  }>
+                  {context.isToggleSidebar === false ? (
+                    <MdOutlineMenuOpen />
+                  ) : (
+                    <MdOutlineMenu />
+                  )}
                 </Button>
+                <SearchBox />
+              </div>
+            )}
+
+            <div className="col-sm-7 d-flex align-items-center justify-content-end gap-3 part3">
+
+              <div className="dropdownWrapper position-relative ml-5">
+                <Button
+                  className="rounded-circle mr-3"
+                  onClick={handleOpenNotificationsDrop}>
+                  {" "}
+                  <MdOutlineNotifications />
+                </Button>
+
+                <Button
+                  className="rounded-circle mr-3 isopennav"
+                  onClick={() => context.openNav()}>
+                  {" "}
+                  <IoMenu />
+                </Button>
+
                 <Menu
-                  anchorEl={anchorEl}
-                  id="account-menu"
-                  open={openMyacc}
-                  onClose={handleCloseMyAccDrop}
-                  onClick={handleCloseMyAccDrop}
+                  anchorEl={isOpennotificationsDrop}
+                  id="notifications"
+                  className="notifications dropdown_list head"
+                  open={openNotifications}
+                  onClose={handleOpenNotificationsDrop}
+                  onClick={handleCloseNotificationsDrop}
                   slotProps={{
                     paper: {
                       elevation: 0,
                       sx: {
                         overflow: "visible",
                         filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
-                        mt: 1.5,
                         "& .MuiAvatar-root": {
                           width: 32,
                           height: 32,
                           ml: -0.5,
                           mr: 1,
                         },
-                        "&::before": {
-                          content: '""',
-                          display: "block",
-                          position: "absolute",
-                          top: 0,
-                          right: 14,
-                          width: 10,
-                          height: 10,
-                          bgcolor: "background.paper",
-                          transform: "translateY(-50%) rotate(45deg)",
-                          zIndex: 0,
-                        },
                       },
                     },
                   }}
                   transformOrigin={{ horizontal: "right", vertical: "top" }}
                   anchorOrigin={{ horizontal: "right", vertical: "bottom" }}>
-                  <MenuItem onClick={handleCloseMyAccDrop}>
-                    <ListItemIcon>
-                      <IoMdPersonAdd fontSize="small" />
-                    </ListItemIcon>
-                    My account
-                  </MenuItem>
-                  <MenuItem onClick={handleCloseMyAccDrop}>
-                    <ListItemIcon>
-                      <MdOutlineEmail />
-                    </ListItemIcon>
-                   In Box
-                  </MenuItem>
-                  <MenuItem onClick={handleCloseMyAccDrop}>
-                    <ListItemIcon>
-                      <IoSettingsSharp />
-                    </ListItemIcon>
-                    Settings
-                  </MenuItem>
-               <MenuItem className="logout"
+                  <div className="heads pl-3 pb-0">
+                    <h4 id="orders" style={{ fontSize: "1.3rem" }}>
+                      Notificatrions
+                    </h4>
+                  </div>
+
+                  <Divider className="mb-1" />
+
+                  <div className="scroll">
+                    <MenuItem onClick={handleCloseNotificationsDrop}>
+                      <div className="d-flex">
+                        <div>
+                          <UserImg img={user} />
+                        </div>
+                        <div className="dropdown-info">
+                          <h4>
+                            <span>
+                              <b>kenil </b>
+                              <br />
+                              Web Designer
+                              <br />
+                              <b>requested leave for 2 days</b>
+                            </span>
+                          </h4>
+                          <p className="text-sky mb-0">few seconds ago</p>
+                        </div>
+                      </div>
+                    </MenuItem>
+                    <MenuItem onClick={handleCloseNotificationsDrop}>
+                      <div className="d-flex">
+                        <div>
+                          <div className="user-img">
+                            <span className="rounded-circle">
+                              <img src={user} alt="user" />
+                            </span>
+                          </div>
+                        </div>
+                        <div className="dropdown-info">
+                          <h4>
+                            <span>
+                              <b>Mahmudul </b>
+                              <br />
+                              UI Developer
+                              <br />
+                              <b>was approved for remote work</b>
+                            </span>
+                          </h4>
+                          <p className="text-sky mb-0">5 minutes ago</p>
+                        </div>
+                      </div>
+                    </MenuItem>
+                    <MenuItem onClick={handleCloseNotificationsDrop}>
+                      <div className="d-flex">
+                        <div>
+                          <div className="user-img">
+                            <span className="rounded-circle">
+                              <img src={user} alt="user" />
+                            </span>
+                          </div>
+                        </div>
+                        <div className="dropdown-info">
+                          <h4>
+                            <span>
+                              <b>Anjali </b>
+                              <br />
+                              HR Executive
+                              <br />
+                              <b>submitted attendance report</b>
+                            </span>
+                          </h4>
+                          <p className="text-sky mb-0">10 minutes ago</p>
+                        </div>
+                      </div>
+                    </MenuItem>
+                    <MenuItem onClick={handleCloseNotificationsDrop}>
+                      <div className="d-flex">
+                        <div>
+                          <div className="user-img">
+                            <span className="rounded-circle">
+                              <img src={user} alt="user" />
+                            </span>
+                          </div>
+                        </div>
+                        <div className="dropdown-info">
+                          <h4>
+                            <span>
+                              <b>Vikram </b>
+                              <br />
+                              Backend Developer
+                              <br />
+                              <b> applied for casual leave</b>
+                            </span>
+                          </h4>
+                          <p className="text-sky mb-0">15 minutes ago</p>
+                        </div>
+                      </div>
+                    </MenuItem>
+                  </div>
+                  <div className="pl-5 pr-5 pb-1 mt-2 w-100">
+                    <Button className="btn-blue w-100 py-2 px-3">
+                      View all notifications
+                    </Button>
+                  </div>
+                </Menu>
+              </div>
+
+              {context.islogin !== true ? (
+                <Link to={"/"}>
+                  <Button className="btn-blue btn-big btn-round">Sign in</Button>
+                </Link>
+              ) : (
+                <div className="myacc-wrapper">
+                  <Button
+                    className="myacc d-flex align-items-center"
+                    onClick={handleOpenMyAccDrop}>
+                    <div className="user-img">
+                      <span className="rounded-circle">
+                        <img src={Admin} alt="user" />
+                      </span>
+                    </div>
+                    <div className="use-info res-hide">
+                      <h4>
+                        {storedUser.user.name || "admin"}
+                        <MdArrowDropDown style={{ fontSize: "22px" }} />
+                      </h4>
+                      <p className="mb-0">{storedUser.user.Email || "admin@example.com"}</p>
+                    </div>
+                  </Button>
+                  <Menu
+                    anchorEl={anchorEl}
+                    id="account-menu"
+                    open={openMyacc}
+                    onClose={handleCloseMyAccDrop}
+                    onClick={handleCloseMyAccDrop}
+                    slotProps={{
+                      paper: {
+                        elevation: 0,
+                        sx: {
+                          overflow: "visible",
+                          filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
+                          mt: 1.5,
+                          "& .MuiAvatar-root": {
+                            width: 32,
+                            height: 32,
+                            ml: -0.5,
+                            mr: 1,
+                          },
+                          "&::before": {
+                            content: '""',
+                            display: "block",
+                            position: "absolute",
+                            top: 0,
+                            right: 14,
+                            width: 10,
+                            height: 10,
+                            bgcolor: "background.paper",
+                            transform: "translateY(-50%) rotate(45deg)",
+                            zIndex: 0,
+                          },
+                        },
+                      },
+                    }}
+                    transformOrigin={{ horizontal: "right", vertical: "top" }}
+                    anchorOrigin={{ horizontal: "right", vertical: "bottom" }}>
+                    <MenuItem onClick={handleCloseMyAccDrop}>
+                      <ListItemIcon>
+                        <IoMdPersonAdd fontSize="small" />
+                      </ListItemIcon>
+                      My account
+                    </MenuItem>
+                    <MenuItem onClick={handleCloseMyAccDrop}>
+                      <ListItemIcon>
+                        <MdOutlineEmail />
+                      </ListItemIcon>
+                      In Box
+                    </MenuItem>
+                    <MenuItem onClick={handleCloseMyAccDrop}>
+                      <ListItemIcon>
+                        <IoSettingsSharp />
+                      </ListItemIcon>
+                      Settings
+                    </MenuItem>
+                    <MenuItem className="logout"
+                      onClick={() => logout()}>
+                      {/* <MenuItem className="logout"
                 onClick={() => { context.setislogin(false);
                    localStorage.removeItem("user");   
                   handleCloseMyAccDrop(); 
@@ -335,36 +314,20 @@ const [snack, setSnack] = useState({
                   message: "Logged out successfully",
                   severity: "error"
                 });
-    }}>
-              <ListItemIcon>
-                <LockOutlineIcon fontSize="small" />
-              </ListItemIcon>
-              Logout
-            </MenuItem>
-                </Menu>
-              </div>
-            )}
+    }}> */}
+                      <ListItemIcon>
+                        <LockOutlineIcon fontSize="small" />
+                      </ListItemIcon>
+                      Logout
+                    </MenuItem>
+                  </Menu>
+                </div>
+              )}
+            </div>
           </div>
         </div>
-      </div>
-    </header>
-
-      <Snackbar
-            open={snack.open}
-            autoHideDuration={2000}
-            onClose={handleSnackClose}
-             anchorOrigin={{ vertical: "Bottom", horizontal: "right" }}
-          >
-            <Alert
-              onClose={handleSnackClose}
-              severity={snack.severity}
-              variant="filled"
-              sx={{ width: "100%" }}
-            >
-              {snack.message}
-            </Alert>
-          </Snackbar>
-      </>
+      </header>
+    </>
   );
 };
 

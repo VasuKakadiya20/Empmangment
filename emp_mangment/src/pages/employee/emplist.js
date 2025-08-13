@@ -40,7 +40,6 @@ const AllEmployees = () => {
     setOpenDialog(false);
   };
 
-
   const updateemp = (_id) => {
     setOpenDialog(true)
     fetchDataFromApi(`/emp/${_id}`).then((res) => {
@@ -50,7 +49,7 @@ const AllEmployees = () => {
   }
   const deletedataemp =(_id) =>{
     deletedata(`/emp/${_id}`).then((res)=>{
-    toast.success("Employee Data Delete successfully !");
+    toast.success("Employee Data Delete successfully!");
      fetchDataFromApi('/emp/').then((res) => {
       setemp(res)
     })
@@ -64,7 +63,7 @@ const handleSaveUpdate = async (e) => {
     setemp((prev) =>
       prev.map((item) => (item._id === updatedata._id ? updatedata : item))
     );
-    toast.success("Employee Data update successfully !");
+    toast.success("Employee Data update successfully!");
     setOpenDialog(false);
   } catch (error) {
     toast.error("Failed to update employee");

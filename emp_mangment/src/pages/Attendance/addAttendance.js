@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./addAttendance.css";
 import { fetchDataFromApi, postData } from "../../uttils/api";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { mycontext } from "../../App";
 
 const AddAttendance = () => {
   const [employees, setEmployees] = useState([]);
+  const context = useContext(mycontext)
   const [form, setForm] = useState({
     name: "",
     firstIn: "",
@@ -25,6 +27,7 @@ const AddAttendance = () => {
   };
 
   useEffect(() =>{
+    context.setIsHideSidebarAndHeader(false); 
     fetchDataFromApi(`/emp/`).then((res)=>{
       setEmployees(res);
     })
