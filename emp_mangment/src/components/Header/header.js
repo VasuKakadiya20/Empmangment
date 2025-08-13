@@ -27,6 +27,7 @@ export const Header = () => {
   const storedUser = JSON.parse(localStorage.getItem("user")) || {};
   const context = useContext(mycontext);
   const navigate = useNavigate();
+   const role = storedUser.role || "Admin"; 
 
   const openMyacc = Boolean(anchorEl);
   const handleOpenMyAccDrop = (event) => {
@@ -81,8 +82,8 @@ export const Header = () => {
             )}
 
             <div className="col-sm-7 d-flex align-items-center justify-content-end gap-3 part3">
-
-              <div className="dropdownWrapper position-relative ml-5">
+              {role === "Admin" && (
+                  <div className="dropdownWrapper position-relative ml-5">
                 <Button
                   className="rounded-circle mr-3"
                   onClick={handleOpenNotificationsDrop}>
@@ -226,6 +227,8 @@ export const Header = () => {
                   </div>
                 </Menu>
               </div>
+              )}
+            
 
               {context.islogin !== true ? (
                 <Link to={"/"}>
