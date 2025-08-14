@@ -77,7 +77,32 @@ router.delete('/:id', async(req,res)=>{
     })
 })
 
+router.delete("/delete/:id", async (req, res) => {
+  try {
+    const empid = req.params.id; 
 
+    const deletedData = await attendanceData.deleteMany({ "name": empid });
+
+    if (deletedData.deletedCount === 0) {
+      return res.status(404).json({
+        message: "No attendance data found for this employee!",
+        Status: false
+      });
+    }
+
+    res.status(200).json({
+      message: "Attendance data deleted successfully!",
+      Status: true
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      message: "Error deleting attendance data",
+      error: error.message,
+      Status: false
+    });
+  }
+});
 
 router.get('/:id' ,async(req,res)=>{
   const attendance = await attendanceData.findById(req.params.id);

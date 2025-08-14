@@ -102,21 +102,6 @@ const AddLeave = () => {
                       ))}
                     </select>
                   </div>
-                  {/* <div className="form-group">
-                    <label>First In*</label>
-                    <select name="firstIn" value={form.firstIn} onChange={handleChange}>
-                      <option value="">Select the first In Time</option>
-                      <option value="09:00">09:00</option>
-                      <option value="09:15">09:15</option>
-                      <option value="09:30" >09:30</option>
-                      <option value="09:45">09:45</option>
-                      <option value="10:00">10:00</option>
-                      <option value="10:15">10:15</option>
-                      <option value="10:30">10:30</option>
-                      <option value="10:45">10:45</option>
-                      <option value="11:00">11:00</option>
-                    </select>
-                  </div> */}
 
                        <div class="form-group">
                                    <label>Department*</label>

@@ -21,8 +21,9 @@ import DeleteIcon from '@mui/icons-material/Delete';
 const LeaveRequests = () => {
   const [age, setAge] = React.useState('');
   const [openDialog, setOpenDialog] = useState(false);
- const [updatedate, setupdatedate] = useState([])
-  const [leaveData,setleaveData] = useState([])
+  const [employees, setEmployees] = useState([]);
+  const [updatedate, setupdatedate] = useState([])
+  const [leaveData, setleaveData] = useState([])
   const handleChange = (event) => {
     setAge(event.target.value);
   };
@@ -38,89 +39,107 @@ const LeaveRequests = () => {
     })
   }
 
-    useEffect(() => {
+  useEffect(() => {
     fetchDataFromApi('/leave/').then((res) => {
       setleaveData(res)
     })
     window.scrollTo(0, 0);
   }, [])
 
-    const handleSaveUpdate = async (e) => {
-     e.preventDefault(); 
-     try{
-        await editdata(`/leave/${updatedate._id}`, updatedate);
-    console.log(updatedate)
-    setleaveData((prev) =>
-      prev.map((item) => (item._id === updatedate._id ? updatedate : item))
-    );
-    toast.success("Attendance update successfully !");
-    setOpenDialog(false);
-     } catch (error){
-        toast.error("Failed to update Attendance");
-        console.error(error);
-      }
+  const handleSaveUpdate = async (e) => {
+    e.preventDefault();
+    try {
+      await editdata(`/leave/${updatedate._id}`, updatedate);
+      console.log(updatedate)
+      setleaveData((prev) =>
+        prev.map((item) => (item._id === updatedate._id ? updatedate : item))
+      );
+      toast.success("Attendance update successfully !");
+      setOpenDialog(false);
+    } catch (error) {
+      toast.error("Failed to update Attendance");
+      console.error(error);
+    }
   };
 
-  const deletedataemp =(_id) =>{
-    deletedata(`/leave/${_id}`).then((res)=>{
-    toast.success("Employee Data Delete successfully!");
-     fetchDataFromApi('/leave/').then((res) => {
-      setleaveData(res)
-    })
+  const deletedataemp = (_id) => {
+    deletedata(`/leave/${_id}`).then((res) => {
+      toast.success("Employee Data Delete successfully!");
+      fetchDataFromApi('/leave/').then((res) => {
+        setleaveData(res)
+      })
     })
   }
 
-  return (
-    <div className="attendance mt-5">
-      <div className="attendance-container mt-5">
-        <h2 className="table-title">Leave Requests</h2>
-        <div className="table-wrapper">
-          <div className="table-header">
-            <span>Leave Requests</span>
-          </div>
-          <table>
-            <thead>
-              <tr>
-                <th>Employee Name</th>
-                <th>Department</th>
-                <th>Leave Type</th>
-                <th>Leave From</th>
-                <th>Leave To</th>
-                <th>Number of Days</th>
-                <th>Status</th>
-                <th>Reason</th>
-                <th>Requested On</th>
-                <th>Approved By</th>
-                <th>Approval Date</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {leaveData.map((item,index) => (
-                <tr key={item.id}>
-                  <td className="emp-name">
-                    <img src={userimg} alt= {item.name?.name} />
-                   {item.name?.name}
-                  </td>
-                  <td>{item.Department}</td>
-                  <td>{item.leavetype}</td>
-                  <td>{item.leaveFrom}</td>
-                  <td>{item.leaveTo}</td>
-                  <td>{item.Numberofdays}</td>
-                <td>
-  <span className={`status ${item.Status || "pending"}`}>
-    {item.Status || "pending"}
-  </span>
-</td>
+  fetchDataFromApi(`/emp/`).then((res) => {
+    setEmployees(res);
+  })
 
-                  <td>{item.Reason}</td>
-                  <td>{item.RequestedOn}</td>
-                  <td>{item.ApprovedBy}</td>
-                  <td>{item.ApprovedDate}</td>
-                   <td>
-                     <div className="action">
-                      <FaEdit className="action-icon" onClick={() => updateattendance(item._id)} />
-                      <DeleteIcon className="action-icon2" onClick = {() => deletedataemp(item._id)}/>
+
+  return (
+    <>
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
+      <div className="attendance mt-5">
+        <div className="attendance-container mt-5">
+          <h2 className="table-title">Leave Requests</h2>
+          <div className="table-wrapper">
+            <div className="table-header">
+              <span>Leave Requests</span>
+            </div>
+            <table>
+              <thead>
+                <tr>
+                  <th>Employee Name</th>
+                  <th>Department</th>
+                  <th>Leave Type</th>
+                  <th>Leave From</th>
+                  <th>Leave To</th>
+                  <th>Number of Days</th>
+                  <th>Status</th>
+                  <th>Reason</th>
+                  <th>Requested On</th>
+                  <th>Approved By</th>
+                  <th>Approval Date</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {leaveData.map((item, index) => (
+                  <tr key={item.id}>
+                    <td className="emp-name">
+                      <img src={userimg} alt={item.name?.name} />
+                      {item.name?.name}
+                    </td>
+                    <td>{item.Department}</td>
+                    <td>{item.leavetype}</td>
+                    <td>{item.leaveFrom}</td>
+                    <td>{item.leaveTo}</td>
+                    <td>{item.Numberofdays}</td>
+                    <td>
+                      <span className={`status ${item.Status || "pending"}`}>
+                        {item.Status || "pending"}
+                      </span>
+                    </td>
+
+                    <td>{item.Reason}</td>
+                    <td>{item.RequestedOn}</td>
+                    <td>{item.ApprovedBy}</td>
+                    <td>{item.ApprovedDate}</td>
+                    <td>
+                      <div className="action">
+                        <FaEdit className="action-icon" onClick={() => updateattendance(item._id)} />
+                        <DeleteIcon className="action-icon2" onClick={() => deletedataemp(item._id)} />
                       </div>
                       <Dialog
                         open={openDialog}
@@ -142,19 +161,35 @@ const LeaveRequests = () => {
                         }}
                       >
                         <DialogContent className="dialog-form-container">
-                          <h2 className="text-align-center">Update the leave Data</h2>
+                          <h2 className="text-align-center">Update the Leave Data</h2>
                           {updatedate && (
                             <form class="form-container">
                               <div className="form-row">
                                 <div class="form-group">
                                   <label>Name*</label>
-                                  <input type="text"
-                                    value={updatedate?.name}
-                                    onChange={(e) => setupdatedate({ ...updatedate, name: e.target.value })} />
+                                  <select
+                                    name="name"
+                                    value={
+                                      typeof updatedate.name === "string" ? updatedate.name : updatedate.name?._id}
+                                    onChange={(e) => {
+                                      const emp = employees.find(emp => emp._id === e.target.value);
+                                      setupdatedate({
+                                        ...updatedate,
+                                        name: emp
+                                      });
+                                    }}
+                                  >
+                                    <option value="">Select Employee</option>
+                                    {employees.map((emp) => (
+                                      <option key={emp._id} value={emp._id}>
+                                        {emp.name}
+                                      </option>
+                                    ))}
+                                  </select>
                                 </div>
 
                                 <div class="form-group">
-                                   <label>Department*</label>
+                                  <label>Department*</label>
                                   <input type="text"
                                     value={updatedate?.Department}
                                     onChange={(e) => setupdatedate({ ...updatedate, Department: e.target.value })} />
@@ -180,7 +215,7 @@ const LeaveRequests = () => {
 
                                 <div class="form-group">
                                   <label>leave From*</label>
-                                   <input type="Date"
+                                  <input type="Date"
                                     value={updatedate?.leaveFrom}
                                     onChange={(e) => setupdatedate({ ...updatedate, leaveFrom: e.target.value })} />
                                 </div>
@@ -190,14 +225,14 @@ const LeaveRequests = () => {
                               <div className="form-row">
                                 <div class="form-group">
                                   <label>leave To*</label>
-                                    <input type="Date"
+                                  <input type="Date"
                                     value={updatedate?.leaveTo}
                                     onChange={(e) => setupdatedate({ ...updatedate, leaveTo: e.target.value })} />
                                 </div>
 
                                 <div class="form-group">
                                   <label>Number of days*</label>
-                                    <input type="number"
+                                  <input type="number"
                                     value={updatedate?.Numberofdays}
                                     onChange={(e) => setupdatedate({ ...updatedate, Numberofdays: e.target.value })} />
                                 </div>
@@ -210,6 +245,7 @@ const LeaveRequests = () => {
                                     value={updatedate.Status || ""}
                                     onChange={(e) => setupdatedate({ ...updatedate, Status: e.target.value })}
                                   >
+                                       <option value="">Select The Status</option>
                                     <option>approved</option>
                                     <option>rejected</option>
                                     <option>pending</option>
@@ -219,7 +255,7 @@ const LeaveRequests = () => {
 
                                 <div class="form-group ">
                                   <label>Reason*</label>
-                                    <input type="text"
+                                  <input type="text"
                                     value={updatedate?.Reason}
                                     onChange={(e) => setupdatedate({ ...updatedate, Reason: e.target.value })} />
                                 </div>
@@ -228,26 +264,26 @@ const LeaveRequests = () => {
                               <div className="form-row">
                                 <div class="form-group">
                                   <label>Requested On*</label>
-                                      <input type="Date"
+                                  <input type="Date"
                                     value={updatedate?.RequestedOn}
                                     onChange={(e) => setupdatedate({ ...updatedate, RequestedOn: e.target.value })} />
                                 </div>
 
                                 <div class="form-group ">
                                   <label>Approved By*</label>
-                                    <input type="text"
+                                  <input type="text"
                                     value={updatedate?.ApprovedBy}
                                     onChange={(e) => setupdatedate({ ...updatedate, ApprovedBy: e.target.value })} />
                                 </div>
                               </div>
-  
-                                <div className="form-group">
-                                   <label>Approved Date*</label>
-                                    <input type="date"
-                                    value={updatedate?.ApprovedDate}
-                                    onChange={(e) => setupdatedate({ ...updatedate, ApprovedDate: e.target.value })} />
-                                </div>
-    
+
+                              <div className="form-group">
+                                <label>Approved Date*</label>
+                                <input type="date"
+                                  value={updatedate?.ApprovedDate}
+                                  onChange={(e) => setupdatedate({ ...updatedate, ApprovedDate: e.target.value })} />
+                              </div>
+
                               <div class="button-group">
                                 <button onClick={handleSaveUpdate} class="save-btn">Save</button>
                                 <button onClick={handleCloseDialog} class="cancel-btn">Cancel</button>
@@ -257,39 +293,40 @@ const LeaveRequests = () => {
                         </DialogContent>
                       </Dialog>
                     </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          <div className="pagination">
-            <div className="page">
-              <Box sx={{ minWidth: 120 }}>
-                <FormControl fullWidth>
-                  <InputLabel id="demo-simple-select-label mr-5 ml-5">Page</InputLabel>
-                  <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={age}
-                    label="Age"
-                    onChange={handleChange}
-                  >
-                    <MenuItem value={10} selected>10</MenuItem>
-                    <MenuItem value={20}>20</MenuItem>
-                    <MenuItem value={30}>30</MenuItem>
-                  </Select>
-                </FormControl>
-              </Box>
-            </div>
-            <span>1 – 10 of 13</span>
-            <span className="arrows">
-              <span style={{ marginRight: '20px' }}><FaChevronLeft /></span>
-              <span><FaChevronRight /></span>
-            </span>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <div className="pagination">
+              <div className="page">
+                <Box sx={{ minWidth: 120 }}>
+                  <FormControl fullWidth>
+                    <InputLabel id="demo-simple-select-label mr-5 ml-5">Page</InputLabel>
+                    <Select
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select"
+                      value={age}
+                      label="Age"
+                      onChange={handleChange}
+                    >
+                      <MenuItem value={10} selected>10</MenuItem>
+                      <MenuItem value={20}>20</MenuItem>
+                      <MenuItem value={30}>30</MenuItem>
+                    </Select>
+                  </FormControl>
+                </Box>
+              </div>
+              <span>1 – 10 of 13</span>
+              <span className="arrows">
+                <span style={{ marginRight: '20px' }}><FaChevronLeft /></span>
+                <span><FaChevronRight /></span>
+              </span>
 
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

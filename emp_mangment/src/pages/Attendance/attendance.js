@@ -23,6 +23,7 @@ const Attendance = () => {
   const [attendance, setattendance] = useState([])
   const [openDialog, setOpenDialog] = useState(false);
   const [updatedate, setupdatedate] = useState([])
+  const [employees, setEmployees] = useState([]);
 
   useEffect(() => {
     fetchDataFromApi('/att/').then((res) => {
@@ -72,6 +73,11 @@ const Attendance = () => {
   })
  }
   
+
+  fetchDataFromApi(`/emp/`).then((res) => {
+    setEmployees(res);
+  })
+
   return (
     <>
       <ToastContainer
@@ -86,6 +92,7 @@ const Attendance = () => {
         pauseOnHover
         theme="colored"
       />
+      
       <div className="attendance mt-5">
         <div className="attendance-container mt-5">
           <h2 className="table-title">Today Attendance</h2>
@@ -154,10 +161,25 @@ const Attendance = () => {
                               <div className="form-row">
                                 <div class="form-group">
                                   <label>Name*</label>
-                                  <input type="text"
-                                    value={updatedate?.name}
-                                    onChange={(e) => setupdatedate({ ...updatedate, name: e.target.value })} />
-                                  <i class="fas fa-user"></i>
+                                    <select
+                                    name="name"
+                                    value={
+                                      typeof updatedate.name === "string" ? updatedate.name : updatedate.name?._id}
+                                    onChange={(e) => {
+                                      const emp = employees.find(emp => emp._id === e.target.value);
+                                      setupdatedate({
+                                        ...updatedate,
+                                        name: emp
+                                      });
+                                    }}
+                                  >
+                                    <option value="">Select Employee</option>
+                                    {employees.map((emp) => (
+                                      <option key={emp._id} value={emp._id}>
+                                        {emp.name}
+                                      </option>
+                                    ))}
+                                  </select>
                                 </div>
 
                                 <div class="form-group">

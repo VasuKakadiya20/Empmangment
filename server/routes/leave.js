@@ -1,3 +1,4 @@
+const mongoose = require("mongoose");
 const express = require('express')
 const { leave } = require('../models/leave')
 const router = express.Router()
@@ -67,6 +68,33 @@ router.delete('/:id', async(req,res)=>{
       status:true
     })
 })
+
+router.delete("/delete/:id", async (req, res) => {
+  try {
+    const empid = req.params.id; 
+
+    const deletedData = await leave.deleteMany({ "name": empid });
+
+    if (deletedData.deletedCount === 0) {
+      return res.status(404).json({
+        message: "No leave data found for this employee!",
+        Status: false
+      });
+    }
+
+    res.status(200).json({
+      message: "leave deleted successfully!",
+      Status: true
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      message: "Error deleting attendance data",
+      error: error.message,
+      Status: false
+    });
+  }
+});
 
 router.put('/:id', async(req,res)=>{
   const  Leave = await leave.findByIdAndUpdate(

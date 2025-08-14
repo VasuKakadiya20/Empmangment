@@ -55,6 +55,18 @@ const AllEmployees = () => {
     })
     })
   }
+
+  const deletedleave = (_id) =>{
+    deletedata(`/leave/delete/${_id}`).then((res)=>{
+      console.log('deleted data Succesfully!')
+    })
+  }
+
+  const deleteattendance = (_id) =>{
+    deletedata(`/att/delete/${_id}`).then((res)=>{
+      console.log('deletd data Succesfully !')
+    })
+  }
 const handleSaveUpdate = async (e) => {
   e.preventDefault(); 
   try {
@@ -129,7 +141,11 @@ const handleSaveUpdate = async (e) => {
                     <td>
                       <div className="action">
                       <FaEdit className="action-icon" onClick={() => updateemp(item._id)} />
-                      <DeleteIcon className="action-icon2" onClick = {() => deletedataemp(item._id)}/>
+                      <DeleteIcon className="action-icon2" onClick = {() => {
+                          deletedataemp(item._id);
+                          deletedleave(item._id);
+                          deleteattendance(item._id);
+                      }}/>
                       </div>
                       <Dialog
                         open={openDialog}
