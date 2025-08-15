@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
 import './addemp.css';
+import React, { useState } from 'react';
 import { postData } from '../../uttils/api';
-import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { toast, ToastContainer } from "react-toastify";
 
 const AddEmployeeForm = () => {
     const [form, setForm] = useState({
@@ -27,7 +27,6 @@ const AddEmployeeForm = () => {
       e.preventDefault();
       try {
         const res = await postData(`/emp/create`, form); 
-        // alert("Employees added successfully");
          toast.success("Employee added successfully!");
         console.log("Success:", res);
           setForm({
@@ -42,7 +41,6 @@ const AddEmployeeForm = () => {
       EmployeeStatus: "",
     });
       } catch (err) {
-        // alert("Something went wrong");
         toast.error("Something went wrong");
       }
     };

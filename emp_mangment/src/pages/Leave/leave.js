@@ -1,21 +1,21 @@
-import React, { useState } from "react";
 import "./leave.css";
-import { FaEdit } from "react-icons/fa";
-import userimg from "../../assets/images/user.png"
-import Box from '@mui/material/Box';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
-import { FaChevronLeft } from "react-icons/fa";
-import { FaChevronRight } from "react-icons/fa";
-import Dialog from "@mui/material/Dialog";
-import DialogContent from "@mui/material/DialogContent";
 import { useEffect } from "react";
-import { deletedata, editdata, fetchDataFromApi } from "../../uttils/api";
-import { toast, ToastContainer } from "react-toastify";
+import Box from '@mui/material/Box';
+import React, { useState } from "react";
+import { FaEdit } from "react-icons/fa";
+import Dialog from "@mui/material/Dialog";
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import { FaChevronLeft } from "react-icons/fa";
 import "react-toastify/dist/ReactToastify.css";
+import { FaChevronRight } from "react-icons/fa";
+import InputLabel from '@mui/material/InputLabel';
+import userimg from "../../assets/images/user.png"
+import FormControl from '@mui/material/FormControl';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { toast, ToastContainer } from "react-toastify";
+import DialogContent from "@mui/material/DialogContent";
+import { deletedata, editdata, fetchDataFromApi } from "../../uttils/api";
 
 
 const LeaveRequests = () => {
@@ -32,19 +32,24 @@ const LeaveRequests = () => {
     setOpenDialog(false);
   };
 
-  const updateattendance = (_id) => {
+  useEffect(() => {
+    fetchDataFromApi('/leave/').then((res) => {
+      setleaveData(res)
+    })
+
+     fetchDataFromApi(`/emp/`).then((res) => {
+    setEmployees(res);
+  })
+
+    window.scrollTo(0, 0);
+  }, [])
+
+    const updateattendance = (_id) => {
     setOpenDialog(true);
     fetchDataFromApi(`/leave/${_id}`).then((res) => {
       setupdatedate(res)
     })
   }
-
-  useEffect(() => {
-    fetchDataFromApi('/leave/').then((res) => {
-      setleaveData(res)
-    })
-    window.scrollTo(0, 0);
-  }, [])
 
   const handleSaveUpdate = async (e) => {
     e.preventDefault();
@@ -71,11 +76,6 @@ const LeaveRequests = () => {
     })
   }
 
-  fetchDataFromApi(`/emp/`).then((res) => {
-    setEmployees(res);
-  })
-
-
   return (
     <>
       <ToastContainer
@@ -90,6 +90,7 @@ const LeaveRequests = () => {
         pauseOnHover
         theme="colored"
       />
+      
       <div className="attendance mt-5">
         <div className="attendance-container mt-5">
           <h2 className="table-title">Leave Requests</h2>
@@ -133,7 +134,7 @@ const LeaveRequests = () => {
                         {item.Status || "pending"}
                       </span>
                     </td>
-
+                    
                     <td>{item.Reason}</td>
                     <td>{item.RequestedOn}</td>
                     <td>{item.ApprovedBy}</td>
@@ -198,8 +199,6 @@ const LeaveRequests = () => {
                                 </div>
 
                               </div>
-
-
                               <div className="form-row">
                                 <div class="form-group">
                                   <label>leave type*</label>
@@ -221,7 +220,6 @@ const LeaveRequests = () => {
                                     value={updatedate?.leaveFrom}
                                     onChange={(e) => setupdatedate({ ...updatedate, leaveFrom: e.target.value })} />
                                 </div>
-
                               </div>
 
                               <div className="form-row">
@@ -231,7 +229,6 @@ const LeaveRequests = () => {
                                     value={updatedate?.leaveTo}
                                     onChange={(e) => setupdatedate({ ...updatedate, leaveTo: e.target.value })} />
                                 </div>
-
                                 <div class="form-group">
                                   <label>Number of days*</label>
                                   <input type="number"
@@ -244,7 +241,7 @@ const LeaveRequests = () => {
                                 <div class="form-group">
                                   <label>Status*</label>
                                   <select
-                                    value={updatedate.Status || ""}
+                                    value={updatedate.Status || "pending"}
                                     onChange={(e) => setupdatedate({ ...updatedate, Status: e.target.value })}
                                   >
                                        <option value="">Select The Status</option>
@@ -254,7 +251,6 @@ const LeaveRequests = () => {
                                   </select>
                                   <i class="fas fa-chevron-down"></i>
                                 </div>
-
                                 <div class="form-group ">
                                   <label>Reason*</label>
                                   <input type="text"
@@ -270,7 +266,6 @@ const LeaveRequests = () => {
                                     value={updatedate?.RequestedOn}
                                     onChange={(e) => setupdatedate({ ...updatedate, RequestedOn: e.target.value })} />
                                 </div>
-
                                 <div class="form-group ">
                                   <label>Approved By*</label>
                                   <input type="text"
@@ -323,7 +318,6 @@ const LeaveRequests = () => {
                 <span style={{ marginRight: '20px' }}><FaChevronLeft /></span>
                 <span><FaChevronRight /></span>
               </span>
-
             </div>
           </div>
         </div>

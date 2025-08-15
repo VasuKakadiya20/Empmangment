@@ -1,22 +1,22 @@
 import React from "react";
 import "./attendance.css";
-import { FaEdit } from "react-icons/fa";
+import { useState } from "react";
 import { useEffect } from "react";
-import { FaChevronLeft } from "react-icons/fa";
-import { FaChevronRight } from "react-icons/fa";
 import Box from '@mui/material/Box';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
+import { FaEdit } from "react-icons/fa";
 import Select from '@mui/material/Select';
 import Dialog from "@mui/material/Dialog";
-import DialogContent from "@mui/material/DialogContent";
-import { useState } from "react";
-import { deletedata, editdata, fetchDataFromApi } from "../../uttils/api";
-import userimg from "../../assets/images/user.png"
-import { toast, ToastContainer } from "react-toastify";
+import MenuItem from '@mui/material/MenuItem';
+import { FaChevronLeft } from "react-icons/fa";
 import "react-toastify/dist/ReactToastify.css";
+import { FaChevronRight } from "react-icons/fa";
+import InputLabel from '@mui/material/InputLabel';
+import userimg from "../../assets/images/user.png";
+import FormControl from '@mui/material/FormControl';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { toast, ToastContainer } from "react-toastify";
+import DialogContent from "@mui/material/DialogContent";
+import { deletedata, editdata, fetchDataFromApi } from "../../uttils/api";
 
 const Attendance = () => {
   const [age, setAge] = React.useState('');
@@ -31,6 +31,10 @@ const Attendance = () => {
     })
     window.scrollTo(0, 0);
   }, [])
+  
+  fetchDataFromApi(`/emp/`).then((res) => {
+    setEmployees(res);
+  })
 
   const handleChange = (event) => {
     setAge(event.target.value);
@@ -44,7 +48,6 @@ const Attendance = () => {
     setOpenDialog(true);
     fetchDataFromApi(`/att/${_id}`).then((res) => {
       setupdatedate(res)
-      // console.log(res)
     })
   }
 
@@ -73,11 +76,6 @@ const Attendance = () => {
   })
  }
   
-
-  fetchDataFromApi(`/emp/`).then((res) => {
-    setEmployees(res);
-  })
-
   return (
     <>
       <ToastContainer

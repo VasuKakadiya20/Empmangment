@@ -1,25 +1,25 @@
-import React, { useContext, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { mycontext } from "../../App";
+import Menu from "@mui/material/Menu";
+import { IoMenu } from "react-icons/io5";
+import UserImg from "../UserImg/UserImg";
 import Button from "@mui/material/Button";
-import { MdOutlineMenuOpen } from "react-icons/md";
+import Divider from "@mui/material/Divider";
+import MenuItem from "@mui/material/MenuItem";
 import { MdOutlineMenu } from "react-icons/md";
 import SearchBox from "../SearchBox/SearchBox";
-import { MdOutlineEmail } from "react-icons/md";
-import { MdOutlineNotifications } from "react-icons/md";
-import { MdArrowDropDown } from "react-icons/md";
-import user from "../../assets/images/user.png";
-import { IoMenu } from "react-icons/io5";
-import Divider from "@mui/material/Divider";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-import ListItemIcon from "@mui/material/ListItemIcon";
 import { IoMdPersonAdd } from "react-icons/io";
-import { IoSettingsSharp } from "react-icons/io5";
-import UserImg from "../UserImg/UserImg";
-import Admin from "../../assets/images/admin.png"
-import { mycontext } from "../../App";
-import LockOutlineIcon from "@mui/icons-material/LockOutline";
 import logo from "../../assets/images/logo.png";
+import user from "../../assets/images/user.png";
+import { MdOutlineEmail } from "react-icons/md";
+import { MdArrowDropDown } from "react-icons/md";
+import Admin from "../../assets/images/admin.png";
+import { IoSettingsSharp } from "react-icons/io5";
+import { MdOutlineMenuOpen } from "react-icons/md";
+import React, { useContext, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import { MdOutlineNotifications } from "react-icons/md";
+import LockOutlineIcon from "@mui/icons-material/LockOutline";
 
 export const Header = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -230,8 +230,6 @@ const storedUser = JSON.parse(localStorage.getItem("user")) || { user: {} };
                 </Menu>
               </div>
          
-            
-
               {context.islogin !== true ? (
                 <Link to={"/"}>
                   <Button className="btn-blue btn-big btn-round">Sign in</Button>

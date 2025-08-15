@@ -1,18 +1,18 @@
 import './App.css';
 import './responsive.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { BrowserRouter, Routes, Route, HashRouter } from 'react-router-dom';
-import { createContext, useEffect, useState } from 'react';
-import Header from './components/Header/header';
-import Sidebar from './components/sidebar/sidebar';
-import Dashboard from './pages/Deshbord/Dashbord';
-import Attendance from './pages/Attendance/attendance';
-import AddAttendance from './pages/Attendance/addAttendance';
+import AddLeave from './pages/Leave/addLeave';
 import LeaveRequests from './pages/Leave/leave';
+import Header from './components/Header/header';
+import LoginSignupForm from './pages/login/login';
+import Dashboard from './pages/Deshbord/Dashbord';
+import Sidebar from './components/sidebar/sidebar';
 import AllEmployees from './pages/employee/emplist';
 import AddEmployeeForm from './pages/employee/addemp';
-import LoginSignupForm from './pages/login/login';
-import AddLeave from './pages/Leave/addLeave';
+import Attendance from './pages/Attendance/attendance';
+import { createContext, useEffect, useState } from 'react';
+import AddAttendance from './pages/Attendance/addAttendance';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 const mycontext = createContext()
 
 function App() {

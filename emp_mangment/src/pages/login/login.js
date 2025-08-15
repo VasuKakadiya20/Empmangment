@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useContext } from "react";
-import TextField from "@mui/material/TextField";
-import Snackbar from "@mui/material/Snackbar";
-import Alert from "@mui/material/Alert";
-import { mycontext } from "../../App";
 import "./login.css";
-import { loginData, postData } from "../../uttils/api";
+import { mycontext } from "../../App";
+import Alert from "@mui/material/Alert";
+import Snackbar from "@mui/material/Snackbar";
 import { useNavigate } from "react-router-dom";
+import TextField from "@mui/material/TextField";
+import { loginData, postData } from "../../uttils/api";
+import React, { useState, useEffect, useContext } from "react";
 
 const LoginSignupForm = () => {
   const context = useContext(mycontext);
@@ -34,64 +34,6 @@ const LoginSignupForm = () => {
   const showSnackbar = (message, severity = "success") => {
     setSnack({ open: true, message, severity });
   };
-
-  // const handleChange = (e) => {
-  //   setForm({ ...form, [e.target.name]: e.target.value });
-  // };
-
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-
-  //   if (!form.Email || !form.password) {
-  //     showSnackbar("Email and password are required!", "error");
-  //     return;
-  //   }
-
-  //   if (!isLogin) {
-  //     if (!form.name) {
-  //       showSnackbar("Username is required!", "error");
-  //       return;
-  //     }
-
-  //     if (form.password !== form.cpassword) {
-  //       showSnackbar("Passwords do not match!", "error");
-  //       return;
-  //     }
-  //   }
-
-  //   try {
-  //     if (isLogin) {
-  //       const res = await loginData("/signup/login", {
-  //         Email: form.Email,
-  //         password: form.password,
-  //       });
-  //       localStorage.setItem("user", JSON.stringify(res.user));
-  //       console.log("Logged in:", res);
-  //       showSnackbar("Login successful!", "success");
-
-  //       context.setislogin(true);
-
-  //       setTimeout(() => {
-  //         navigate("/Dashboard");
-  //       }, 3000);
-  //     } else {
-  //       const res = await postData("/signup/create", {
-  //         name: form.name,
-  //         Email: form.Email,
-  //         password: form.password,
-  //         cpassword: form.cpassword,
-  //       });
-  //       console.log("Signed up:", res);
-  //       showSnackbar("Signup successful!", "success");
-  //       setIsLogin(true);
-  //     }
-  //   } catch (error) {
-  //     showSnackbar(
-  //       error?.response?.data?.message || "Something went wrong",
-  //       "error"
-  //     );
-  //   }
-  // };
 
   const handleChange = (e) => {
   const { name, value } = e.target;

@@ -8,14 +8,14 @@ import MenuItem from '@mui/material/MenuItem';
 import { FaChevronLeft } from "react-icons/fa";
 import "react-toastify/dist/ReactToastify.css";
 import { FaChevronRight } from "react-icons/fa";
-import userimg from "../../assets/images/user.png"
 import InputLabel from '@mui/material/InputLabel';
+import userimg from "../../assets/images/user.png";
+import DeleteIcon from '@mui/icons-material/Delete';
 import FormControl from '@mui/material/FormControl';
 import { toast, ToastContainer } from "react-toastify";
 import DialogContent from "@mui/material/DialogContent";
-import { deletedata, editdata, fetchDataFromApi } from "../../uttils/api";
 import React, { useContext, useEffect, useState } from "react";
-import DeleteIcon from '@mui/icons-material/Delete';
+import { deletedata, editdata, fetchDataFromApi } from "../../uttils/api";
 
 const AllEmployees = () => {
   const [emp, setemp] = useState([])
@@ -47,6 +47,23 @@ const AllEmployees = () => {
       // console.log(res)
     })
   }
+
+  const handleSaveUpdate = async (e) => {
+  e.preventDefault(); 
+  try {
+    await editdata(`/emp/${updatedata._id}`, updatedata);
+
+    setemp((prev) =>
+      prev.map((item) => (item._id === updatedata._id ? updatedata : item))
+    );
+    toast.success("Employee Data update successfully!");
+    setOpenDialog(false);
+  } catch (error) {
+    toast.error("Failed to update employee");
+    console.error(error);
+  }
+};
+
   const deletedataemp =(_id) =>{
     deletedata(`/emp/${_id}`).then((res)=>{
     toast.success("Employee Data Delete successfully!");
@@ -67,21 +84,7 @@ const AllEmployees = () => {
       console.log('deletd data Succesfully !')
     })
   }
-const handleSaveUpdate = async (e) => {
-  e.preventDefault(); 
-  try {
-    await editdata(`/emp/${updatedata._id}`, updatedata);
 
-    setemp((prev) =>
-      prev.map((item) => (item._id === updatedata._id ? updatedata : item))
-    );
-    toast.success("Employee Data update successfully!");
-    setOpenDialog(false);
-  } catch (error) {
-    toast.error("Failed to update employee");
-    console.error(error);
-  }
-};
 
   return (
     <>
