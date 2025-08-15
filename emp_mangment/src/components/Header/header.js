@@ -24,7 +24,7 @@ import logo from "../../assets/images/logo.png";
 export const Header = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [isOpennotificationsDrop, setIsOpenNotificationsDrop] = useState(null);
-  const storedUser = JSON.parse(localStorage.getItem("user")) || {};
+const storedUser = JSON.parse(localStorage.getItem("user")) || { user: {} };
   const context = useContext(mycontext);
   const navigate = useNavigate();
    const role = storedUser.role || "Admin"; 
@@ -248,10 +248,10 @@ export const Header = () => {
                     </div>
                     <div className="use-info res-hide">
                       <h4>
-                        {storedUser.user.name || "admin"}
+                     {storedUser.user.name || "admin"}
                         <MdArrowDropDown style={{ fontSize: "22px" }} />
                       </h4>
-                      <p className="mb-0">{storedUser.user.Email || "admin@example.com"}</p>
+                     <p className="mb-0">{storedUser.user.Email || "admin@example.com"}</p>
                     </div>
                   </Button>
                   <Menu
