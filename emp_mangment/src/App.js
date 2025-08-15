@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter, Routes, Route, HashRouter } from 'react-router-dom';
 import { createContext, useEffect, useState } from 'react';
 import Header from './components/Header/header';
-import Sidebar from './components/sidebar/sidebaer';
+import Sidebar from './components/sidebar/sidebar';
 import Dashboard from './pages/Deshbord/Dashbord';
 import Attendance from './pages/Attendance/attendance';
 import AddAttendance from './pages/Attendance/addAttendance';
@@ -12,7 +12,6 @@ import LeaveRequests from './pages/Leave/leave';
 import AllEmployees from './pages/employee/emplist';
 import AddEmployeeForm from './pages/employee/addemp';
 import LoginSignupForm from './pages/login/login';
-import EmployeeCharts from './components/chart2/chart2';
 import AddLeave from './pages/Leave/addLeave';
 const mycontext = createContext()
 
@@ -52,7 +51,7 @@ function App() {
 
   return (
     <>
-      <HashRouter>
+      <BrowserRouter>
         <mycontext.Provider value={values}>
           {
             isHideSidebarAndHeader !== true &&
@@ -88,7 +87,7 @@ function App() {
             </div>
           </div>
         </mycontext.Provider>
-      </HashRouter>
+      </BrowserRouter>
     </>
   );
 }

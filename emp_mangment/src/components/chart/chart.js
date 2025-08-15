@@ -7,17 +7,17 @@ const ProjectSurvey = () => {
     {
       name: "Employee 1",
       type: "column",
-      data: [30, 20, 30, 47, 30, 33, 21]
+      data: [30, 20, 30, 43, 30, 33, 21]
     },
     {
       name: "Employee 2",
       type: "area",
-      data: [44, 55, 41, 67, 22, 43, 21]
+      data: [30, 37, 25, 47, 35, 33, 21]
     },
     {
       name: "Employee 3",
       type: "line",
-      data: [30, 25, 36, 30, 45, 40, 30]
+      data: [32, 25, 36, 30, 45, 40, 30]
     }
   ];
 

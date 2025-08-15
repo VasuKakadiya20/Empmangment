@@ -2,22 +2,6 @@ const express = require('express');
 const attendanceData = require('../models/attendanceData');
 const router  = express.Router();
 
-// router.get('/', async (req, res) => {
-//     try {
-        
-//         const attendancelist = await attendanceData.find();
-
-//         if (!attendancelist) {
-//             return res.status(500).json({ success: false });
-//         }
-
-//         res.send(attendancelist);
-//     } catch (error) {
-//         res.status(500).json({ success: false, error: error.message });
-//     }
-// });
-
-
 router.get('/', async (req, res) => {
     try {
         const attendancelist = await attendanceData.find()
@@ -32,7 +16,6 @@ router.get('/', async (req, res) => {
         res.status(500).json({ success: false, error: error.message });
     }
 });
-
 
 router.post('/create', async (req, res) => {
     try{
@@ -112,7 +95,6 @@ router.get('/:id' ,async(req,res)=>{
   return res.status(200).send(attendance);
 })
 
-
 router.put('/:id', async(req,res)=>{
   const attendance = await attendanceData.findByIdAndUpdate(
     req.params.id,{
@@ -139,8 +121,5 @@ router.put('/:id', async(req,res)=>{
     status:true
   })
 })
-
-
-
 
 module.exports = router;

@@ -100,6 +100,7 @@ const LeaveRequests = () => {
             <table>
               <thead>
                 <tr>
+                  <th></th>
                   <th>Employee Name</th>
                   <th>Department</th>
                   <th>Leave Type</th>
@@ -117,6 +118,7 @@ const LeaveRequests = () => {
               <tbody>
                 {leaveData.map((item, index) => (
                   <tr key={item.id}>
+                     <td><input type="checkbox" /></td>
                     <td className="emp-name">
                       <img src={userimg} alt={item.name?.name} />
                       {item.name?.name}
