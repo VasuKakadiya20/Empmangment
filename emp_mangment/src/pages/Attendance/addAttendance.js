@@ -73,7 +73,7 @@ const AddAttendance = () => {
         <div className="attendance-container mt-5">
           <div className="table-wrapper">
             <div className="table-header">
-              <span>Add Attendance</span>
+              <span>Attendance</span>
             </div>
 
             <div className="add-employee-container">
