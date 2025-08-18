@@ -31,7 +31,7 @@
   justify-content:space-between !important;
   align-items: center;
   padding: 1.2rem;
-  background-color: #dae1f3;
+  background-color: #209CEE;
   border-bottom: 1px solid #ddd;
   flex-wrap: wrap;
   gap: 20px !important;
@@ -40,7 +40,7 @@
 .table-header span {
   font-size: 20px !important;
   font-weight: 600;
-  color: #34495e;
+  color: #FFF;
 }
 
 .table-header input {

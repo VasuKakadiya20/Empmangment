@@ -111,18 +111,18 @@ header button.rounded-circle {
     min-width: 40px !important;
     width: 40px !important;
     height: 40px !important;
-    background: #dae1f3 !important;
-    color: #0858f7 !important;
+    background: #209CEE !important;
+    color: #fff !important;
 }
 
 header button.rounded-circle svg {
-    color: #292929;
+    color: #fff;
     font-size: 18px;
     transition: all 0 2s ease-in-out;
 }
 
 header button.rounded-circle:hover svg {
-    color: #0858f7 !important;
+    color: #efefef  !important;
 }
 
 header .part2{
@@ -132,9 +132,11 @@ header .part2{
 .search-box {
     width: 400px;
     height: 40px;
-    background: #dae1f3;
+    background: #209CEE;
     border-radius: 6px;
     padding: 3px 15px;
+    gap: 10px !important;
+    color: #fff;
 }
 
 .search-box input {
@@ -143,21 +145,21 @@ header .part2{
     outline: none;
     padding-left: 0px;
     font-size: 14px;
-    color: #292929;
+    color: #fff;
 }
 
 .search-box input::-webkit-input-placeholder {
-    color: rgba(0, 0, 0, 0.6);
+    color: #fff;
 }
 
 .search-box svg {
     font-size: 18px;
-    color: #292929;
+    color: #fff;
 }
 
 .myacc {
     text-align: left !important;
-    color: #0858f7 !important;
+    color: #209CEE !important;
     /* text-transform: capitalize; */
 }
 
@@ -390,7 +392,7 @@ header .part2{
 }
 
 .main .sidebar-wrapper .sidebar ul li button:hover{
-    background: #f0f3fb !important;
+    background: #ecedf0 !important;
 }
 
 .main .sidebar-wrapper .sidebar ul li button.active{
@@ -436,7 +438,7 @@ header .part2{
 }
 
 .main .sidebar-wrapper .sidebar ul .submenu li a:hover{
-    color: #5668f3 !important;
+    color: #5b6cee !important;
 }
 .submenu-wrapper {
     display: none;
