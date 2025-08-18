@@ -117,6 +117,13 @@ const LoginSignupForm = () => {
         });
         showSnackbar("Signup successful!", "success");
         setIsLogin(true);
+          setForm({
+      ...form,
+     name: "",
+    Email: "",
+    password: "",
+    cpassword: "",
+    });
       }
     } catch (error) {
       showSnackbar(
