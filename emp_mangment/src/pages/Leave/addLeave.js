@@ -79,7 +79,7 @@ const AddLeave = () => {
         <div className="attendance-container mt-5">
           <div className="table-wrapper">
             <div className="table-header">
-              <span>Leave</span>
+              <span>Add Leave</span>
             </div>
 
             <div className="add-employee-container">
