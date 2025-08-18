@@ -43,7 +43,7 @@
   left: 0;
   width: 50%;
   height: 100%;
-  background: #809eeb;
+  background: #5483fc;
   /* background: linear-gradient(to right, #003973, #0052d4); */
   transition: left 0.3s ease;
   border-radius: 12px;
@@ -86,7 +86,7 @@
 
 .auth-submit {
   /* background: linear-gradient(to right, #003973, #0052d4); */
-    background: #809eeb;
+    background: #5483fc;
   color: #fff;
   border: none;
   width: 100%;
@@ -99,7 +99,7 @@
 }
 
 .auth-submit:hover {
-      background: #4e75da;
+      background: #1152f7;
   /* background: linear-gradient(to right, #00214e, #003973); */
 }
 
