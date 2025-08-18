@@ -88,7 +88,7 @@ router.delete("/delete/:id", async (req, res) => {
 });
 
 router.get('/:id' ,async(req,res)=>{
-  const attendance = await attendanceData.findById(req.params.id);
+  const attendance = await attendanceData.findById(req.params.id) .populate('name', 'name');  ;
   if(!attendance){
     res.status(500).json({message:'the employees given id was not found.'})
   }

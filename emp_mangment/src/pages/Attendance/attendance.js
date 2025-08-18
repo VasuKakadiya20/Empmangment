@@ -48,6 +48,7 @@ const Attendance = () => {
     setOpenDialog(true);
     fetchDataFromApi(`/att/${_id}`).then((res) => {
       setupdatedate(res)
+      console.log(res)
     })
   }
 
@@ -159,7 +160,7 @@ const Attendance = () => {
                               <div className="form-row">
                                 <div class="form-group">
                                   <label>Name*</label>
-                                    <select
+                                    {/* <select
                                     name="name"
                                     value={
                                       typeof updatedate.name === "string" ? updatedate.name : updatedate.name?._id}
@@ -177,7 +178,12 @@ const Attendance = () => {
                                         {emp.name}
                                       </option>
                                     ))}
-                                  </select>
+                                  </select> */}
+                          <input
+                            type="text"
+                            value={updatedate?.name?.name || ""}
+                            readOnly
+                          />
                                 </div>
 
                                 <div class="form-group">

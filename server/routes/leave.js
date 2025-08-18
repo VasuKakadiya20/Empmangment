@@ -48,7 +48,7 @@ router.post('/create' ,async (req,res)=>{
 })
 
 router.get('/:id' ,async(req,res)=>{
-  const Leave = await leave.findById(req.params.id);
+  const Leave = await leave.findById(req.params.id).populate('name', 'name');  ;
   if(!Leave){
     res.status(500).json({message:'the employees given id was not found.'})
   }
