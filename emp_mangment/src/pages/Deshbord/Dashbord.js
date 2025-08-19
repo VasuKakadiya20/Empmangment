@@ -67,7 +67,7 @@ const Dashboard = () => {
 
   return (
     <>
-     <ToastContainer
+     {/* <ToastContainer
             position="top-right"
             autoClose={3000}
             hideProgressBar={false}
@@ -78,7 +78,7 @@ const Dashboard = () => {
             draggable
             pauseOnHover
             theme="colored"
-          />
+          /> */}
     <ProjectSurvey/>
       <div className="attendance ">
         <div className="attendance-container mt-5">
