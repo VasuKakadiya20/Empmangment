@@ -110,6 +110,16 @@ tbody tr:hover {
   color: #fd7e14;
 }
 
+.status.In_Progress {
+  background-color: #e1f5ec;
+  color: #2e7d32;
+}
+
+.status.Completed{
+    background-color: #e1f5ec;
+  color: #2e7d32;
+}
+
 .action-icon {
   margin-right: 5px;
   cursor: pointer;

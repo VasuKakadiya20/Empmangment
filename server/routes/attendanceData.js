@@ -34,7 +34,7 @@ router.post('/create', async (req, res) => {
   attendance = await attendance.save();
   if (!attendance) {
     return res.status(500).json({
-      error: "Error saving employees",
+      error: "Error saving attendance",
       success: false
     });
   }
@@ -55,7 +55,7 @@ router.delete('/:id', async(req,res)=>{
       })
     }
     res.status(200).send({
-      message:"Attendance product is deleted!",
+      message:"Attendance is deleted!",
       status:true
     })
 })
@@ -90,7 +90,7 @@ router.delete("/delete/:id", async (req, res) => {
 router.get('/:id' ,async(req,res)=>{
   const attendance = await attendanceData.findById(req.params.id) .populate('name', 'name');  ;
   if(!attendance){
-    res.status(500).json({message:'the employees given id was not found.'})
+    res.status(500).json({message:'the attendance given id was not found.'})
   }
   return res.status(200).send(attendance);
 })

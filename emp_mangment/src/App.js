@@ -13,6 +13,9 @@ import Attendance from './pages/Attendance/attendance';
 import { createContext, useEffect, useState } from 'react';
 import AddAttendance from './pages/Attendance/addAttendance';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Addtask from './pages/task/addtask';
+import Tasklist from './pages/task/task';
+import Taskemplist from './pages/task/taskemp';
 const mycontext = createContext()
 
 function App() {
@@ -83,6 +86,9 @@ function App() {
                 <Route path="/attendence/add" element={<AddAttendance />} exact={true} />
                 <Route path="/leave" element={<LeaveRequests />} exact={true} />
                 <Route path='/leave/add'element = {<AddLeave/>} exact={true}/>
+                <Route path='/task' element ={<Tasklist/>} exact={true}/>
+                <Route path='/taskemp'element ={<Taskemplist/>}exact={true}/>
+                <Route path='/task/add' element = {<Addtask/>} exact={true}/>
               </Routes>
             </div>
           </div>

@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import { BsFillClipboardDataFill } from "react-icons/bs";
 import { FiUsers } from "react-icons/fi";
 import { IoMdNotifications } from "react-icons/io";
+import { MdOutlineTaskAlt } from "react-icons/md";
 import Admin from "../../assets/images/admin.png"
 
 const Sidebar = () => {
@@ -83,8 +84,27 @@ const Sidebar = () => {
             </li>
 
             <li>
+              <Button
+                className={`w-100 ${activeTab === 4 && isToggleSubmenu ? "active" : ""}`}
+                onClick={() => isOpenSubmenu(4)}
+              >
+                <span className="icons"><MdOutlineTaskAlt /></span>
+                Task
+                <span className="arrows"><FaAngleRight /></span>
+              </Button>
+              <div
+                className={`submenu-wrapper ${activeTab === 4 && isToggleSubmenu ? "expanded" : "collapsed"}`}
+              >
+                <ul className="submenu">
+                  <li><Link to="/task">Task List</Link></li>
+                  <li><Link to="/task/add">Task Add</Link></li>
+                </ul>
+              </div>
+            </li>
+
+            <li>
               <Link to="/Dashboard">
-                <Button className={`w-100 ${activeTab === 4 ? "active" : ""}`}>
+                <Button className={`w-100 ${activeTab === 5 ? "active" : ""}`}>
                   <span className="icons"><IoMdNotifications /></span>
                   Notifications
                   <span className="arrows"><FaAngleRight /></span>
@@ -123,8 +143,17 @@ const Sidebar = () => {
             </Button>
           </Link>
         </li>
+
+        <li>
+          <Link to="/taskemp">
+          <Button className={`w-100 ${activeTab === 2 ? "active" : ""}`}>
+              <span className="icons"><MdOutlineTaskAlt  /></span>
+            Task
+              <span className="arrows"><FaAngleRight /></span>
+            </Button>
+          </Link>
+        </li>
           </>
-       
         )}
       </ul>
     </div>

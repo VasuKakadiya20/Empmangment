@@ -9,7 +9,7 @@ import ProjectSurvey from "../../components/chart/chart";
 import EmployeeCharts from "../../components/chart2/chart2";
 import { editdata, fetchDataFromApi } from "../../uttils/api";
 import React, { useContext, useEffect, useState } from "react";
-import HomeAttendance from "../../components/homeattendeancee";
+import HomeAttendance from "../../components/DeshbordAttendance/homeattendeancee";
 
 const Dashboard = () => {
   const [emp, setemp] = useState([])

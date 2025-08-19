@@ -37,14 +37,14 @@ const LeaveRequests = () => {
       setleaveData(res)
     })
 
-     fetchDataFromApi(`/emp/`).then((res) => {
-    setEmployees(res);
-  })
+    fetchDataFromApi(`/emp/`).then((res) => {
+      setEmployees(res);
+    })
 
     window.scrollTo(0, 0);
   }, [])
 
-    const updateattendance = (_id) => {
+  const updateattendance = (_id) => {
     setOpenDialog(true);
     fetchDataFromApi(`/leave/${_id}`).then((res) => {
       setupdatedate(res)
@@ -60,7 +60,7 @@ const LeaveRequests = () => {
       setleaveData((prev) =>
         prev.map((item) => (item._id === updatedate._id ? updatedate : item))
       );
-      toast.success("Attendance update successfully !");
+      toast.success("Leave update successfully !");
       setOpenDialog(false);
     } catch (error) {
       toast.error("Failed to update Attendance");
@@ -70,7 +70,7 @@ const LeaveRequests = () => {
 
   const deletedataemp = (_id) => {
     deletedata(`/leave/${_id}`).then((res) => {
-      toast.success("Employee Data Delete successfully!");
+      toast.success("Leave Data Delete successfully!");
       fetchDataFromApi('/leave/').then((res) => {
         setleaveData(res)
       })
@@ -91,7 +91,7 @@ const LeaveRequests = () => {
         pauseOnHover
         theme="colored"
       />
-      
+
       <div className="attendance mt-5">
         <div className="attendance-container mt-5">
           <h2 className="table-title">Leave Requests</h2>
@@ -120,7 +120,7 @@ const LeaveRequests = () => {
               <tbody>
                 {leaveData.map((item, index) => (
                   <tr key={item.id}>
-                     <td><input type="checkbox" /></td>
+                    <td><input type="checkbox" /></td>
                     <td className="emp-name">
                       <img src={userimg} alt={item.name?.name} />
                       {item.name?.name}
@@ -135,7 +135,7 @@ const LeaveRequests = () => {
                         {item.Status || "pending"}
                       </span>
                     </td>
-                    
+
                     <td>{item.Reason}</td>
                     <td>{item.RequestedOn}</td>
                     <td>{item.ApprovedBy}</td>
@@ -171,30 +171,11 @@ const LeaveRequests = () => {
                               <div className="form-row">
                                 <div class="form-group">
                                   <label>Name*</label>
-                                  {/* <select
-                                    name="name"
-                                    value={
-                                      typeof updatedate.name === "string" ? updatedate.name : updatedate.name?._id}
-                                    onChange={(e) => {
-                                      const emp = employees.find(emp => emp._id === e.target.value);
-                                      setupdatedate({
-                                        ...updatedate,
-                                        name: emp
-                                      });
-                                    }}
-                                  >
-                                    <option value="">Select Employee</option>
-                                    {employees.map((emp) => (
-                                      <option key={emp._id} value={emp._id}>
-                                        {emp.name}
-                                      </option>
-                                    ))}
-                                  </select> */}
-                                   <input
-                            type="text"
-                            value={updatedate?.name?.name || ""}
-                            readOnly
-                          />
+                                  <input
+                                    type="text"
+                                    value={updatedate?.name?.name || ""}
+                                    readOnly
+                                  />
                                 </div>
 
                                 <div class="form-group">
@@ -250,7 +231,7 @@ const LeaveRequests = () => {
                                     value={updatedate.Status || "pending"}
                                     onChange={(e) => setupdatedate({ ...updatedate, Status: e.target.value })}
                                   >
-                                       <option value="">Select The Status</option>
+                                    <option value="">Select The Status</option>
                                     <option>approved</option>
                                     <option>rejected</option>
                                     <option>pending</option>

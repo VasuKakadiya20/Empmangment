@@ -1,29 +1,24 @@
 import React from "react";
-import "./attendance.css";
-import { useState } from "react";
-import { useEffect } from "react";
-import Box from '@mui/material/Box';
 import { FaEdit } from "react-icons/fa";
-import Select from '@mui/material/Select';
+import { useEffect } from "react";
 import Dialog from "@mui/material/Dialog";
-import MenuItem from '@mui/material/MenuItem';
-import { FaChevronLeft } from "react-icons/fa";
-import "react-toastify/dist/ReactToastify.css";
-import { FaChevronRight } from "react-icons/fa";
-import InputLabel from '@mui/material/InputLabel';
-import userimg from "../../assets/images/user.png";
-import FormControl from '@mui/material/FormControl';
-import DeleteIcon from '@mui/icons-material/Delete';
-import { toast, ToastContainer } from "react-toastify";
 import DialogContent from "@mui/material/DialogContent";
-import { deletedata, editdata, fetchDataFromApi } from "../../uttils/api";
+import { useState } from "react";
+import { editdata, fetchDataFromApi } from "../../uttils/api";
+import userimg from "../../assets/images/user.png"
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import './attendance.css'
 
-const Attendance = () => {
-  const [age, setAge] = React.useState('');
+const HomeAttendance = () => {
   const [attendance, setattendance] = useState([])
   const [openDialog, setOpenDialog] = useState(false);
   const [updatedate, setupdatedate] = useState([])
   const [employees, setEmployees] = useState([]);
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  };
 
   useEffect(() => {
     fetchDataFromApi('/att/').then((res) => {
@@ -35,14 +30,6 @@ const Attendance = () => {
   fetchDataFromApi(`/emp/`).then((res) => {
     setEmployees(res);
   })
-
-  const handleChange = (event) => {
-    setAge(event.target.value);
-  };
-
-  const handleCloseDialog = () => {
-    setOpenDialog(false);
-  };
 
   const updateattendance = (_id) => {
     setOpenDialog(true);
@@ -60,7 +47,7 @@ const Attendance = () => {
       setattendance((prev) =>
         prev.map((item) => (item._id === updatedate._id ? updatedate : item))
       );
-      toast.success("Attendance update successfully !");
+      toast.success("Attendance update successfully!");
       setOpenDialog(false);
     } catch (error) {
       toast.error("Failed to update Attendance");
@@ -68,33 +55,23 @@ const Attendance = () => {
     }
   };
 
-  const deletedataattendance = (_id) => {
-    deletedata(`/att/${_id}`).then((res) => {
-      toast.success("Attendance Deleted successfully !");
-      fetchDataFromApi('/att/').then((res) => {
-        setattendance(res)
-      })
-    })
-  }
-
   return (
     <>
       <ToastContainer
-        position="top-right"
-        autoClose={3000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="colored"
-      />
+            position="top-right"
+            autoClose={3000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="colored"
+          />
+      <div className="attendance mb-5">
+        <div className="attendance-container">
 
-      <div className="attendance mt-5">
-        <div className="attendance-container mt-5">
-          <h2 className="table-title">Today Attendance</h2>
           <div className="table-wrapper">
             <div className="table-header">
               <span>Attendance</span>
@@ -133,7 +110,6 @@ const Attendance = () => {
                     <td>{item.shift}</td>
                     <td>
                       <FaEdit className="action-icon" onClick={() => updateattendance(item._id)} />
-                      <DeleteIcon className="action-icon2" onClick={() => deletedataattendance(item._id)} />
                       <Dialog
                         open={openDialog}
                         onClose={handleCloseDialog}
@@ -160,8 +136,7 @@ const Attendance = () => {
                               <div className="form-row">
                                 <div class="form-group">
                                   <label>Name*</label>
-                                  <input
-                                    type="text"
+                                  <input type="text"
                                     value={updatedate?.name?.name || ""}
                                     readOnly
                                   />
@@ -173,6 +148,7 @@ const Attendance = () => {
                                     value={updatedate?.firstIn}
                                     onChange={(e) => setupdatedate({ ...updatedate, firstIn: e.target.value })}
                                   >
+                                    <option value="">Select the first In Time</option>
                                     <option value="09:00">09:00</option>
                                     <option value="09:15">09:15</option>
                                     <option value="09:30" >09:30</option>
@@ -183,22 +159,28 @@ const Attendance = () => {
                                     <option value="10:45">10:45</option>
                                     <option value="11:00">11:00</option>
                                   </select>
+                                  <i class="fas fa-clock"></i>
                                 </div>
+
                               </div>
 
+
                               <div className="form-row">
+
                                 <div class="form-group">
                                   <label>Break*</label>
                                   <select
                                     value={updatedate?.break}
                                     onChange={(e) => setupdatedate({ ...updatedate, break: e.target.value })}
                                   >
+                                    <option value="">Select the Break In Time</option>
                                     <option value="01:00">01:00</option>
                                     <option value="01:15">01:15</option>
                                     <option value="01:30" >01:30</option>
                                     <option value="01:45">01:45</option>
                                     <option value="02:00">02:00</option>
                                   </select>
+                                  <i class="fas fa-clock"></i>
                                 </div>
 
                                 <div class="form-group">
@@ -207,13 +189,16 @@ const Attendance = () => {
                                     value={updatedate?.breakOut}
                                     onChange={(e) => setupdatedate({ ...updatedate, breakOut: e.target.value })}
                                   >
+                                    <option value="">Select the Break Out Time</option>
                                     <option value="02:00">02:00</option>
                                     <option value="02:15">02:15</option>
                                     <option value="02:30">02:30</option>
                                     <option value="02:45">02:45</option>
                                     <option value="03:00">03:00</option>
                                   </select>
+                                  <i class="fas fa-clock"></i>
                                 </div>
+
                               </div>
 
                               <div className="form-row">
@@ -223,7 +208,7 @@ const Attendance = () => {
                                     value={updatedate?.lastOut || ""}
                                     onChange={(e) => setupdatedate({ ...updatedate, lastOut: e.target.value })}
                                   >
-                                    <option value="">Select the Last Out</option>
+                                    <option value="">Select the Last Out Time</option>
                                     <option value="06:00">06:00</option>
                                     <option value="06:15">06:15</option>
                                     <option value="06:30" >06:30</option>
@@ -234,6 +219,7 @@ const Attendance = () => {
                                     <option value="07:45">07:45</option>
                                     <option value="08:00">08:00</option>
                                   </select>
+                                  <i class="fas fa-clock"></i>
                                 </div>
 
                                 <div class="form-group">
@@ -242,13 +228,14 @@ const Attendance = () => {
                                     value={updatedate?.totalHours || ""}
                                     onChange={(e) => setupdatedate({ ...updatedate, totalHours: e.target.value })}
                                   >
-                                    <option value="">Select the Total Hours</option>
+                                    <option value="">Select the Total Hours Time</option>
                                     <option value="08:00">08:00</option>
                                     <option value="08:15">08:15</option>
                                     <option value="08:30" >08:30</option>
                                     <option value="08:45">08:45</option>
                                     <option value="09:00">09:00</option>
                                   </select>
+                                  <i class="fas fa-clock"></i>
                                 </div>
                               </div>
 
@@ -259,10 +246,11 @@ const Attendance = () => {
                                     value={updatedate.status || ""}
                                     onChange={(e) => setupdatedate({ ...updatedate, status: e.target.value })}
                                   >
-                                    <option value="">Select the Status</option>
+                                    <option value="">Select the Employee status</option>
                                     <option>present</option>
                                     <option>absent</option>
                                   </select>
+                                  <i class="fas fa-chevron-down"></i>
                                 </div>
 
                                 <div class="form-group ">
@@ -271,10 +259,11 @@ const Attendance = () => {
                                     value={updatedate.shift || ""}
                                     onChange={(e) => setupdatedate({ ...updatedate, shift: e.target.value })}
                                   >
-                                    <option value="">Select the Shift</option>
+                                    <option value="">Select the Employee shift</option>
                                     <option>Night Shift</option>
                                     <option>Day Shift</option>
                                   </select>
+                                  <i class="fas fa-chevron-down"></i>
                                 </div>
                               </div>
 
@@ -291,32 +280,6 @@ const Attendance = () => {
                 ))}
               </tbody>
             </table>
-            <div className="pagination">
-              <div className="page">
-                <Box sx={{ minWidth: 120 }}>
-                  <FormControl fullWidth>
-                    <InputLabel id="demo-simple-select-label mr-5 ml-5">Page</InputLabel>
-                    <Select
-                      labelId="demo-simple-select-label"
-                      id="demo-simple-select"
-                      value={age}
-                      label="Age"
-                      onChange={handleChange}
-                    >
-                      <MenuItem value={10} selected>10</MenuItem>
-                      <MenuItem value={20}>20</MenuItem>
-                      <MenuItem value={30}>30</MenuItem>
-                    </Select>
-                  </FormControl>
-                </Box>
-              </div>
-              <span>1 – 10 of 13</span>
-              <span className="arrows">
-                <span style={{ marginRight: '20px' }}><FaChevronLeft /></span>
-                <span><FaChevronRight /></span>
-              </span>
-
-            </div>
           </div>
         </div>
       </div>
@@ -324,4 +287,5 @@ const Attendance = () => {
   );
 };
 
-export default Attendance;
+export default HomeAttendance;
+

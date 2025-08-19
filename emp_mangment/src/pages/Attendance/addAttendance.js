@@ -86,7 +86,6 @@ const AddAttendance = () => {
                       name="name"
                       value={form.name}
                       onChange={handleChange}
-                      required
                     >
                       <option value="">Select Employee</option>
                       {employees.map((emp) => (

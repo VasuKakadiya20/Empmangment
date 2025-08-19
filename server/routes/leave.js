@@ -50,7 +50,7 @@ router.post('/create' ,async (req,res)=>{
 router.get('/:id' ,async(req,res)=>{
   const Leave = await leave.findById(req.params.id).populate('name', 'name');  ;
   if(!Leave){
-    res.status(500).json({message:'the employees given id was not found.'})
+    res.status(500).json({message:'the Leave given id was not found.'})
   }
   return res.status(200).send(Leave);
 })
@@ -59,12 +59,12 @@ router.delete('/:id', async(req,res)=>{
     const deleteleave = await leave.findByIdAndDelete(req.params.id);
     if(!deleteleave){
       return res.status(404).json({
-        message:"Attendance does not found!",
+        message:"Leave does not found!",
         status:false
       })
     }
     res.status(200).send({
-      message:"Attendance product is deleted!",
+      message:"Leave is deleted!",
       status:true
     })
 })
@@ -89,7 +89,7 @@ router.delete("/delete/:id", async (req, res) => {
 
   } catch (error) {
     res.status(500).json({
-      message: "Error deleting attendance data",
+      message: "Error deleting Leave",
       error: error.message,
       Status: false
     });
@@ -121,7 +121,7 @@ router.put('/:id', async(req,res)=>{
     })
   }
   res.status(200).json({
-    message:'Employees is update',
+    message:'Leave is update',
     status:true
   })
 })

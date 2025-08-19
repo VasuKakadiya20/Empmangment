@@ -75,16 +75,21 @@ const AllEmployees = () => {
 
   const deletedleave = (_id) =>{
     deletedata(`/leave/delete/${_id}`).then((res)=>{
-      console.log('deleted data Succesfully!')
+      console.log('deleted from the leave!')
     })
   }
 
   const deleteattendance = (_id) =>{
     deletedata(`/att/delete/${_id}`).then((res)=>{
-      console.log('deletd data Succesfully !')
+      console.log('deleted from the attendance!')
     })
   }
 
+  const deletetask = (_id) =>{
+    deletedata(`/task/delete/${_id}`).then((res)=>{
+      console.log ('deleted from the task!')
+    })
+  }
 
   return (
     <>
@@ -148,6 +153,7 @@ const AllEmployees = () => {
                           deletedataemp(item._id);
                           deletedleave(item._id);
                           deleteattendance(item._id);
+                          deletetask(item._id)
                       }}/>
                       </div>
                       <Dialog

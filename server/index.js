@@ -18,10 +18,12 @@ const employeeRoutes = require('./routes/employee');
 const signupRoutes = require('./routes/singup');
 const attendanceRoutes = require('./routes/attendanceData');
 const leaveRoutes = require('./routes/leave')
+const taskRoutes = require('./routes/task')
 app.use('/emp', employeeRoutes);
 app.use('/signup', signupRoutes);
 app.use('/att',attendanceRoutes)
 app.use('/leave',leaveRoutes)
+app.use('/task',taskRoutes)
 
 
 mongoose.connect(process.env.CONNECTION_STRING)
