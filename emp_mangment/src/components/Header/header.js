@@ -141,9 +141,9 @@ const storedUser = JSON.parse(localStorage.getItem("user")) || { user: {} };
                         <div className="dropdown-info">
                           <h4>
                             <span>
-                              <b>kenil </b>
+                              <b>kishan k.</b>
                               <br />
-                              Web Designer
+                              Developer
                               <br />
                               <b>requested leave for 2 days</b>
                             </span>
@@ -164,9 +164,9 @@ const storedUser = JSON.parse(localStorage.getItem("user")) || { user: {} };
                         <div className="dropdown-info">
                           <h4>
                             <span>
-                              <b>Mahmudul </b>
+                              <b>Priyal Nair</b>
                               <br />
-                              UI Developer
+                             UI/UX Designer
                               <br />
                               <b>was approved for remote work</b>
                             </span>
@@ -187,9 +187,9 @@ const storedUser = JSON.parse(localStorage.getItem("user")) || { user: {} };
                         <div className="dropdown-info">
                           <h4>
                             <span>
-                              <b>Anjali </b>
+                              <b>Amit Sharma </b>
                               <br />
-                              HR Executive
+                              HR Manager
                               <br />
                               <b>submitted attendance report</b>
                             </span>
@@ -210,9 +210,9 @@ const storedUser = JSON.parse(localStorage.getItem("user")) || { user: {} };
                         <div className="dropdown-info">
                           <h4>
                             <span>
-                              <b>Vikram </b>
+                              <b>Arjun Mehta </b>
                               <br />
-                              Backend Developer
+                              Data Analyst
                               <br />
                               <b> applied for casual leave</b>
                             </span>
