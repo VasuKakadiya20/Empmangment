@@ -104,7 +104,6 @@ const LeaveRequests = () => {
                 <tr>
                   <th></th>
                   <th>Employee Name</th>
-                  <th>Department</th>
                   <th>Leave Type</th>
                   <th>Leave From</th>
                   <th>Leave To</th>
@@ -122,10 +121,9 @@ const LeaveRequests = () => {
                   <tr key={item.id}>
                     <td><input type="checkbox" /></td>
                     <td className="emp-name">
-                      <img src={userimg} alt={item.name?.name} />
-                      {item.name?.name}
+                      <img src={userimg} alt={item.name} />
+                      {item.name}
                     </td>
-                    <td>{item.Department}</td>
                     <td>{item.leavetype}</td>
                     <td>{item.leaveFrom}</td>
                     <td>{item.leaveTo}</td>
@@ -173,25 +171,17 @@ const LeaveRequests = () => {
                                   <label>Name*</label>
                                   <input
                                     type="text"
-                                    value={updatedate?.name?.name || ""}
+                                    value={updatedate?.name|| ""}
                                     readOnly
                                   />
                                 </div>
 
-                                <div class="form-group">
-                                  <label>Department*</label>
-                                  <input type="text"
-                                    value={updatedate?.Department}
-                                    onChange={(e) => setupdatedate({ ...updatedate, Department: e.target.value })} />
-                                </div>
-
-                              </div>
-                              <div className="form-row">
-                                <div class="form-group">
+                                  <div class="form-group">
                                   <label>leave type*</label>
                                   <select
                                     value={updatedate?.leavetype}
                                     onChange={(e) => setupdatedate({ ...updatedate, leavetype: e.target.value })}
+                                    disabled
                                   >
                                     <option value="">Select The Leave</option>
                                     <option >Casual Leave </option>
@@ -201,31 +191,62 @@ const LeaveRequests = () => {
                                   </select>
                                 </div>
 
+                              </div>
+                              <div className="form-row">
                                 <div class="form-group">
                                   <label>leave From*</label>
                                   <input type="Date"
                                     value={updatedate?.leaveFrom}
-                                    onChange={(e) => setupdatedate({ ...updatedate, leaveFrom: e.target.value })} />
+                                    onChange={(e) => setupdatedate({ ...updatedate, leaveFrom: e.target.value })} 
+                                    readOnly
+                                    />
+                                </div>
+
+                                  <div class="form-group">
+                                  <label>leave To*</label>
+                                  <input type="Date"
+                                    value={updatedate?.leaveTo}
+                                    onChange={(e) => setupdatedate({ ...updatedate, leaveTo: e.target.value })} 
+                                    readOnly
+                                    />
                                 </div>
                               </div>
 
                               <div className="form-row">
-                                <div class="form-group">
-                                  <label>leave To*</label>
-                                  <input type="Date"
-                                    value={updatedate?.leaveTo}
-                                    onChange={(e) => setupdatedate({ ...updatedate, leaveTo: e.target.value })} />
-                                </div>
                                 <div class="form-group">
                                   <label>Number of days*</label>
                                   <input type="number"
                                     value={updatedate?.Numberofdays}
-                                    onChange={(e) => setupdatedate({ ...updatedate, Numberofdays: e.target.value })} />
+                                    onChange={(e) => setupdatedate({ ...updatedate, Numberofdays: e.target.value })} 
+                                    readOnly
+                                    />
                                 </div>
+                                
+                    
+                       <div class="form-group ">
+                                    <label>Reason*</label>
+                                    <input type="text"
+                                      value={updatedate?.Reason}
+                                      onChange={(e) => setupdatedate({ ...updatedate, Reason: e.target.value })} 
+                                      readOnly
+                                      />
+                                  </div>
+
+                               
+
                               </div>
 
                               <div className="form-row">
-                                <div class="form-group">
+                                 <div class="form-group">
+                                  <label>Requested On*</label>
+                                  <input type="Date"
+                                    value={updatedate?.RequestedOn}
+                                    onChange={(e) => setupdatedate({ ...updatedate, RequestedOn: e.target.value })} 
+                                    readOnly
+                                    />
+                                </div>
+
+                                 <div class="form-group">
                                   <label>Status*</label>
                                   <select
                                     value={updatedate.Status || "pending"}
@@ -238,28 +259,19 @@ const LeaveRequests = () => {
                                   </select>
                                   <i class="fas fa-chevron-down"></i>
                                 </div>
-                                <div class="form-group ">
-                                  <label>Reason*</label>
-                                  <input type="text"
-                                    value={updatedate?.Reason}
-                                    onChange={(e) => setupdatedate({ ...updatedate, Reason: e.target.value })} />
-                                </div>
+
+                                 
                               </div>
 
                               <div className="form-row">
-                                <div class="form-group">
-                                  <label>Requested On*</label>
-                                  <input type="Date"
-                                    value={updatedate?.RequestedOn}
-                                    onChange={(e) => setupdatedate({ ...updatedate, RequestedOn: e.target.value })} />
-                                </div>
+                              
                                 <div class="form-group ">
                                   <label>Approved By*</label>
                                   <input type="text"
                                     value={updatedate?.ApprovedBy}
                                     onChange={(e) => setupdatedate({ ...updatedate, ApprovedBy: e.target.value })} />
                                 </div>
-                              </div>
+                             
 
                               <div className="form-group">
                                 <label>Approved Date*</label>
@@ -267,6 +279,7 @@ const LeaveRequests = () => {
                                   value={updatedate?.ApprovedDate}
                                   onChange={(e) => setupdatedate({ ...updatedate, ApprovedDate: e.target.value })} />
                               </div>
+                               </div>
 
                               <div class="button-group">
                                 <button onClick={handleSaveUpdate} class="save-btn">Save</button>

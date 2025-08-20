@@ -6,7 +6,6 @@ const router = express.Router()
 router.get('/' , async (req,res)=>{
     try{
         const leavelist = await leave.find()
-          .populate('name', 'name');  
         if(!leavelist){
             return res.status(500).json({success:false})
         }
@@ -20,7 +19,6 @@ router.post('/create' ,async (req,res)=>{
     try{
         let Leave = new leave({
            name:req.body.name,
-           Department:req.body.Department,
            leavetype:req.body.leavetype,
            leaveFrom:req.body.leaveFrom,
            leaveTo:req.body.leaveTo,
@@ -48,7 +46,7 @@ router.post('/create' ,async (req,res)=>{
 })
 
 router.get('/:id' ,async(req,res)=>{
-  const Leave = await leave.findById(req.params.id).populate('name', 'name');  ;
+  const Leave = await leave.findById(req.params.id);
   if(!Leave){
     res.status(500).json({message:'the Leave given id was not found.'})
   }
@@ -69,38 +67,37 @@ router.delete('/:id', async(req,res)=>{
     })
 })
 
-router.delete("/delete/:id", async (req, res) => {
-  try {
-    const empid = req.params.id; 
+// router.delete("/delete/:id", async (req, res) => {
+//   try {
+//     const empid = req.params.id; 
 
-    const deletedData = await leave.deleteMany({ "name": empid });
+//     const deletedData = await leave.deleteMany({ "name": empid });
 
-    if (deletedData.deletedCount === 0) {
-      return res.status(404).json({
-        message: "No leave data found for this employee!",
-        Status: false
-      });
-    }
+//     if (deletedData.deletedCount === 0) {
+//       return res.status(404).json({
+//         message: "No leave data found for this employee!",
+//         Status: false
+//       });
+//     }
 
-    res.status(200).json({
-      message: "leave deleted successfully!",
-      Status: true
-    });
+//     res.status(200).json({
+//       message: "leave deleted successfully!",
+//       Status: true
+//     });
 
-  } catch (error) {
-    res.status(500).json({
-      message: "Error deleting Leave",
-      error: error.message,
-      Status: false
-    });
-  }
-});
+//   } catch (error) {
+//     res.status(500).json({
+//       message: "Error deleting Leave",
+//       error: error.message,
+//       Status: false
+//     });
+//   }
+// });
 
 router.put('/:id', async(req,res)=>{
   const  Leave = await leave.findByIdAndUpdate(
     req.params.id,{
        name:req.body.name,
-           Department:req.body.Department,
            leavetype:req.body.leavetype,
            leaveFrom:req.body.leaveFrom,
            leaveTo:req.body.leaveTo,
