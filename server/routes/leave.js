@@ -67,32 +67,33 @@ router.delete('/:id', async(req,res)=>{
     })
 })
 
-// router.delete("/delete/:id", async (req, res) => {
-//   try {
-//     const empid = req.params.id; 
+router.delete("/delete/:name", async (req, res) => {
+  try {
+    const empname = req.params.name; 
 
-//     const deletedData = await leave.deleteMany({ "name": empid });
+    const deletedData = await leave.deleteMany({ name: empname });
 
-//     if (deletedData.deletedCount === 0) {
-//       return res.status(404).json({
-//         message: "No leave data found for this employee!",
-//         Status: false
-//       });
-//     }
+    if (deletedData.deletedCount === 0) {
+      return res.status(404).json({
+        message: "No leave data found for this employee name!",
+        Status: false
+      });
+    }
 
-//     res.status(200).json({
-//       message: "leave deleted successfully!",
-//       Status: true
-//     });
+    res.status(200).json({
+      message: "Leave(s) deleted successfully by name!",
+      Status: true
+    });
 
-//   } catch (error) {
-//     res.status(500).json({
-//       message: "Error deleting Leave",
-//       error: error.message,
-//       Status: false
-//     });
-//   }
-// });
+  } catch (error) {
+    res.status(500).json({
+      message: "Error deleting leave by name",
+      error: error.message,
+      Status: false
+    });
+  }
+});
+
 
 router.put('/:id', async(req,res)=>{
   const  Leave = await leave.findByIdAndUpdate(

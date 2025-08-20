@@ -152,7 +152,7 @@ const AllEmployees = () => {
                       <DeleteIcon className="action-icon2" onClick = {() => {
                           deletedataemp(item._id);
                           deletedleave(item._id);
-                          deleteattendance(item._id);
+                          deleteattendance(item.name);
                           deletetask(item._id)
                       }}/>
                       </div>
