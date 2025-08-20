@@ -7,23 +7,23 @@ const attendanceSchema = mongoose.Schema({
 },
   firstIn: {
     type: String, 
-    required: true,
+    required: false,
   },
   break: {
     type: String, 
-    required: true,
+    required: false,
   },
   breakOut: {
     type: String, 
-    required: true,
+    required: false,
   },
   lastOut: {
     type: String,
-    required: true,
+    required: false,
   },
   totalHours: {
     type: String, 
-    required: true,
+    required: false,
   },
 });
 
