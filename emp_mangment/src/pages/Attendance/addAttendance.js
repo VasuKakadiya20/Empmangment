@@ -33,10 +33,8 @@ const AddAttendance = () => {
 
   if (empname) {
     setForm((prev) => ({ ...prev, name: empname }));
-  } else {
-    console.warn("⚠️ No name found in localStorage.user");
   }
-  })
+  },[])
 
   const handleSubmit = async (e) => {
     e.preventDefault();
