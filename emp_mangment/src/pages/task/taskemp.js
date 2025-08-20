@@ -29,35 +29,46 @@ const Taskemplist = () => {
         name: "",
     });
 
-    const handlEChange = async (e) => {
-        const { name, value } = e.target;
-        setForm({
-            ...form,
-            [name]: value,
-        });
+    // const handlEChange = async (e) => {
+    //     const { name, value } = e.target;
+    //     setForm({
+    //         ...form,
+    //         [name]: value,
+    //     });
 
-        if (name === "name" && value) {
-            try {
-                const res = await fetchDataFromApi(`/task/taske/${value}`);
-                settaskdata(res);
-            } catch (err) {
-                settaskdata([]);
-                toast.info("This employee does not have any tasks.");
-            }
-        }
-    };
+    //     if (name === "name" && value) {
+    //         try {
+    //             const res = await fetchDataFromApi(`/task/taske/$(empname)`);
+    //             settaskdata(res);
+    //         } catch (err) {
+    //             settaskdata([]);
+    //             toast.info("This employee does not have any tasks.");
+    //         }
+    //     }
+    // };
 
     const handleCloseDialog = () => {
         setOpenDialog(false);
     };
 
-    useEffect(() => {
-        fetchDataFromApi(`/emp/`).then((res) => {
-            setEmployees(res);
-        })
+useEffect(() => {
+  const storedUser = JSON.parse(localStorage.getItem("user")) || {};
+  const empname = storedUser.user?.name || ""; 
 
-        window.scrollTo(0, 0);
-    }, [])
+  if (empname) {
+    setForm((prev) => ({ ...prev, name: empname }));
+    fetchDataFromApi(`/task/taske/${empname}`)
+      .then((res) => {
+        settaskdata(res);
+      })
+      .catch((err) => {
+        console.error("❌ Error fetching tasks:", err);
+      });
+  }
+
+  window.scrollTo(0, 0);
+}, []);
+
 
     const updatetask = (_id) => {
         setOpenDialog(true);
@@ -102,25 +113,6 @@ const Taskemplist = () => {
             <div className="attendance mt-5">
                 <div className="attendance-container mt-5">
                     <h2 className="table-title">Task Assigned</h2>
-
-                    <div className="form-row">
-                        <div className="form-group">
-                            <label>Select The Name*</label>
-                            <select
-                                name="name"
-                                value={form.name}
-                                onChange={handlEChange}
-                                required
-                            >
-                                <option value="">Select Employee</option>
-                                {employees.map((emp) => (
-                                    <option key={emp._id} value={emp._id}>
-                                        {emp.name}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
-                    </div>
                     <div className="table-wrapper mt-5 ">
                         <div className="table-header">
                             <span>Task</span>

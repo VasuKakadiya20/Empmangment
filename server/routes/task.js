@@ -49,14 +49,34 @@ router.get('/:id' ,async(req,res)=>{
    return res.status(200).send(Task)
 })
 
-router.get('/taske/:id', async(req,res)=>{
-    const empid = req.params.id;
-    const taskemplist = await task.find({ "name": empid }).populate('name', 'name');  
-    if(!taskemplist){
-      res.status(500).json({message:'the emp id given this is not the task.'})
+router.get('/taske/:name', async (req, res) => {
+  try {
+    const empname = req.params.name;
+
+    const taskemplist = await task.find()
+      .populate({
+        path: 'name',
+        select: 'name', 
+        match: { name: empname }
+      });
+
+    const filteredTasks = taskemplist.filter(t => t.name !== null);
+
+    if (filteredTasks.length === 0) {
+      return res.status(404).json({ message: 'No tasks found for this employee!' });
     }
-    return res.status(200).send(taskemplist)
-})
+
+    return res.status(200).send(filteredTasks);
+
+  } catch (error) {
+    res.status(500).json({
+      message: "Error fetching tasks",
+      error: error.message,
+    });
+  }
+});
+
+
 
 router.delete('/:id', async(req,res)=>{
     const deletetask = await task.findByIdAndDelete(req.params.id);
