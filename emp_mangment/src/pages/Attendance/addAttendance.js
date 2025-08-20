@@ -28,9 +28,14 @@ const AddAttendance = () => {
 
   useEffect(() =>{
     context.setIsHideSidebarAndHeader(false); 
-    fetchDataFromApi(`/emp/`).then((res)=>{
-      setEmployees(res);
-    })
+      const storedUser = JSON.parse(localStorage.getItem("user")) || {};
+  const empname = storedUser.user?.name || ""; 
+
+  if (empname) {
+    setForm((prev) => ({ ...prev, name: empname }));
+  } else {
+    console.warn("⚠️ No name found in localStorage.user");
+  }
   })
 
   const handleSubmit = async (e) => {
@@ -39,8 +44,10 @@ const AddAttendance = () => {
       const res = await postData(`/att/create`, form);
       toast.success("Attendance added successfully!");
       console.log("Success:", res);
+          const storedUser = JSON.parse(localStorage.getItem("user")) || {};
+  const empname = storedUser.user?.name; 
       setForm({
-        name: "",
+        name: empname,
         firstIn: "",
         break: "",
         breakOut: "",
@@ -80,21 +87,7 @@ const AddAttendance = () => {
               <h2 className="form-title">New Entry</h2>
               <form className="employee-form" onSubmit={handleSubmit}>
                 <div className="form-row">
-                   <div className="form-group">
-                    <label>Employee Name*</label>
-                    <select
-                      name="name"
-                      value={form.name}
-                      onChange={handleChange}
-                    >
-                      <option value="">Select Employee</option>
-                      {employees.map((emp) => (
-                        <option key={emp._id} value={emp._id}>
-                          {emp.name}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
+                    <input type="hidden" name="name" value={form.name} />
                   <div className="form-group">
                     <label>First In*</label>
                     <select name="firstIn" value={form.firstIn} onChange={handleChange}>
@@ -110,10 +103,8 @@ const AddAttendance = () => {
                       <option value="11:00">11:00</option>
                     </select>
                   </div>
-                </div>
 
-                <div className="form-row">
-                  <div className="form-group">
+                    <div className="form-group">
                     <label>Break In*</label>
                     <select name="break" value={form.break} onChange={handleChange}>
                       <option value="">Select the Break In Time</option>
@@ -124,7 +115,9 @@ const AddAttendance = () => {
                       <option value="02:00">02:00</option>
                     </select>
                   </div>
+                </div>
 
+                <div className="form-row">
                   <div className="form-group">
                     <label>Break Out*</label>
                     <select name="breakOut" value={form.breakOut} onChange={handleChange}>
@@ -136,11 +129,8 @@ const AddAttendance = () => {
                       <option value="03:00">03:00</option>
                     </select>
                   </div>
-                </div>
 
-
-                <div className="form-row">
-                  <div className="form-group">
+                    <div className="form-group">
                     <label>Last Out*</label>
                     <select name="lastOut" value={form.lastOut} onChange={handleChange}>
                       <option value="">Select the Last Out Time</option>
@@ -156,7 +146,10 @@ const AddAttendance = () => {
                     </select>
                   </div>
 
+                </div>
 
+
+                <div className="form-row">
                   <div className="form-group">
                     <label>Total Hours*</label>
                     <select name="totalHours" value={form.totalHours} onChange={handleChange}>
@@ -168,28 +161,8 @@ const AddAttendance = () => {
                       <option value="09:00">09:00</option>
                     </select>
                   </div>
-                </div>
 
-                <div className="form-row">
-                  <div className="form-group">
-                    <label>Status*</label>
-                    <select name="status" value={form.status} onChange={handleChange}>
-                      <option value="">Select the Employee status</option>
-                      <option value="present">Present</option>
-                      <option value="absent">Absent</option>
-                    </select>
-                    <i className="fas fa-chevron-down"></i>
-                  </div>
-
-                  <div className="form-group ">
-                    <label>Shift*</label>
-                    <select name="shift" value={form.shift} onChange={handleChange}>
-                      <option value="">Select the Employee shift</option>
-                      <option value="Night Shift">Night Shift</option>
-                      <option value="Day Shift">Day Shift</option>
-                    </select>
-                    <i className="fas fa-chevron-down"></i>
-                  </div>
+                   <div className="form-group"></div>
                 </div>
 
                 <button type="submit" className="submit-btn mt-3">Submit</button>

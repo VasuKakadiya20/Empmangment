@@ -73,14 +73,14 @@ const AllEmployees = () => {
     })
   }
 
-  const deletedleave = (_id) =>{
-    deletedata(`/leave/delete/${_id}`).then((res)=>{
+  const deletedleave = (name) =>{
+    deletedata(`/leave/delete/${name}`).then((res)=>{
       console.log('deleted from the leave!')
     })
   }
 
-  const deleteattendance = (_id) =>{
-    deletedata(`/att/delete/${_id}`).then((res)=>{
+  const deleteattendance = (name) =>{
+    deletedata(`/att/delete/${name}`).then((res)=>{
       console.log('deleted from the attendance!')
     })
   }
@@ -151,7 +151,7 @@ const AllEmployees = () => {
                       <FaEdit className="action-icon" onClick={() => updateemp(item._id)} />
                       <DeleteIcon className="action-icon2" onClick = {() => {
                           deletedataemp(item._id);
-                          deletedleave(item._id);
+                          deletedleave(item.name);
                           deleteattendance(item.name);
                           deletetask(item._id)
                       }}/>

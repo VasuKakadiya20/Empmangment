@@ -2,8 +2,7 @@ const mongoose = require('mongoose');
 
 const attendanceSchema = mongoose.Schema({
  name: {
-  type: mongoose.Schema.Types.ObjectId,
-  ref: 'employee',
+  type: String,
   required: true,
 },
   firstIn: {
@@ -24,14 +23,6 @@ const attendanceSchema = mongoose.Schema({
   },
   totalHours: {
     type: String, 
-    required: true,
-  },
-  status: {
-    type: String,
-    required: true,
-  },
-  shift: {
-    type: String,
     required: true,
   },
 });

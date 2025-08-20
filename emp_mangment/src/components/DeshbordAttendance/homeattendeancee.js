@@ -14,7 +14,6 @@ const HomeAttendance = () => {
   const [attendance, setattendance] = useState([])
   const [openDialog, setOpenDialog] = useState(false);
   const [updatedate, setupdatedate] = useState([])
-  const [employees, setEmployees] = useState([]);
 
   const handleCloseDialog = () => {
     setOpenDialog(false);
@@ -26,10 +25,6 @@ const HomeAttendance = () => {
     })
     window.scrollTo(0, 0);
   }, [])
-
-  fetchDataFromApi(`/emp/`).then((res) => {
-    setEmployees(res);
-  })
 
   const updateattendance = (_id) => {
     setOpenDialog(true);
@@ -86,8 +81,6 @@ const HomeAttendance = () => {
                   <th>Break Out</th>
                   <th>Last Out</th>
                   <th>Total Hours</th>
-                  <th>Status</th>
-                  <th>Shift</th>
                   <th>Actions</th>
                 </tr>
               </thead>
@@ -96,18 +89,14 @@ const HomeAttendance = () => {
                   <tr key={index}>
                     <td><input type="checkbox" /></td>
                     <td className="emp-name">
-                      <img src={userimg} alt={item.name?.name} />
-                      {item.name?.name}
+                      <img src={userimg} alt={item.name} />
+                      {item.name}
                     </td>
                     <td>{item.firstIn}</td>
                     <td>{item.break}</td>
                     <td>{item.breakOut}</td>
                     <td>{item.lastOut}</td>
                     <td>{item.totalHours}</td>
-                    <td>
-                      <span className={`status ${item.status}`}>{item.status}</span>
-                    </td>
-                    <td>{item.shift}</td>
                     <td>
                       <FaEdit className="action-icon" onClick={() => updateattendance(item._id)} />
                       <Dialog
@@ -137,7 +126,7 @@ const HomeAttendance = () => {
                                 <div class="form-group">
                                   <label>Name*</label>
                                   <input type="text"
-                                    value={updatedate?.name?.name || ""}
+                                    value={updatedate?.name || ""}
                                     readOnly
                                   />
                                 </div>
@@ -236,34 +225,6 @@ const HomeAttendance = () => {
                                     <option value="09:00">09:00</option>
                                   </select>
                                   <i class="fas fa-clock"></i>
-                                </div>
-                              </div>
-
-                              <div className="form-row">
-                                <div class="form-group">
-                                  <label>Status*</label>
-                                  <select
-                                    value={updatedate.status || ""}
-                                    onChange={(e) => setupdatedate({ ...updatedate, status: e.target.value })}
-                                  >
-                                    <option value="">Select the Employee status</option>
-                                    <option>present</option>
-                                    <option>absent</option>
-                                  </select>
-                                  <i class="fas fa-chevron-down"></i>
-                                </div>
-
-                                <div class="form-group ">
-                                  <label>Shift*</label>
-                                  <select
-                                    value={updatedate.shift || ""}
-                                    onChange={(e) => setupdatedate({ ...updatedate, shift: e.target.value })}
-                                  >
-                                    <option value="">Select the Employee shift</option>
-                                    <option>Night Shift</option>
-                                    <option>Day Shift</option>
-                                  </select>
-                                  <i class="fas fa-chevron-down"></i>
                                 </div>
                               </div>
 

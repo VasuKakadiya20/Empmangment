@@ -26,8 +26,6 @@ router.post('/create', async (req, res) => {
     breakOut:req.body.breakOut,
     lastOut:req.body.lastOut,
     totalHours:req.body.totalHours,
-    status:req.body.status,
-    shift:req.body.shift
   });
   console.log(attendance);
 
@@ -60,11 +58,11 @@ router.delete('/:id', async(req,res)=>{
     })
 })
 
-router.delete("/delete/:id", async (req, res) => {
+router.delete("/delete/:name", async (req, res) => {
   try {
-    const empid = req.params.id; 
+   const empname = req.params.name; 
 
-    const deletedData = await attendanceData.deleteMany({ "name": empid });
+    const deletedData = await attendanceData.deleteMany({ name: empname });
 
     if (deletedData.deletedCount === 0) {
       return res.status(404).json({
@@ -88,7 +86,7 @@ router.delete("/delete/:id", async (req, res) => {
 });
 
 router.get('/:id' ,async(req,res)=>{
-  const attendance = await attendanceData.findById(req.params.id) .populate('name', 'name');  ;
+  const attendance = await attendanceData.findById(req.params.id) ;
   if(!attendance){
     res.status(500).json({message:'the attendance given id was not found.'})
   }
@@ -104,8 +102,6 @@ router.put('/:id', async(req,res)=>{
     breakOut:req.body.breakOut,
     lastOut:req.body.lastOut,
     totalHours:req.body.totalHours,
-    status:req.body.status,
-    shift:req.body.shift
     },
     {new:true}
   );
