@@ -15,9 +15,9 @@ const HomeAttendance = () => {
   const [openDialog, setOpenDialog] = useState(false);
   const [updatedate, setupdatedate] = useState([])
 
-  const handleCloseDialog = () => {
-    setOpenDialog(false);
-  };
+  // const handleCloseDialog = () => {
+  //   setOpenDialog(false);
+  // };
 
   useEffect(() => {
     fetchDataFromApi('/att/').then((res) => {
@@ -26,29 +26,29 @@ const HomeAttendance = () => {
     window.scrollTo(0, 0);
   }, [])
 
-  const updateattendance = (_id) => {
-    setOpenDialog(true);
-    fetchDataFromApi(`/att/${_id}`).then((res) => {
-      setupdatedate(res)
-      console.log(res)
-    })
-  }
+  // const updateattendance = (_id) => {
+  //   setOpenDialog(true);
+  //   fetchDataFromApi(`/att/${_id}`).then((res) => {
+  //     setupdatedate(res)
+  //     console.log(res)
+  //   })
+  // }
 
-  const handleSaveUpdate = async (e) => {
-    e.preventDefault();
-    try {
-      await editdata(`/att/${updatedate._id}`, updatedate);
-      console.log(updatedate)
-      setattendance((prev) =>
-        prev.map((item) => (item._id === updatedate._id ? updatedate : item))
-      );
-      toast.success("Attendance update successfully!");
-      setOpenDialog(false);
-    } catch (error) {
-      toast.error("Failed to update Attendance");
-      console.error(error);
-    }
-  };
+  // const handleSaveUpdate = async (e) => {
+  //   e.preventDefault();
+  //   try {
+  //     await editdata(`/att/${updatedate._id}`, updatedate);
+  //     console.log(updatedate)
+  //     setattendance((prev) =>
+  //       prev.map((item) => (item._id === updatedate._id ? updatedate : item))
+  //     );
+  //     toast.success("Attendance update successfully!");
+  //     setOpenDialog(false);
+  //   } catch (error) {
+  //     toast.error("Failed to update Attendance");
+  //     console.error(error);
+  //   }
+  // };
 
   return (
     <>
@@ -76,12 +76,13 @@ const HomeAttendance = () => {
                 <tr>
                   <th></th>
                   <th>Employee Name</th>
+                  <th>Date</th>
                   <th>First In</th>
                   <th>Break In</th>
                   <th>Break Out</th>
                   <th>Last Out</th>
                   <th>Total Hours</th>
-                  <th>Actions</th>
+                  {/* <th>Actions</th> */}
                 </tr>
               </thead>
               <tbody>
@@ -92,12 +93,13 @@ const HomeAttendance = () => {
                       <img src={userimg} alt={item.name} />
                       {item.name}
                     </td>
+                    <td>{item.date}</td>
                     <td>{item.firstIn}</td>
                     <td>{item.break}</td>
                     <td>{item.breakOut}</td>
                     <td>{item.lastOut}</td>
                     <td>{item.totalHours}</td>
-                    <td>
+                    {/* <td>
                       <FaEdit className="action-icon" onClick={() => updateattendance(item._id)} />
                       <Dialog
                         open={openDialog}
@@ -236,7 +238,7 @@ const HomeAttendance = () => {
                           )}
                         </DialogContent>
                       </Dialog>
-                    </td>
+                    </td> */}
                   </tr>
                 ))}
               </tbody>
