@@ -86,6 +86,11 @@
   flex-wrap: wrap;
 }
 
+.submit-container{
+  margin-left: 300px !important;
+  margin-top: 10px !important;
+}
+
 .submit-btn {
  background-color: #0987e0 !important;
 color: white;
@@ -97,37 +102,55 @@ color: white;
   transition: background-color 0.2s ease-in-out;
 }
 
-  .form-group {
-      display: flex;
-      flex-direction: column;
-      position: relative;
-      width: 45%;
-    }
+.submit-btn:hover {
+  background-color: #086bb5 !important;
+}
 
-    label {
-      margin-bottom: 4px;
-      font-size: 14px;
-      font-weight: 500;
-      color: #3b3b3b;
-    }
+.form-groups {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 15px; 
+  margin-bottom: 16px;
+}
 
-    input[type="text"],
-    input[type="time"],
-    select {
-      padding: 12px 36px 12px 12px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      font-size: 15px;
-      background-color: white;
-      color: #333;
-      outline: none;
-    }
+.form-groups label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+  min-width: 100px; 
+  text-align: right; 
+}
 
-    .form-group i {
-      position: absolute;
-      right: 12px;
-      top: 36px;
-      color: #555;
-      font-size: 16px;
-      pointer-events: none;
-    }
+.time-btn {
+  background-color: #209CEE;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  white-space: nowrap;
+}
+
+.time-btn:hover {
+  background-color: #1274b1;
+}
+
+.time-display {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  background: #f2f2f2;
+  padding: 8px 14px;
+  border-radius: 6px;
+  min-width: 70px;
+  text-align: center;
+}
+
+.form-main{
+  margin-left: 300px !important;
+}
+
+

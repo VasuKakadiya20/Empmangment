@@ -17,31 +17,41 @@ router.get('/', async (req, res) => {
     }
 });
 
-router.post('/create', async (req, res) => {
-    try{
-  let attendance = new attendanceData({
-    name: req.body.name,
-    firstIn:req.body.firstIn,
-    break:req.body.break,
-    breakOut:req.body.breakOut,
-    lastOut:req.body.lastOut,
-    totalHours:req.body.totalHours,
-  });
-  console.log(attendance);
+router.get("/today", async (req, res) => {
+  try {
+    const { name, date } = req.query;
+    const record = await attendanceData.findOne({ name, date });
+    res.json({ success: true, record });
+  } catch (err) {
+    res.status(500).json({ success: false, message: "Error fetching attendance" });
+  }
+});
 
-  attendance = await attendance.save();
-  if (!attendance) {
-    return res.status(500).json({
-      error: "Error saving attendance",
-      success: false
-    });
+router.post("/mark", async (req, res) => {
+  try {
+    const { name, firstIn, break: breakIn, breakOut, lastOut, totalHours } = req.body;
+
+    const today = new Date().toISOString().split("T")[0]; // YYYY-MM-DD
+
+    let record = await attendanceData.findOne({ name, date: today });
+
+    if (!record) {
+      record = new attendanceData({ name, date: today });
+    }
+
+    if (firstIn) record.firstIn = firstIn;
+    if (breakIn) record.break = breakIn;
+    if (breakOut) record.breakOut = breakOut;
+    if (lastOut) record.lastOut = lastOut;
+    if (totalHours) record.totalHours = totalHours;
+
+    await record.save();
+
+    res.json({ success: true, record });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, message: err.message });
   }
-  res.status(201).json(attendance);  
-    }catch (err) {
-    console.error(err); 
-    res.status(500).json({ error: err.message });
-  }
-  
 });
 
 router.delete('/:id', async(req,res)=>{
@@ -91,31 +101,6 @@ router.get('/:id' ,async(req,res)=>{
     res.status(500).json({message:'the attendance given id was not found.'})
   }
   return res.status(200).send(attendance);
-})
-
-router.put('/:id', async(req,res)=>{
-  const attendance = await attendanceData.findByIdAndUpdate(
-    req.params.id,{
-      name: req.body.name,
-    firstIn:req.body.firstIn,
-    break:req.body.break,
-    breakOut:req.body.breakOut,
-    lastOut:req.body.lastOut,
-    totalHours:req.body.totalHours,
-    },
-    {new:true}
-  );
-
-  if(!attendance){
-    res.status(404).json({
-      message:'this is can not update',
-      status:false
-    })
-  }
-  res.status(200).json({
-    message:'attendance is update',
-    status:true
-  })
 })
 
 module.exports = router;

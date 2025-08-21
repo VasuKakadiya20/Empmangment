@@ -35,33 +35,33 @@ const Attendance = () => {
     setAge(event.target.value);
   };
 
-  const handleCloseDialog = () => {
-    setOpenDialog(false);
-  };
+  // const handleCloseDialog = () => {
+  //   setOpenDialog(false);
+  // };
 
-  const updateattendance = (_id) => {
-    setOpenDialog(true);
-    fetchDataFromApi(`/att/${_id}`).then((res) => {
-      setupdatedate(res)
-      console.log(res)
-    })
-  }
+  // const updateattendance = (_id) => {
+  //   setOpenDialog(true);
+  //   fetchDataFromApi(`/att/${_id}`).then((res) => {
+  //     setupdatedate(res)
+  //     console.log(res)
+  //   })
+  // }
 
-  const handleSaveUpdate = async (e) => {
-    e.preventDefault();
-    try {
-      await editdata(`/att/${updatedate._id}`, updatedate);
-      console.log(updatedate)
-      setattendance((prev) =>
-        prev.map((item) => (item._id === updatedate._id ? updatedate : item))
-      );
-      toast.success("Attendance update successfully !");
-      setOpenDialog(false);
-    } catch (error) {
-      toast.error("Failed to update Attendance");
-      console.error(error);
-    }
-  };
+  // const handleSaveUpdate = async (e) => {
+  //   e.preventDefault();
+  //   try {
+  //     await editdata(`/att/${updatedate._id}`, updatedate);
+  //     console.log(updatedate)
+  //     setattendance((prev) =>
+  //       prev.map((item) => (item._id === updatedate._id ? updatedate : item))
+  //     );
+  //     toast.success("Attendance update successfully !");
+  //     setOpenDialog(false);
+  //   } catch (error) {
+  //     toast.error("Failed to update Attendance");
+  //     console.error(error);
+  //   }
+  // };
 
   const deletedataattendance = (_id) => {
     deletedata(`/att/${_id}`).then((res) => {
@@ -99,6 +99,7 @@ const Attendance = () => {
                 <tr>
                   <th></th>
                   <th>Employee Name</th>
+                  <th>Data</th>
                   <th>First In</th>
                   <th>Break In</th>
                   <th>Break Out</th>
@@ -115,15 +116,16 @@ const Attendance = () => {
                       <img src={userimg} alt={item.name?.name} />
                       {item.name}
                     </td>
+                    <td>{item.date}</td>
                     <td>{item.firstIn}</td>
                     <td>{item.break}</td>
                     <td>{item.breakOut}</td>
                     <td>{item.lastOut}</td>
                     <td>{item.totalHours}</td>
                     <td>
-                      <FaEdit className="action-icon" onClick={() => updateattendance(item._id)} />
+                      {/* <FaEdit className="action-icon" onClick={() => updateattendance(item._id)} /> */}
                       <DeleteIcon className="action-icon2" onClick={() => deletedataattendance(item._id)} />
-                      <Dialog
+                      {/* <Dialog
                         open={openDialog}
                         onClose={handleCloseDialog}
                         maxWidth="md"
@@ -248,7 +250,7 @@ const Attendance = () => {
                             </form>
                           )}
                         </DialogContent>
-                      </Dialog>
+                      </Dialog> */}
                     </td>
                   </tr>
                 ))}

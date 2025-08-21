@@ -25,6 +25,10 @@ const attendanceSchema = mongoose.Schema({
     type: String, 
     required: false,
   },
+   date: { 
+    type: String, 
+    required: true 
+  }, 
 });
 
 module.exports = mongoose.model('attendanceData', attendanceSchema);

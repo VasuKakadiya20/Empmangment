@@ -84,14 +84,14 @@ const storedUser = JSON.parse(localStorage.getItem("user")) || { user: {} };
             <div className="col-sm-7 d-flex align-items-center justify-content-end gap-3 part3">
             
                   <div className="dropdownWrapper position-relative ml-5">
-                      {role === "Admin" && (
+                    
                 <Button
                   className="rounded-circle mr-3"
                   onClick={handleOpenNotificationsDrop}>
                   {" "}
                   <MdOutlineNotifications />
                 </Button>
-                     )}
+                    
 
                 <Button
                   className="rounded-circle mr-3 isopennav"
