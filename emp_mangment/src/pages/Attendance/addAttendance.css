@@ -152,5 +152,9 @@ color: white;
 .form-main{
   margin-left: 300px !important;
 }
+.form-main label{
+  font-size: 18px !important;
+  margin-right: 5px !important;
+}
 
 

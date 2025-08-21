@@ -336,7 +336,7 @@ const AddAttendance = () => {
                 </div>
 
                 <div className="form-main">
-                  <label>Total Hours</label>
+                  <label>Total Hours :</label>
                   <span className="time-display">{form.totalHours}</span>
                 </div>
 
