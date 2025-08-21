@@ -91,7 +91,7 @@ const storedUser = JSON.parse(localStorage.getItem("user")) || { user: {} };
                   {" "}
                   <MdOutlineNotifications />
                 </Button>
-                    
+                     
 
                 <Button
                   className="rounded-circle mr-3 isopennav"
@@ -241,7 +241,7 @@ const storedUser = JSON.parse(localStorage.getItem("user")) || { user: {} };
                     onClick={handleOpenMyAccDrop}>
                     <div className="user-img">
                       <span className="rounded-circle">
-                        <img src={Admin} alt="user" />
+                        <img src={user} alt="user" />
                       </span>
                     </div>
                     <div className="use-info res-hide">
