@@ -125,5 +125,37 @@ router.put('/:id', async(req,res)=>{
 })
 
 
+router.get("/status/:name", async (req, res) => {
+  try {
+    const { name } = req.params;
+    const latestLeave = await leave.findOne({ name })
+
+    if (!latestLeave) {
+      return res.status(404).json({
+        message: "No leave record found",
+        status: false
+      });
+    }
+
+    // let statusMsg;
+    // if (latestLeave.Status === "Approved") {
+    //   statusMsg = `✅ Your leave request (${latestLeave.Numberofdays} days) was Approved on ${latestLeave.ApprovedDate}`;
+    // } else (latestLeave.Status === "Rejected") 
+    //   statusMsg = `❌ Your leave request (${latestLeave.Numberofdays} days) was Rejected on ${latestLeave.ApprovedDate}`;
+    //else {
+     // statusMsg = `⏳ Your leave request (${latestLeave.Numberofdays} days) is still Pending`;
+   // }
+
+  return res.status(200).send(latestLeave);
+  } catch (err) {
+    res.status(500).json({
+      message: "Server error",
+      status: false,
+      error: err.message
+    });
+  }
+});
+
+
 
 module.exports = router;

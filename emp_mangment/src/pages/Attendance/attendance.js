@@ -109,7 +109,7 @@ const Attendance = () => {
                 </tr>
               </thead>
               <tbody>
-                {attendance.map((item, index) => (
+                {attendance .sort((a, b) => new Date(b.date) - new Date(a.date)) .map((item, index) => (
                   <tr key={index}>
                     <td><input type="checkbox" /></td>
                     <td className="emp-name">

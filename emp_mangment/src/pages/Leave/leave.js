@@ -253,8 +253,8 @@ const LeaveRequests = () => {
                                     onChange={(e) => setupdatedate({ ...updatedate, Status: e.target.value })}
                                   >
                                     <option value="">Select The Status</option>
-                                    <option>approved</option>
-                                    <option>rejected</option>
+                                    <option>Approved</option>
+                                    <option>Rejected</option>
                                     <option>pending</option>
                                   </select>
                                   <i class="fas fa-chevron-down"></i>

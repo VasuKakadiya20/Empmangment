@@ -22,7 +22,7 @@ const leaveschema = mongoose.Schema({
     required:true
    },
    Status:{
-    type:String,
+    type:String, 
     required:false
    },
    Reason:{

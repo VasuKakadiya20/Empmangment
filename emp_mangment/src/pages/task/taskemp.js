@@ -57,8 +57,7 @@ useEffect(() => {
 
   if (empname) {
     setForm((prev) => ({ ...prev, name: empname }));
-    fetchDataFromApi(`/task/taske/${empname}`)
-      .then((res) => {
+    fetchDataFromApi(`/task/taske/${empname}`).then((res) => {
         settaskdata(res);
       })
       .catch((err) => {
@@ -68,6 +67,8 @@ useEffect(() => {
 
   window.scrollTo(0, 0);
 }, []);
+
+ 
 
 
     const updatetask = (_id) => {

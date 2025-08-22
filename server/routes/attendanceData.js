@@ -31,7 +31,7 @@ router.post("/mark", async (req, res) => {
   try {
     const { name, firstIn, break: breakIn, breakOut, lastOut, totalHours } = req.body;
 
-    const today = new Date().toISOString().split("T")[0]; // YYYY-MM-DD
+    const today = new Date().toISOString().split("T")[0];
 
     let record = await attendanceData.findOne({ name, date: today });
 

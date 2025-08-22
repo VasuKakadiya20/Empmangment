@@ -96,12 +96,12 @@ tbody tr:hover {
   display: inline-block;
 }
 
-.status.approved {
+.status.Approved {
   background-color: #e1f5ec;
   color: #2e7d32;
 }
 
-.status.rejected {
+.status.Rejected {
   background-color: #fdecea;
   color: #c62828;
 }
