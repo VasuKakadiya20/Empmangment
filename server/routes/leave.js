@@ -128,7 +128,7 @@ router.put('/:id', async(req,res)=>{
 router.get("/status/:name", async (req, res) => {
   try {
     const { name } = req.params;
-    const latestLeave = await leave.findOne({ name })
+    const latestLeave = await leave.find({ name })
 
     if (!latestLeave) {
       return res.status(404).json({
