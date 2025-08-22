@@ -28,7 +28,7 @@ export const Header = () => {
   const [taskdata, settaskdata] = useState([])
   const [leaveNotifications, setLeaveNotifications] = useState([]);
   const [isOpennotificationsDrop, setIsOpenNotificationsDrop] = useState(null);
-  const storedUser = JSON.parse(localStorage.getItem("user")) || {};
+const storedUser = JSON.parse(localStorage.getItem("user")) || { user: {} };
   const context = useContext(mycontext);
   const navigate = useNavigate();
   const role = storedUser.role || "Admin";
@@ -384,16 +384,6 @@ export const Header = () => {
                     </MenuItem>
                     <MenuItem className="logout"
                       onClick={() => logout()}>
-                      {/* <MenuItem className="logout"
-                onClick={() => { context.setislogin(false);
-                   localStorage.removeItem("user");   
-                  handleCloseMyAccDrop(); 
-                   setSnack({
-                  open: true,
-                  message: "Logged out successfully",
-                  severity: "error"
-                });
-    }}> */}
                       <ListItemIcon>
                         <LockOutlineIcon fontSize="small" />
                       </ListItemIcon>
