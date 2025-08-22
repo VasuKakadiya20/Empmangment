@@ -241,8 +241,8 @@ export const Header = () => {
                     <Divider className="mb-1" />
 
                     <div className="scroll">
-                      {leaveNotifications .filter((item) =>  item.leave?.Status && item.leave?.Status !== "Pending").map((item, idx) => (
-                        <MenuItem key={item.leave?._id || idx} onClick={handleCloseNotificationsDrop}>
+                      {leaveNotifications .filter((item) => item.Status !== "pending").map((item, idx) => (
+                        <MenuItem key={item._id || idx} onClick={handleCloseNotificationsDrop}>
                           <div className="d-flex">
                             <div>
                               <UserImg img={user} />
@@ -250,21 +250,22 @@ export const Header = () => {
                             <div className="dropdown-info">
                               <p className="mb-0">
                                 Your leave from{" "}
-                                <b>{new Date(item.leave?.leaveFrom).toLocaleDateString()}</b> <br />to{" "}
-                                <b>{new Date(item.leave?.leaveTo).toLocaleDateString()}</b>{" "}
+                                <b>{new Date(item.leaveFrom).toLocaleDateString()}</b> <br />to{" "}
+                                <b>{new Date(item.leaveTo).toLocaleDateString()}</b>{" "}
                                 was{" "}
                                 <span
                                   style={{
                                     color:
-                                      item.leave?.Status === "Approved"
+                                      item.Status === "Approved"
                                         ? "green"
-                                        : item.leave?.Status === "Rejected"
+                                        : item.Status === "Rejected"
                                           ? "red"
                                           : "orange",
                                     fontWeight: "bold",
                                   }}
                                 >
-                                  {item.leave?.Status}
+                                  {item.Status}
+
                                 </span>
                               </p>
                             </div>
