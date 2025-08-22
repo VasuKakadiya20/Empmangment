@@ -66,7 +66,11 @@ const storedUser = JSON.parse(localStorage.getItem("user")) || { user: {} };
       const empname = storedUser.user?.name || "";
 
       fetchDataFromApi(`/task/taske/${empname}`).then((res) => {
-        settaskdata(res);
+       if (Array.isArray(res)) {
+    settaskdata(res);
+  } else {
+    settaskdata([]); 
+  }
       });
 
       fetchDataFromApi(`/leave/status/${empname}`).then((res) => {
@@ -272,7 +276,7 @@ const storedUser = JSON.parse(localStorage.getItem("user")) || { user: {} };
                           </div>
                         </MenuItem>
                       ))}
-                      {taskdata.map((item) => (
+                      {taskdata.filter(item => item?.name).map((item) => (
                         <MenuItem key={item._id} onClick={handleCloseNotificationsDrop}>
                           <div className="d-flex">
                             <div>
