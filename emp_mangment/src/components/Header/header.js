@@ -71,7 +71,7 @@ const storedUser = JSON.parse(localStorage.getItem("user")) || { user: {} };
 
       fetchDataFromApi(`/leave/status/${empname}`).then((res) => {
         console.log(res)
-        setLeaveNotifications([res]);
+        setLeaveNotifications(res);
       });
     }
   }, []);
@@ -241,7 +241,7 @@ const storedUser = JSON.parse(localStorage.getItem("user")) || { user: {} };
                     <Divider className="mb-1" />
 
                     <div className="scroll">
-                      {leaveNotifications .filter((item) => item.Status !== "pending").map((item, idx) => (
+                      {leaveNotifications .filter((item) =>   item.Status && item.Status !== "Pending" ).map((item, idx) => (
                         <MenuItem key={item._id || idx} onClick={handleCloseNotificationsDrop}>
                           <div className="d-flex">
                             <div>
@@ -273,7 +273,6 @@ const storedUser = JSON.parse(localStorage.getItem("user")) || { user: {} };
                         </MenuItem>
                       ))}
                       {taskdata.map((item) => (
-                        <>
                         <MenuItem key={item._id} onClick={handleCloseNotificationsDrop}>
                           <div className="d-flex">
                             <div>
@@ -293,7 +292,6 @@ const storedUser = JSON.parse(localStorage.getItem("user")) || { user: {} };
                             </div>
                           </div>
                         </MenuItem>
-                        </>
                       ))}
                     </div>
                     <div className="pl-5 pr-5 pb-1 mt-2 w-100">
