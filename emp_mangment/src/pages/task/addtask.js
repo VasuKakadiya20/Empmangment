@@ -9,10 +9,10 @@ const Addtask = () => {
   const context = useContext(mycontext)
   const [form, setForm] = useState({
     name: "",
-    title: "",
-    duedate: "",
-    details: "",
-    status: "",
+    title:"",
+    duedate:"",
+    details:"",
+    status:"",
   });
 
   const handleChange = (e) => {
@@ -22,9 +22,9 @@ const Addtask = () => {
     });
   };
 
-  useEffect(() => {
-    context.setIsHideSidebarAndHeader(false);
-    fetchDataFromApi(`/emp/`).then((res) => {
+  useEffect(() =>{
+    context.setIsHideSidebarAndHeader(false); 
+    fetchDataFromApi(`/emp/`).then((res)=>{
       setEmployees(res);
     })
   })
@@ -36,11 +36,11 @@ const Addtask = () => {
       toast.success("Task added successfully!");
       console.log("Success:", res);
       setForm({
-        name: "",
-        title: "",
-        duedate: "",
-        details: "",
-        status: "",
+      name: "",
+    title:"",
+    duedate:"",
+    details:"",
+    status:"",
       })
     } catch (err) {
       toast.error("Something went wrong");
@@ -73,7 +73,7 @@ const Addtask = () => {
               {/* <h2 className="form-title">New Entry</h2> */}
               <form className="employee-form" onSubmit={handleSubmit}>
                 <div className="form-row">
-                  <div className="form-group">
+                   <div className="form-group">
                     <label>Employee Name*</label>
                     <select
                       name="name"
@@ -89,42 +89,42 @@ const Addtask = () => {
                     </select>
                   </div>
 
-                  <div class="form-group">
-                    <label>Title*</label>
-                    <input type="text" name="title" value={form.title} onChange={handleChange} />
-                  </div>
+                       <div class="form-group">
+                                   <label>Title*</label>
+                                  <input type="text"   name="title" value={form.title} onChange={handleChange} />
+                                </div>
 
                 </div>
 
-                <div className="form-row">
+              <div className="form-row">
+                            
+                      <div class="form-group">
+                                  <label>Due Date*</label>
+                                    <input type="Date"  name="duedate" value={form.duedate}  onChange={handleChange} />
+                                </div>
 
-                  <div class="form-group">
-                    <label>Due Date*</label>
-                    <input type="Date" name="duedate" value={form.duedate} onChange={handleChange} />
-                  </div>
+                                 <div class="form-group">
+                                  <label>Status*</label>
+                                  <select name="status"
+                                    value={form.status} onChange={handleChange} >
+                                    <option value="">Select The status</option>
+                                    <option >pending</option>
+                                    <option value="In_Progress">In Progress</option>
+                                    <option >Completed</option>
+                                  </select>
+                                </div>
 
-                  <div class="form-group">
-                    <label>Status*</label>
-                    <select name="status"
-                      value={form.status} onChange={handleChange} >
-                      <option value="">Select The status</option>
-                      <option >pending</option>
-                      <option value="In_Progress">In Progress</option>
-                      <option >Completed</option>
-                    </select>
-                  </div>
+                              </div>
 
-                </div>
-
-                <div className="form-row">
-                  <div class="form-group">
-                    <label>Details*</label>
-                    <textarea name="details" value={form.details} onChange={handleChange} />
-                  </div>
-                  <div class="form-group"></div>
-
-                </div>
-
+                            <div className="form-row">
+                                 <div class="form-group">
+                                 <label>Details*</label>
+                                      <textarea name="details" value={form.details}  onChange={handleChange} />
+                                 </div>
+                                  <div class="form-group"></div>
+                                 
+                                </div>
+                    
                 <button type="submit" className="submit-btn mt-3">Submit</button>
               </form>
             </div>
