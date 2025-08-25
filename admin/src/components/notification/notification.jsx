@@ -6,7 +6,7 @@ import userimg from "../../assets/images/user.png"
 
 export default function AdminNotifications() {
   useEffect(() => {
-    const socket = io("https://empbackend-ten.vercel.app", { transports: ["websocket"] });
+    const socket = io("https://empmangment-backend.onrender.com", { transports: ["websocket"] });
 
     socket.on("connect", () => {
       console.log("Connected to socket server:", socket.id);
