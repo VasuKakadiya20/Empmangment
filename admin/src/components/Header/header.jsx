@@ -12,6 +12,7 @@ import logo from "../../assets/images/logo.png";
 import user from "../../assets/images/user.png";
 import { MdOutlineEmail } from "react-icons/md";
 import { MdArrowDropDown } from "react-icons/md";
+import Admin from "../../assets/images/admin.png";
 import { IoSettingsSharp } from "react-icons/io5";
 import { MdOutlineMenuOpen } from "react-icons/md";
 import React, { useContext, useEffect, useState } from "react";
@@ -30,7 +31,7 @@ export const Header = () => {
 const storedUser = JSON.parse(localStorage.getItem("user")) || { user: {} };
   const context = useContext(mycontext);
   const navigate = useNavigate();
-  const role = storedUser.role || "Admin";
+  // const role = storedUser.role || "Admin";
 
   const openMyacc = Boolean(anchorEl);
   const handleOpenMyAccDrop = (event) => {
@@ -57,19 +58,9 @@ const storedUser = JSON.parse(localStorage.getItem("user")) || { user: {} };
   }
 
   useEffect(() => {
-      const empname = storedUser.user?.name || "";
-
-      fetchDataFromApi(`/task/taske/${empname}`).then((res) => {
-       if (Array.isArray(res)) {
-    settaskdata(res);
-  } else {
-    settaskdata([]); 
-  }
-      });
-
-      fetchDataFromApi(`/leave/status/${empname}`).then((res) => {
-        console.log(res)
-        setLeaveNotifications(res);
+   
+      fetchDataFromApi("/leave/").then((res) => {
+        setleaveData(res);
       });
   }, []);
 
@@ -104,6 +95,7 @@ const storedUser = JSON.parse(localStorage.getItem("user")) || { user: {} };
             )}
 
             <div className="col-sm-7 d-flex align-items-center justify-content-end gap-3 part3">
+             
                 <div className="dropdownWrapper position-relative ml-5">
 
                   <Button
@@ -154,59 +146,31 @@ const storedUser = JSON.parse(localStorage.getItem("user")) || { user: {} };
                     <Divider className="mb-1" />
 
                     <div className="scroll">
-                      {leaveNotifications .filter((item) =>   item.Status && item.Status !== "Pending" ).map((item, idx) => (
-                        <MenuItem key={item._id || idx} onClick={handleCloseNotificationsDrop}>
-                          <div className="d-flex">
-                            <div>
-                              <UserImg img={user} />
+                      {leaveData
+                        .sort((a, b) => new Date(b.RequestedOn) - new Date(a.RequestedOn)) // latest first
+                        .map((item) => (
+                          <MenuItem key={item._id} onClick={handleCloseNotificationsDrop}>
+                            <div className="d-flex">
+                              <div>
+                                <UserImg img={user} />
+                              </div>
+                              <div className="dropdown-info">
+                                <h4>
+                                  <span>
+                                    <b>{item.name}</b>
+                                    <br />
+                                    <b>requested leave for {item.Numberofdays} days</b>
+                                  </span>
+                                </h4>
+                                <p className="text-sky mb-0">
+                                  {new Date(item.RequestedOn).toLocaleDateString()}
+                                </p>
+                              </div>
                             </div>
-                            <div className="dropdown-info">
-                              <p className="mb-0">
-                                Your leave from{" "}
-                                <b>{new Date(item.leaveFrom).toLocaleDateString()}</b> <br />to{" "}
-                                <b>{new Date(item.leaveTo).toLocaleDateString()}</b>{" "}
-                                was{" "}
-                                <span
-                                  style={{
-                                    color:
-                                      item.Status === "Approved"
-                                        ? "green"
-                                        : item.Status === "Rejected"
-                                          ? "red"
-                                          : "orange",
-                                    fontWeight: "bold",
-                                  }}
-                                >
-                                  {item.Status}
-
-                                </span>
-                              </p>
-                            </div>
-                          </div>
-                        </MenuItem>
-                      ))}
-                      {taskdata.filter(item => item?.name).map((item) => (
-                        <MenuItem key={item._id} onClick={handleCloseNotificationsDrop}>
-                          <div className="d-flex">
-                            <div>
-                              <UserImg img={user} />
-                            </div>
-                            <div className="dropdown-info">
-                              <h4>
-                                <span>
-                                  <b>{item.name?.name}</b>
-                                  <br />
-                                  <b>Title : {item.title}</b>
-                                </span>
-                              </h4>
-                              <p className="text-sky mb-0">
-                                Due Date : {new Date(item.duedate).toLocaleDateString()}
-                              </p>
-                            </div>
-                          </div>
-                        </MenuItem>
-                      ))}
+                          </MenuItem>
+                        ))}
                     </div>
+
                     <div className="pl-5 pr-5 pb-1 mt-2 w-100">
                       <Button className="btn-blue w-100 py-2 px-3">
                         View all notifications
@@ -214,8 +178,6 @@ const storedUser = JSON.parse(localStorage.getItem("user")) || { user: {} };
                     </div>
                   </Menu>
                 </div>
-
-
               {context.islogin !== true ? (
                 <Link to={"/"}>
                   <Button className="btn-blue btn-big btn-round">Sign in</Button>
@@ -311,3 +273,4 @@ const storedUser = JSON.parse(localStorage.getItem("user")) || { user: {} };
 };
 
 export default Header;
+

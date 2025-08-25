@@ -14,6 +14,7 @@ import FormControl from '@mui/material/FormControl';
 import { toast, ToastContainer } from "react-toastify";
 import DialogContent from "@mui/material/DialogContent";
 import { editdata, fetchDataFromApi } from "../../uttils/api";
+import './task.css'
 
 
 const Taskemplist = () => {

@@ -1,14 +1,18 @@
 import './App.css';
 import './responsive.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import AddLeave from './pages/Leave/addLeave';
-import Header from './components/Header/header';
-import LoginSignupForm from './pages/login/login';
-import Sidebar from './components/sidebar/sidebar';
+import LeaveRequests from './pages/Leave/leave.jsx';
+import Header from './components/Header/header.jsx';
+import LoginSignupForm from './pages/login/login.jsx';
+import Dashboard from './pages/Deshbord/Dashbord.jsx';
+import Sidebar from './components/sidebar/sidebar.jsx';
+import AllEmployees from './pages/employee/emplist.jsx';
+import AddEmployeeForm from './pages/employee/addemp.jsx';
+import Attendance from './pages/Attendance/attendance.jsx';
 import { createContext, useEffect, useState } from 'react';
-import AddAttendance from './pages/Attendance/addAttendance';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Taskemplist from './pages/task/taskemp';
+import Addtask from './pages/task/addtask.jsx';
+import Tasklist from './pages/task/task.jsx';
 const mycontext = createContext()
 
 function App() {
@@ -72,9 +76,13 @@ function App() {
             <div className={`content ${isHideSidebarAndHeader === true && 'full '} ${isToggleSidebar === true ? 'toggle' : ''}`}>
               <Routes>
                 <Route path="/" element={<LoginSignupForm />} exact={true} />
-                <Route path="/attendence/add" element={<AddAttendance />} exact={true} />
-                <Route path='/leave/add'element = {<AddLeave/>} exact={true}/>
-                <Route path='/taskemp'element ={<Taskemplist/>}exact={true}/>
+                <Route path="/Dashboard" element={<Dashboard />} exact={true} />
+                <Route path="/Emplyees" element={<AllEmployees />} exact={true} />
+                <Route path="/Emplyees/add" element={<AddEmployeeForm />} exact={true} />
+                <Route path="/attendence" element={<Attendance />} exact={true} />
+                <Route path="/leave" element={<LeaveRequests />} exact={true} />
+                <Route path='/task' element ={<Tasklist/>} exact={true}/>
+                <Route path='/task/add' element = {<Addtask/>} exact={true}/>
               </Routes>
             </div>
           </div>

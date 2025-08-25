@@ -1,7 +1,7 @@
 import { mycontext } from "../../App";
 import Menu from "@mui/material/Menu";
 import { IoMenu } from "react-icons/io5";
-import UserImg from "../UserImg/UserImg";
+import UserImg from "../User Img/UserImg";
 import Button from "@mui/material/Button";
 import Divider from "@mui/material/Divider";
 import MenuItem from "@mui/material/MenuItem";
@@ -20,25 +20,18 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import { MdOutlineNotifications } from "react-icons/md";
 import LockOutlineIcon from "@mui/icons-material/LockOutline";
 import { fetchDataFromApi } from "../../uttils/api";
+import { io } from "socket.io-client"; // Import Socket.IO client
+
+const socket = io("http://your-server-url"); // Replace with your server URL
 
 export const Header = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [leaveData, setleaveData] = useState([])
-  const [taskdata, settaskdata] = useState([])
-  const [leaveNotifications, setLeaveNotifications] = useState([]);
+  const [leaveData, setLeaveData] = useState([]);
+  const [notifications, setNotifications] = useState([]); // State for notifications
   const [isOpennotificationsDrop, setIsOpenNotificationsDrop] = useState(null);
-const storedUser = JSON.parse(localStorage.getItem("user")) || { user: {} };
+  const storedUser  = JSON.parse(localStorage.getItem("user")) || { user: {} };
   const context = useContext(mycontext);
   const navigate = useNavigate();
-  const role = storedUser.role || "Admin";
-
-  const openMyacc = Boolean(anchorEl);
-  const handleOpenMyAccDrop = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleCloseMyAccDrop = () => {
-    setAnchorEl(null);
-  };
 
   const openNotifications = Boolean(isOpennotificationsDrop);
   const handleOpenNotificationsDrop = () => {
@@ -54,26 +47,23 @@ const storedUser = JSON.parse(localStorage.getItem("user")) || { user: {} };
     localStorage.removeItem("user");
     handleCloseMyAccDrop();
     navigate("/");
-  }
+  };
 
   useEffect(() => {
-      const empname = storedUser.user?.name || "";
+    fetchDataFromApi("/leave/").then((res) => {
+      setLeaveData(res);
+    });
 
-      fetchDataFromApi(`/task/taske/${empname}`).then((res) => {
-       if (Array.isArray(res)) {
-    settaskdata(res);
-  } else {
-    settaskdata([]); 
-  }
-      });
+    // Listen for notifications from the server
+    socket.on("notification", (notification) => {
+      setNotifications((prev) => [...prev, notification]);
+    });
 
-      fetchDataFromApi(`/leave/status/${empname}`).then((res) => {
-        console.log(res)
-        setLeaveNotifications(res);
-      });
+    // Clean up the socket connection on component unmount
+    return () => {
+      socket.off("notification");
+    };
   }, []);
-
-
 
   return (
     <>
@@ -86,137 +76,79 @@ const storedUser = JSON.parse(localStorage.getItem("user")) || { user: {} };
                 <span className="ml-2">TeamTrack</span>
               </Link>
             </div>
-            {context.windowWidth > 992 && (
-              <div className="col-sm-3 d-flex align-items-center part2 res-hide gap-2">
+            <div className="col-sm-7 d-flex align-items-center justify-content-end gap-3 part3">
+              <div className="dropdownWrapper position-relative ml-5">
                 <Button
                   className="rounded-circle mr-3"
-                  onClick={() =>
-                    context.setIsToggleSidebar(!context.isToggleSidebar)
-                  }>
-                  {context.isToggleSidebar === false ? (
-                    <MdOutlineMenuOpen />
-                  ) : (
-                    <MdOutlineMenu />
-                  )}
+                  onClick={handleOpenNotificationsDrop}>
+                  <MdOutlineNotifications />
                 </Button>
-                <SearchBox />
-              </div>
-            )}
 
-            <div className="col-sm-7 d-flex align-items-center justify-content-end gap-3 part3">
-                <div className="dropdownWrapper position-relative ml-5">
-
-                  <Button
-                    className="rounded-circle mr-3"
-                    onClick={handleOpenNotificationsDrop}>
-                    {" "}
-                    <MdOutlineNotifications />
-                  </Button>
-
-
-                  <Button
-                    className="rounded-circle mr-3 isopennav"
-                    onClick={() => context.openNav()}>
-                    {" "}
-                    <IoMenu />
-                  </Button>
-
-                  <Menu
-                    anchorEl={isOpennotificationsDrop}
-                    id="notifications"
-                    className="notifications dropdown_list head"
-                    open={openNotifications}
-                    onClose={handleOpenNotificationsDrop}
-                    onClick={handleCloseNotificationsDrop}
-                    slotProps={{
-                      paper: {
-                        elevation: 0,
-                        sx: {
-                          overflow: "visible",
-                          filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
-                          "& .MuiAvatar-root": {
-                            width: 32,
-                            height: 32,
-                            ml: -0.5,
-                            mr: 1,
-                          },
-                        },
+                <Menu
+                  anchorEl={isOpennotificationsDrop}
+                  id="notifications"
+                  className="notifications dropdown_list head"
+                  open={openNotifications}
+                  onClose={handleCloseNotificationsDrop}
+                  slotProps={{
+                    paper: {
+                      elevation: 0,
+                      sx: {
+                        overflow: "visible",
+                        filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
                       },
-                    }}
-                    transformOrigin={{ horizontal: "right", vertical: "top" }}
-                    anchorOrigin={{ horizontal: "right", vertical: "bottom" }}>
-                    <div className="heads pl-3 pb-0">
-                      <h4 id="orders" style={{ fontSize: "1.3rem" }}>
-                        Notificatrions
-                      </h4>
-                    </div>
+                    },
+                  }}
+                  transformOrigin={{ horizontal: "right", vertical: "top" }}
+                  anchorOrigin={{ horizontal: "right", vertical: "bottom" }}>
+                  <div className="heads pl-3 pb-0">
+                    <h4 id="orders" style={{ fontSize: "1.3rem" }}>
+                      Notifications
+                    </h4>
+                  </div>
 
-                    <Divider className="mb-1" />
+                  <Divider className="mb-1" />
 
-                    <div className="scroll">
-                      {leaveNotifications .filter((item) =>   item.Status && item.Status !== "Pending" ).map((item, idx) => (
-                        <MenuItem key={item._id || idx} onClick={handleCloseNotificationsDrop}>
+                  <div className="scroll">
+                    {notifications.length > 0 ? (
+                      notifications.map((item, index) => (
+                        <MenuItem key={index} onClick={handleCloseNotificationsDrop}>
                           <div className="d-flex">
                             <div>
-                              <UserImg img={user} />
-                            </div>
-                            <div className="dropdown-info">
-                              <p className="mb-0">
-                                Your leave from{" "}
-                                <b>{new Date(item.leaveFrom).toLocaleDateString()}</b> <br />to{" "}
-                                <b>{new Date(item.leaveTo).toLocaleDateString()}</b>{" "}
-                                was{" "}
-                                <span
-                                  style={{
-                                    color:
-                                      item.Status === "Approved"
-                                        ? "green"
-                                        : item.Status === "Rejected"
-                                          ? "red"
-                                          : "orange",
-                                    fontWeight: "bold",
-                                  }}
-                                >
-                                  {item.Status}
-
-                                </span>
-                              </p>
-                            </div>
-                          </div>
-                        </MenuItem>
-                      ))}
-                      {taskdata.filter(item => item?.name).map((item) => (
-                        <MenuItem key={item._id} onClick={handleCloseNotificationsDrop}>
-                          <div className="d-flex">
-                            <div>
-                              <UserImg img={user} />
+                              <User Img img={user} />
                             </div>
                             <div className="dropdown-info">
                               <h4>
                                 <span>
-                                  <b>{item.name?.name}</b>
+                                  <b>{item.name}</b>
                                   <br />
-                                  <b>Title : {item.title}</b>
+                                  <b>requested leave for {item.Numberofdays} days</b>
                                 </span>
                               </h4>
                               <p className="text-sky mb-0">
-                                Due Date : {new Date(item.duedate).toLocaleDateString()}
+                                {new Date(item.RequestedOn).toLocaleDateString()}
                               </p>
                             </div>
                           </div>
                         </MenuItem>
-                      ))}
-                    </div>
-                    <div className="pl-5 pr-5 pb-1 mt-2 w-100">
-                      <Button className="btn-blue w-100 py-2 px-3">
-                        View all notifications
-                      </Button>
-                    </div>
-                  </Menu>
-                </div>
+                      ))
+                    ) : (
+                      <MenuItem>
+                        <div className="d-flex">
+                          <p>No new notifications</p>
+                        </div>
+                      </MenuItem>
+                    )}
+                  </div>
 
-
-              {context.islogin !== true ? (
+                  <div className="pl-5 pr-5 pb-1 mt-2 w-100">
+                    <Button className="btn-blue w-100 py-2 px-3">
+                      View all notifications
+                    </Button>
+                  </div>
+                </Menu>
+              </div>
+                {context.islogin !== true ? (
                 <Link to={"/"}>
                   <Button className="btn-blue btn-big btn-round">Sign in</Button>
                 </Link>

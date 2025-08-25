@@ -22,6 +22,7 @@ const LoginSignupForm = () => {
     message: "",
     severity: "success",
   });
+
   useEffect(() => {
     context.setIsHideSidebarAndHeader(true);
   }, []);
@@ -36,26 +37,9 @@ const LoginSignupForm = () => {
   };
 
   const handleChange = (e) => {
-  const { name, value } = e.target;
-
-  if (name === "logintype" && value === "Admin") {
-    setForm({
-      ...form,
-      logintype: value,
-      Email: "admin@example.com",
-      password: "admin123",
-    });
-  } else if (name === "logintype" && value === "Employee") {
-    setForm({
-      ...form,
-      logintype: value,
-      Email: "",
-      password: "",
-    });
-  } else {
+    const { name, value } = e.target;
     setForm({ ...form, [name]: value });
-  }
-};
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -76,33 +60,13 @@ const LoginSignupForm = () => {
       }
     }
 
-    if (form.logintype === "Admin") {
-      const adminUser = "admin@example.com";
-      const adminPass = "admin123";
-
-      if (form.Email === adminUser && form.password === adminPass) {
-        showSnackbar("Admin login successful!", "success");
-        localStorage.setItem(
-          "user",
-          JSON.stringify({ role: "Admin",  user: form.Email })
-        );
-        context.setislogin(true);
-        setTimeout(() => {
-          navigate("/Dashboard");
-        }, 1000);
-      } else {
-        showSnackbar("Invalid Admin credentials!", "error");
-      }
-      return;
-    }
-
     try {
       if (isLogin) {
         const res = await loginData("/signup/login", {
           Email: form.Email,
           password: form.password,
         });
-        localStorage.setItem( "user",JSON.stringify({ role: "employee", user: res.user }));
+        localStorage.setItem("user", JSON.stringify({ role: "employee", user: res.user }));
         showSnackbar("Login successful!", "success");
         context.setislogin(true);
         setTimeout(() => {
@@ -117,13 +81,13 @@ const LoginSignupForm = () => {
         });
         showSnackbar("Signup successful!", "success");
         setIsLogin(true);
-          setForm({
-      ...form,
-     name: "",
-    Email: "",
-    password: "",
-    cpassword: "",
-    });
+        setForm({
+          ...form,
+          name: "",
+          Email: "",
+          password: "",
+          cpassword: "",
+        });
       }
     } catch (error) {
       showSnackbar(
@@ -132,7 +96,6 @@ const LoginSignupForm = () => {
       );
     }
   };
-
 
   return (
     <>
@@ -163,21 +126,7 @@ const LoginSignupForm = () => {
             {isLogin ? "Login Form" : "Signup Form"}
           </h2>
 
-
           <form className="auth-form" onSubmit={handleSubmit}>
-            {isLogin && (
-              <div className="auth-dropdown">
-                <select
-                  name="logintype"
-                  onChange={handleChange}
-                >
-                  <option value="">Select the type</option>
-                  <option value="Employee">Employee</option>
-                  <option value="Admin">Admin</option>
-                </select>
-              </div>
-            )}
-
             {!isLogin && (
               <TextField
                 name="name"

@@ -65,6 +65,7 @@
   border: 1px solid #ccc;
 }
 
+/*  */
 .add-employee-container {
   padding: 30px;
   background-color: #fff;
@@ -76,6 +77,13 @@
   font-size: 22px;
   font-weight: 600;
   color: #2f3542;
+}
+
+.employee-form .form-row {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
 }
 
 .submit-container{
@@ -96,6 +104,22 @@ color: white;
 
 .submit-btn:hover {
   background-color: #086bb5 !important;
+}
+
+.form-groups {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 15px; 
+  margin-bottom: 16px;
+}
+
+.form-groups label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+  min-width: 100px; 
+  text-align: right; 
 }
 
 .time-btn {
@@ -134,73 +158,3 @@ color: white;
 }
 
 
-.form-row {
-  display: flex;
-  gap: 30px;
-  justify-content: space-between;
-  flex-wrap: wrap; 
-}
-
-.form-groups {
-  display: flex;
-  flex-direction: column; 
-  align-items: center;   
-  justify-content: center;
-  flex: 1;
-  min-width: 150px;
-}
-
-.form-groups label {
-  font-size: 14px;
-  font-weight: 600;
-  color: #333;
-  margin-bottom: 6px;
-  text-align: center; 
-  width: 100%;     
-}
-
-
-.time-btn {
-  background-color: #209CEE;
-  color: #fff;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 6px;
-  font-size: 14px;
-  cursor: pointer;
-  transition: background 0.3s ease;
-  margin-bottom: 6px; /* gap between button and time */
-}
-
-.time-btn:hover {
-  background-color: #1274b1;
-}
-
-.time-display {
-  font-size: 14px;
-  font-weight: 500;
-  color: #333;
-  background: #f2f2f2;
-  padding: 8px 14px;
-  border-radius: 6px;
-  min-width: 80px;
-  text-align: center;
-}
-.form-footer {
-  margin-left: 100px !important;
-  justify-content: center;
-  align-items: center;
-  gap: 20px;
-  margin-top: 20px;
-}
-
-.form-main {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.submit-container {
-  display: flex;
-  align-items: center;
-}

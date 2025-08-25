@@ -95,11 +95,6 @@ const AddAttendance = () => {
         lastOut: "",
         totalHours: "",
       });
-    const today = new Date().toISOString().split("T")[0];
-    const data = await fetchDataFromApi(`/att/today?name=${empname}&date=${today}`);
-    if (data.success && data.record) {
-      setForm(data.record);
-    }
     } catch (err) {
       toast.error("Something went wrong");
     }
@@ -125,11 +120,8 @@ const AddAttendance = () => {
                 <div className="form-row mt-5">
                   <div className="form-groups">
                     <label>Clock In*</label>
-                    <button
-                      type="button"
-                      className="time-btn"
-                      onClick={() => captureTime("firstIn")}
-                    >
+                    <button type="button" className="time-btn"
+                      onClick={() => captureTime("firstIn")}>
                       Set Current Time
                     </button>
                     <span className="time-display">{form.firstIn}</span>
@@ -137,23 +129,20 @@ const AddAttendance = () => {
 
                   <div className="form-groups">
                     <label>Break In*</label>
-                    <button
-                      type="button"
-                      className="time-btn"
-                      onClick={() => captureTime("break")}
-                    >
+                    <button type="button" className="time-btn"
+                      onClick={() => captureTime("break")}>
                       Set Current Time
                     </button>
                     <span className="time-display">{form.break}</span>
                   </div>
 
+                </div>
+
+                <div className="form-row">
                   <div className="form-groups">
                     <label>Break Out*</label>
-                    <button
-                      type="button"
-                      className="time-btn"
-                      onClick={() => captureTime("breakOut")}
-                    >
+                    <button type="button" className="time-btn"
+                      onClick={() => captureTime("breakOut")}>
                       Set Current Time
                     </button>
                     <span className="time-display">{form.breakOut}</span>
@@ -161,29 +150,24 @@ const AddAttendance = () => {
 
                   <div className="form-groups">
                     <label>Clock Out*</label>
-                    <button
-                      type="button"
-                      className="time-btn"
-                      onClick={() => captureTime("lastOut")}
-                    >
+                    <button type="button" className="time-btn"
+                      onClick={() => captureTime("lastOut")}>
                       Set Current Time
                     </button>
                     <span className="time-display">{form.lastOut}</span>
                   </div>
                 </div>
-                <div className="form-footer">
-                  <div className="form-main">
-                    <label>Total Hours :</label>
-                    <span className="time-display">{form.totalHours || "00:00"}</span>
-                  </div>
 
-                  <div className="submit-container">
-                    <button type="submit" className="submit-btn mt-3">
-                      Submit
-                    </button>
-                  </div>
+                <div className="form-main">
+                  <label>Total Hours :</label>
+                  <span className="time-display">{form.totalHours}</span>
                 </div>
 
+                <div className="submit-container">
+                  <button type="submit" className="submit-btn mt-3">
+                    Submit
+                  </button>
+                </div>
               </form>
             </div>
           </div>

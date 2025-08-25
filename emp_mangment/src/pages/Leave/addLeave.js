@@ -6,7 +6,6 @@ import { fetchDataFromApi, postData } from "../../uttils/api";
 import React, { useContext, useEffect, useState } from "react";
 
 const AddLeave = () => {
-  const [employees, setEmployees] = useState([]);
   const context = useContext(mycontext);
 
   const [form, setForm] = useState({
@@ -17,7 +16,7 @@ const AddLeave = () => {
     Numberofdays: "",
     Status: "",
     Reason: "",
-    RequestedOn: "",
+    RequestedOn: "", // This will be set to today's date
     ApprovedBy: "",
     ApprovedDate: ""
   });
@@ -30,18 +29,17 @@ const AddLeave = () => {
   };
 
   useEffect(() => {
-  context.setIsHideSidebarAndHeader(false);
+    context.setIsHideSidebarAndHeader(false);
 
-  const storedUser = JSON.parse(localStorage.getItem("user")) || {};
-  const empname = storedUser.user?.name || ""; 
+    const storedUser  = JSON.parse(localStorage.getItem("user")) || {};
+    const empname = storedUser .user?.name || ""; 
 
-  if (empname) {
-    setForm((prev) => ({ ...prev, name: empname }));
-  } else {
-    console.warn("⚠️ No name found in localStorage.user");
-  }
-}, []);
-
+    if (empname) {
+      setForm((prev) => ({ ...prev, name: empname, RequestedOn: new Date().toISOString().split('T')[0] })); // Set today's date
+    } else {
+      console.warn("⚠️ No name found in localStorage.user");
+    }
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -49,8 +47,8 @@ const AddLeave = () => {
       const res = await postData(`/leave/create`, form);
       toast.success("Leave added successfully!");
       console.log("Success:", res);
-      const storedUser = JSON.parse(localStorage.getItem("user")) || {};
-  const empname = storedUser.user?.name;  
+      const storedUser  = JSON.parse(localStorage.getItem("user")) || {};
+      const empname = storedUser .user?.name;  
       setForm({
         name: empname,
         leavetype: "",
@@ -59,7 +57,7 @@ const AddLeave = () => {
         Numberofdays: "",
         Status: "",
         Reason: "",
-        RequestedOn: "",
+        RequestedOn: new Date().toISOString().split('T')[0], // Reset to today's date
         ApprovedBy: "",
         ApprovedDate: ""
       });
@@ -83,6 +81,7 @@ const AddLeave = () => {
               <h2 className="form-title">New Entry</h2>
               <form className="employee-form" onSubmit={handleSubmit}>
                 <input type="hidden" name="name" value={form.name} />
+                <input type="hidden" name="RequestedOn" value={form.RequestedOn} /> {/* Hidden input for RequestedOn */}
 
                 <div className="form-row">
                   <div className="form-group">
@@ -101,11 +100,11 @@ const AddLeave = () => {
                   </div>
 
                   <div className="form-group">
-                    <label>Leave From*</label>
+                    <label>Number of days*</label>
                     <input
-                      type="date"
-                      name="leaveFrom"
-                      value={form.leaveFrom}
+                      type="number"
+                      name="Numberofdays"
+                      value={form.Numberofdays}
                       onChange={handleChange}
                     />
                   </div>
@@ -122,12 +121,12 @@ const AddLeave = () => {
                     />
                   </div>
 
-                  <div className="form-group">
-                    <label>Number of days*</label>
+                   <div className="form-group">
+                    <label>Leave From*</label>
                     <input
-                      type="number"
-                      name="Numberofdays"
-                      value={form.Numberofdays}
+                      type="date"
+                      name="leaveFrom"
+                      value={form.leaveFrom}
                       onChange={handleChange}
                     />
                   </div>
@@ -143,15 +142,7 @@ const AddLeave = () => {
                       onChange={handleChange}
                     />
                   </div>
-
                   <div className="form-group">
-                    <label>Requested On*</label>
-                    <input
-                      type="date"
-                      name="RequestedOn"
-                      value={form.RequestedOn}
-                      onChange={handleChange}
-                    />
                   </div>
                 </div>
 

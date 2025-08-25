@@ -32,98 +32,6 @@ const Sidebar = () => {
       </div>
 
       <ul>
-        {role === "Admin" ? (
-          <>
-            <li>
-          <Link to="/Dashboard">
-            <Button className={`w-100 ${activeTab === 0 ? "active" : ""}`}>
-              <span className="icons"><MdDashboard /></span>
-              Dashboard
-              <span className="arrows"><FaAngleRight /></span>
-            </Button>
-          </Link>
-        </li>
-
-            <li>
-              <Button
-                className={`w-100 ${activeTab === 1 && isToggleSubmenu ? "active" : ""}`}
-                onClick={() => isOpenSubmenu(1)}
-              >
-                <span className="icons"><FiUsers /></span>
-                Employees
-                <span className="arrows"><FaAngleRight /></span>
-              </Button>
-              <div
-                className={`submenu-wrapper ${activeTab === 1 && isToggleSubmenu ? "expanded" : "collapsed"}`}
-              >
-                <ul className="submenu">
-                  <li><Link to="/Emplyees">Employees List</Link></li>
-                  <li><Link to="/Emplyees/add">Employees Add</Link></li>
-                </ul>
-              </div>
-            </li>
-
-               <li>
-          <Link to="/attendence">
-            <Button className={`w-100 ${activeTab === 2 ? "active" : ""}`}>
-              <span className="icons"><BsFillClipboardDataFill /></span>
-              Attendance
-              <span className="arrows"><FaAngleRight /></span>
-            </Button>
-          </Link>
-        </li>
-
-          <li>
-              <Link to="/leave">
-                <Button className={`w-100 ${activeTab === 3 ? "active" : ""}`}>
-                  <span className="icons"><SlNote /></span>
-                  Leave Requests
-                  <span className="arrows"><FaAngleRight /></span>
-                </Button>
-              </Link>
-            </li>
-
-            <li>
-              <Button
-                className={`w-100 ${activeTab === 4 && isToggleSubmenu ? "active" : ""}`}
-                onClick={() => isOpenSubmenu(4)}
-              >
-                <span className="icons"><MdOutlineTaskAlt /></span>
-                Task
-                <span className="arrows"><FaAngleRight /></span>
-              </Button>
-              <div
-                className={`submenu-wrapper ${activeTab === 4 && isToggleSubmenu ? "expanded" : "collapsed"}`}
-              >
-                <ul className="submenu">
-                  <li><Link to="/task">Task List</Link></li>
-                  <li><Link to="/task/add">Task Add</Link></li>
-                </ul>
-              </div>
-            </li>
-
-            <li>
-              <Link to="/Dashboard">
-                <Button className={`w-100 ${activeTab === 5 ? "active" : ""}`}>
-                  <span className="icons"><IoMdNotifications /></span>
-                  Notifications
-                  <span className="arrows"><FaAngleRight /></span>
-                </Button>
-              </Link>
-            </li>
-
-            <li>
-              <Link to="/Dashboard">
-                <Button className="w-100">
-                  <span className="icons"><IoSettingsSharp /></span>
-                  Setting
-                  <span className="arrows"><FaAngleRight /></span>
-                </Button>
-              </Link>
-            </li>
-          </>
-        ):(
-          <>
               <li>
           <Link to="/attendence/add">
             <Button className={`w-100 ${activeTab === 0 ? "active" : ""}`}>
@@ -153,8 +61,6 @@ const Sidebar = () => {
             </Button>
           </Link>
         </li>
-          </>
-        )}
       </ul>
     </div>
   );
