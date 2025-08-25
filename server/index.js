@@ -73,7 +73,7 @@ app.get('/', (req, res) => {
 // Attach socket.io
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:5173",   // frontend port (vite/react)
+    origin: "https://admin-ten-navy.vercel.app",   // frontend port (vite/react)
     methods: ["GET", "POST"]
   }
 });
