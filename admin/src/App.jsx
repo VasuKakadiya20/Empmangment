@@ -13,6 +13,7 @@ import { createContext, useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Addtask from './pages/task/addtask.jsx';
 import Tasklist from './pages/task/task.jsx';
+import AdminNotifications from './components/notification.jsx';
 const mycontext = createContext()
 
 function App() {
@@ -83,6 +84,7 @@ function App() {
                 <Route path="/leave" element={<LeaveRequests />} exact={true} />
                 <Route path='/task' element ={<Tasklist/>} exact={true}/>
                 <Route path='/task/add' element = {<Addtask/>} exact={true}/>
+                <Route path='/notification' element ={<AdminNotifications/>} exact={true}/>
               </Routes>
             </div>
           </div>
