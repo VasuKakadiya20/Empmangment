@@ -2,7 +2,7 @@ import { io } from "socket.io-client";
 import { useEffect } from "react";
 import toast from "react-hot-toast";
 import './notification.css'
-import userimg from "../assets/images/user.png"
+import userimg from "../../assets/images/user.png"
 
 export default function AdminNotifications() {
   useEffect(() => {
