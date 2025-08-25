@@ -13,7 +13,10 @@ import { createContext, useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Addtask from './pages/task/addtask.jsx';
 import Tasklist from './pages/task/task.jsx';
-const mycontext = createContext()
+import AdminNotifications from './components/notification/notification.jsx';
+import { Toaster } from "react-hot-toast";
+
+const mycontext = createContext();
 
 function App() {
   const [isToggleSidebar, setIsToggleSidebar] = useState(false);
@@ -47,23 +50,27 @@ function App() {
     openNav,
     isOpenNav,
     setIsOpenNav
-  }
+  };
 
   return (
     <>
       <BrowserRouter>
         <mycontext.Provider value={values}>
+          
+          {/* Mount notifications globally (always running) */}
+          <AdminNotifications />
+
           {
             isHideSidebarAndHeader !== true &&
             <Header />
           }
 
           <div className='main d-flex'>
-
             {
               isHideSidebarAndHeader !== true && (
                 <>
-                  <div className={`side-bar-overlay d-none ${isOpenNav === true ? 'show' : ''}`}
+                  <div
+                    className={`side-bar-overlay d-none ${isOpenNav === true ? 'show' : ''}`}
                     onClick={() => setIsOpenNav(false)}>
                   </div>
                   <div className={`sidebar-wrapper ${isToggleSidebar === true ? 'toggle' : ''} 
@@ -88,6 +95,10 @@ function App() {
           </div>
         </mycontext.Provider>
       </BrowserRouter>
+
+      <Toaster position="top-right" reverseOrder={false} />
+      {/* <Toaster position="bottom-right" reverseOrder={false} /> */}
+
     </>
   );
 }

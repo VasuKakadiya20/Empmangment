@@ -29,15 +29,23 @@ router.post('/create' ,async (req,res)=>{
            ApprovedBy:req.body.ApprovedBy,
            ApprovedDate:req.body.ApprovedDate,
         });
-        console.log(Leave);
 
         Leave = await Leave.save();
+
         if(!Leave){
             return res.status(500).json({
                 error:"Error Saving leave",
                 success:false
             })
         }
+
+        // 🔔 Emit event to all connected admins
+        const io = req.app.get("socketio");
+        io.emit("leave_request", {
+          message: `📢 New leave request from ${Leave.name} (${Leave.leavetype})`,
+          data: Leave
+        });
+
         res.status(201).json(Leave);
     }catch (err){
         console.error(err)
