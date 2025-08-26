@@ -145,15 +145,6 @@ router.get("/status/:name", async (req, res) => {
       });
     }
 
-    // let statusMsg;
-    // if (latestLeave.Status === "Approved") {
-    //   statusMsg = `✅ Your leave request (${latestLeave.Numberofdays} days) was Approved on ${latestLeave.ApprovedDate}`;
-    // } else (latestLeave.Status === "Rejected") 
-    //   statusMsg = `❌ Your leave request (${latestLeave.Numberofdays} days) was Rejected on ${latestLeave.ApprovedDate}`;
-    //else {
-     // statusMsg = `⏳ Your leave request (${latestLeave.Numberofdays} days) is still Pending`;
-   // }
-
   return res.status(200).send(latestLeave);
   } catch (err) {
     res.status(500).json({

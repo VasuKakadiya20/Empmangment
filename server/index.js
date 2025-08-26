@@ -45,7 +45,7 @@ const http = require('http');
 const { Server } = require('socket.io');
 
 const app = express();
-const server = http.createServer(app);   // 👈 create HTTP server
+const server = http.createServer(app); 
 const PORT = process.env.PORT || 5000;
 
 // Middleware
@@ -65,22 +65,18 @@ app.use('/att', attendanceRoutes);
 app.use('/leave', leaveRoutes);
 app.use('/task', taskRoutes);
 
-// Default route
 app.get('/', (req, res) => {
   res.send('Hello World');
 });
 
-// Attach socket.io
 const io = new Server(server, {
   cors: {
-    origin: "https://admin-ten-navy.vercel.app",   // frontend port (vite/react)
+    origin: "https://admin-ten-navy.vercel.app",   
     methods: ["GET", "POST"]
   }
 });
 
-// Global socket reference
 app.set("socketio", io);
-
 io.on("connection", (socket) => {
   console.log("🔗 User connected:", socket.id);
 
@@ -89,11 +85,10 @@ io.on("connection", (socket) => {
   });
 });
 
-// DB + Start server
 mongoose.connect(process.env.CONNECTION_STRING)
   .then(() => {
     console.log('✅ Database Connection is ready...');
-    server.listen(PORT, () => {         // 👈 use server.listen
+    server.listen(PORT, () => {        
       console.log(`🚀 Server is running on port ${PORT}`);
     });
   })

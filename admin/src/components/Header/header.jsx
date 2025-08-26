@@ -24,7 +24,6 @@ import { fetchDataFromApi } from "../../uttils/api";
 
 export const Header = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [leaveData, setleaveData] = useState([])
   const [taskdata, settaskdata] = useState([])
   const [leaveNotifications, setLeaveNotifications] = useState([]);
   const [isOpennotificationsDrop, setIsOpenNotificationsDrop] = useState(null);
@@ -45,8 +44,6 @@ const handleOpenNotificationsDrop = () => {
 
 const handleCloseNotificationsDrop = () => {
   setIsOpenNotificationsDrop(false);
-
-  // Mark all as seen and clear from localStorage
   localStorage.removeItem("notifications");
   setNotifications([]);
 };
@@ -54,7 +51,6 @@ const handleCloseNotificationsDrop = () => {
 
   const context = useContext(mycontext);
   const navigate = useNavigate();
-  // const role = storedUser.role || "Admin";
 
   const openMyacc = Boolean(anchorEl);
   const handleOpenMyAccDrop = (event) => {
@@ -79,16 +75,6 @@ const handleCloseNotificationsDrop = () => {
     handleCloseMyAccDrop();
     navigate("/");
   }
-
-  useEffect(() => {
-   
-      fetchDataFromApi("/leave/").then((res) => {
-        setleaveData(res);
-      });
-  }, []);
-
-
-
   return (
     <>
       <header className="d-flex align-items-center">
@@ -193,35 +179,34 @@ const handleCloseNotificationsDrop = () => {
                           </MenuItem>
                         ))}
                     </div> */}
+                    
                     <div className="scroll">
-  {notifications.length > 0 ? (
-    notifications.map((item, index) => (
-      <MenuItem key={index} onClick={handleCloseNotificationsDrop}>
-        <div className="d-flex">
-          <div>
-            <UserImg img={user} />
-          </div>
-          <div className="dropdown-info">
-            <h4>
-              <b>{item?.data?.name}</b>
-              <br />
-              <b>
-                requested {item?.data?.leavetype} from {item?.data?.leaveFrom} to {item?.data?.leaveTo}
-              </b>
-            </h4>
-            <p className="text-sky mb-0">
-              {new Date().toLocaleDateString()} {/* or pass from backend */}
-            </p>
-          </div>
-        </div>
-      </MenuItem>
-    ))
-  ) : (
-    <p className="px-3 py-2 text-muted">No new notifications</p>
-  )}
-</div>
-
-
+        {notifications.length > 0 ? (
+          notifications.map((item, index) => (
+            <MenuItem key={index} onClick={handleCloseNotificationsDrop}>
+              <div className="d-flex">
+                <div>
+                  <UserImg img={user} />
+                </div>
+                <div className="dropdown-info">
+                  <h4>
+                    <b>{item?.data?.name}</b>
+                    <br />
+                    <b>
+                      requested {item?.data?.leavetype} from {item?.data?.leaveFrom} to {item?.data?.leaveTo}
+                    </b>
+                  </h4>
+                  <p className="text-sky mb-0">
+                    {new Date().toLocaleDateString()} 
+                  </p>
+                </div>
+              </div>
+            </MenuItem>
+          ))
+        ) : (
+          <p className="px-3 py-2 text-muted">No new notifications</p>
+        )}
+                    </div>
                     <div className="pl-5 pr-5 pb-1 mt-2 w-100">
                       <Button className="btn-blue w-100 py-2 px-3">
                         View all notifications
@@ -229,6 +214,7 @@ const handleCloseNotificationsDrop = () => {
                     </div>
                   </Menu>
                 </div>
+
               {context.islogin !== true ? (
                 <Link to={"/"}>
                   <Button className="btn-blue btn-big btn-round">Sign in</Button>
