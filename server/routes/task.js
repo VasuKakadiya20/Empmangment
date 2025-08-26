@@ -28,12 +28,19 @@ router.post('/create' ,async (req,res) =>{
         console.log(Task);
 
         Task = await Task.save();
+
         if(!Task){
             return res.status(500).json({
                 error:"Error Saving task",
                 success:false
             })
         }
+        const io =req.app.get("socketio")
+        io.to(Task.name).emit("taskassinged",{
+          message:"📢 You Given New Task !",
+          data:Task
+        })
+
         res.status(201).json(Task)
     }catch(error){
         console.error(error);

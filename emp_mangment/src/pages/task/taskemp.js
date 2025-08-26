@@ -19,7 +19,6 @@ import './task.css'
 
 const Taskemplist = () => {
     const [age, setAge] = React.useState('');
-    const [employees, setEmployees] = useState([]);
     const [taskdata, settaskdata] = useState([])
     const [openDialog, setOpenDialog] = useState(false);
     const [updatedate, setupdatedate] = useState([])
@@ -29,24 +28,6 @@ const Taskemplist = () => {
     const [form, setForm] = useState({
         name: "",
     });
-
-    // const handlEChange = async (e) => {
-    //     const { name, value } = e.target;
-    //     setForm({
-    //         ...form,
-    //         [name]: value,
-    //     });
-
-    //     if (name === "name" && value) {
-    //         try {
-    //             const res = await fetchDataFromApi(`/task/taske/$(empname)`);
-    //             settaskdata(res);
-    //         } catch (err) {
-    //             settaskdata([]);
-    //             toast.info("This employee does not have any tasks.");
-    //         }
-    //     }
-    // };
 
     const handleCloseDialog = () => {
         setOpenDialog(false);

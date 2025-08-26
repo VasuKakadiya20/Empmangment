@@ -30,7 +30,6 @@ export default function EmployeeNotifications() {
       stored.push({
         ...data,
         seen: false,
-        receivedAt: new Date().toISOString(),
       });
       localStorage.setItem("emp_notifications", JSON.stringify(stored));
 
@@ -82,5 +81,5 @@ export default function EmployeeNotifications() {
     return () => socket.disconnect();
   }, []);
 
-  return null; // nothing visual, only background listener
+  return null;
 }
