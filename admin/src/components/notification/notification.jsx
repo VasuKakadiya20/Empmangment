@@ -14,6 +14,9 @@ export default function AdminNotifications() {
 
     socket.on("leave_request", (data) => {
       console.log("Leave request received:", data); 
+        let stored = JSON.parse(localStorage.getItem("notifications")) || [];
+  stored.push({ ...data, seen: false });
+  localStorage.setItem("notifications", JSON.stringify(stored));
 
     toast.custom((t) => (
   <div className={`toast-container ${t.visible ? "toast-enter" : "toast-leave"}`}>

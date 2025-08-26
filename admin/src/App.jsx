@@ -56,8 +56,7 @@ function App() {
     <>
       <BrowserRouter>
         <mycontext.Provider value={values}>
-          
-          {/* Mount notifications globally (always running) */}
+        
           <AdminNotifications />
 
           {
@@ -96,8 +95,8 @@ function App() {
         </mycontext.Provider>
       </BrowserRouter>
 
-      <Toaster position="top-right" reverseOrder={false} />
-      {/* <Toaster position="bottom-right" reverseOrder={false} /> */}
+      {/* <Toaster position="top-right" reverseOrder={false} /> */}
+      <Toaster position="bottom-right" reverseOrder={false} />
 
     </>
   );

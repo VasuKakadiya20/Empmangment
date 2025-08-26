@@ -29,6 +29,29 @@ export const Header = () => {
   const [leaveNotifications, setLeaveNotifications] = useState([]);
   const [isOpennotificationsDrop, setIsOpenNotificationsDrop] = useState(null);
 const storedUser = JSON.parse(localStorage.getItem("user")) || { user: {} };
+const [notifications, setNotifications] = useState(
+  JSON.parse(localStorage.getItem("notifications")) || []
+);
+
+useEffect(() => {
+  const interval = setInterval(() => {
+    setNotifications(JSON.parse(localStorage.getItem("notifications")) || []);
+  }, 1000); 
+  return () => clearInterval(interval);
+}, []);
+const handleOpenNotificationsDrop = () => {
+  setIsOpenNotificationsDrop(true);
+};
+
+const handleCloseNotificationsDrop = () => {
+  setIsOpenNotificationsDrop(false);
+
+  // Mark all as seen and clear from localStorage
+  localStorage.removeItem("notifications");
+  setNotifications([]);
+};
+
+
   const context = useContext(mycontext);
   const navigate = useNavigate();
   // const role = storedUser.role || "Admin";
@@ -42,13 +65,13 @@ const storedUser = JSON.parse(localStorage.getItem("user")) || { user: {} };
   };
 
   const openNotifications = Boolean(isOpennotificationsDrop);
-  const handleOpenNotificationsDrop = () => {
-    setIsOpenNotificationsDrop(true);
-  };
+  // const handleOpenNotificationsDrop = () => {
+  //   setIsOpenNotificationsDrop(true);
+  // };
 
-  const handleCloseNotificationsDrop = () => {
-    setIsOpenNotificationsDrop(false);
-  };
+  // const handleCloseNotificationsDrop = () => {
+  //   setIsOpenNotificationsDrop(false);
+  // };
 
   const logout = () => {
     context.setislogin(false);
@@ -145,7 +168,7 @@ const storedUser = JSON.parse(localStorage.getItem("user")) || { user: {} };
 
                     <Divider className="mb-1" />
 
-                    <div className="scroll">
+                    {/* <div className="scroll">
                       {leaveData
                         .sort((a, b) => new Date(b.RequestedOn) - new Date(a.RequestedOn)) // latest first
                         .map((item) => (
@@ -169,7 +192,35 @@ const storedUser = JSON.parse(localStorage.getItem("user")) || { user: {} };
                             </div>
                           </MenuItem>
                         ))}
-                    </div>
+                    </div> */}
+                    <div className="scroll">
+  {notifications.length > 0 ? (
+    notifications.map((item, index) => (
+      <MenuItem key={index} onClick={handleCloseNotificationsDrop}>
+        <div className="d-flex">
+          <div>
+            <UserImg img={user} />
+          </div>
+          <div className="dropdown-info">
+            <h4>
+              <b>{item?.data?.name}</b>
+              <br />
+              <b>
+                requested {item?.data?.leavetype} from {item?.data?.leaveFrom} to {item?.data?.leaveTo}
+              </b>
+            </h4>
+            <p className="text-sky mb-0">
+              {new Date().toLocaleDateString()} {/* or pass from backend */}
+            </p>
+          </div>
+        </div>
+      </MenuItem>
+    ))
+  ) : (
+    <p className="px-3 py-2 text-muted">No new notifications</p>
+  )}
+</div>
+
 
                     <div className="pl-5 pr-5 pb-1 mt-2 w-100">
                       <Button className="btn-blue w-100 py-2 px-3">
