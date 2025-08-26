@@ -12,7 +12,6 @@ import logo from "../../assets/images/logo.png";
 import user from "../../assets/images/user.png";
 import { MdOutlineEmail } from "react-icons/md";
 import { MdArrowDropDown } from "react-icons/md";
-import Admin from "../../assets/images/admin.png";
 import { IoSettingsSharp } from "react-icons/io5";
 import { MdOutlineMenuOpen } from "react-icons/md";
 import React, { useContext, useEffect, useState } from "react";
@@ -24,7 +23,6 @@ import { fetchDataFromApi } from "../../uttils/api";
 
 export const Header = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [taskdata, settaskdata] = useState([])
   const [leaveNotifications, setLeaveNotifications] = useState([]);
   const [isOpennotificationsDrop, setIsOpenNotificationsDrop] = useState(null);
 const storedUser = JSON.parse(localStorage.getItem("user")) || { user: {} };
@@ -152,34 +150,7 @@ const handleCloseNotificationsDrop = () => {
                       </h4>
                     </div>
 
-                    <Divider className="mb-1" />
-
-                    {/* <div className="scroll">
-                      {leaveData
-                        .sort((a, b) => new Date(b.RequestedOn) - new Date(a.RequestedOn)) // latest first
-                        .map((item) => (
-                          <MenuItem key={item._id} onClick={handleCloseNotificationsDrop}>
-                            <div className="d-flex">
-                              <div>
-                                <UserImg img={user} />
-                              </div>
-                              <div className="dropdown-info">
-                                <h4>
-                                  <span>
-                                    <b>{item.name}</b>
-                                    <br />
-                                    <b>requested leave for {item.Numberofdays} days</b>
-                                  </span>
-                                </h4>
-                                <p className="text-sky mb-0">
-                                  {new Date(item.RequestedOn).toLocaleDateString()}
-                                </p>
-                              </div>
-                            </div>
-                          </MenuItem>
-                        ))}
-                    </div> */}
-                    
+                    <Divider className="mb-1" />            
                     <div className="scroll">
         {notifications.length > 0 ? (
           notifications.map((item, index) => (

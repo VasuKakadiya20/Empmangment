@@ -9,6 +9,8 @@ import { createContext, useEffect, useState } from 'react';
 import AddAttendance from './pages/Attendance/addAttendance';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Taskemplist from './pages/task/taskemp';
+import EmployeeNotifications from './components/notification/notification';
+import { Toaster } from "react-hot-toast";
 const mycontext = createContext()
 
 function App() {
@@ -49,6 +51,7 @@ function App() {
     <>
       <BrowserRouter>
         <mycontext.Provider value={values}>
+          <EmployeeNotifications/>
           {
             isHideSidebarAndHeader !== true &&
             <Header />
@@ -80,6 +83,9 @@ function App() {
           </div>
         </mycontext.Provider>
       </BrowserRouter>
+         {/* <Toaster position="top-right" reverseOrder={false} /> */}
+           <Toaster position="bottom-right" reverseOrder={false} />
+
     </>
   );
 }

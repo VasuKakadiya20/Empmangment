@@ -28,9 +28,28 @@ export const Header = () => {
   const [leaveNotifications, setLeaveNotifications] = useState([]);
   const [isOpennotificationsDrop, setIsOpenNotificationsDrop] = useState(null);
 const storedUser = JSON.parse(localStorage.getItem("user")) || { user: {} };
+const [notifications, setNotifications] = useState(
+  JSON.parse(localStorage.getItem("emp_notifications")) || []
+);
+
+useEffect(() => {
+  const interval = setInterval(() => {
+    setNotifications(JSON.parse(localStorage.getItem("emp_notifications")) || []);
+  }, 1000); 
+  return () => clearInterval(interval);
+}, []);
+const handleOpenNotificationsDrop = () => {
+  setIsOpenNotificationsDrop(true);
+};
+
+const handleCloseNotificationsDrop = () => {
+  setIsOpenNotificationsDrop(false);
+  localStorage.removeItem("emp_notifications");
+  setNotifications([]);
+};
+
   const context = useContext(mycontext);
   const navigate = useNavigate();
-  const role = storedUser.role || "Admin";
 
   const openMyacc = Boolean(anchorEl);
   const handleOpenMyAccDrop = (event) => {
@@ -41,13 +60,13 @@ const storedUser = JSON.parse(localStorage.getItem("user")) || { user: {} };
   };
 
   const openNotifications = Boolean(isOpennotificationsDrop);
-  const handleOpenNotificationsDrop = () => {
-    setIsOpenNotificationsDrop(true);
-  };
+  // const handleOpenNotificationsDrop = () => {
+  //   setIsOpenNotificationsDrop(true);
+  // };
 
-  const handleCloseNotificationsDrop = () => {
-    setIsOpenNotificationsDrop(false);
-  };
+  // const handleCloseNotificationsDrop = () => {
+  //   setIsOpenNotificationsDrop(false);
+  // };
 
   const logout = () => {
     context.setislogin(false);
@@ -56,22 +75,31 @@ const storedUser = JSON.parse(localStorage.getItem("user")) || { user: {} };
     navigate("/");
   }
 
-  useEffect(() => {
-      const empname = storedUser.user?.name || "";
+useEffect(() => {
+  const empname = storedUser.user?.name || "";
 
-      fetchDataFromApi(`/task/taske/${empname}`).then((res) => {
-       if (Array.isArray(res)) {
-    settaskdata(res);
-  } else {
-    settaskdata([]); 
-  }
-      });
+  fetchDataFromApi(`/task/taske/${empname}`).then((res) => {
+    if (Array.isArray(res)) {
+      settaskdata(res);
+    } else {
+      settaskdata([]); 
+    }
+  });
 
-      fetchDataFromApi(`/leave/status/${empname}`).then((res) => {
-        console.log(res)
-        setLeaveNotifications(res);
-      });
-  }, []);
+  fetchDataFromApi(`/leave/status/${empname}`).then((res) => {
+    console.log("Leave API response:", res);
+
+    // ✅ Ensure always array
+    if (Array.isArray(res)) {
+      setLeaveNotifications(res);
+    } else if (res) {
+      setLeaveNotifications([res]); // wrap single object
+    } else {
+      setLeaveNotifications([]); // fallback
+    }
+  });
+}, []);
+
 
 
 
@@ -153,60 +181,42 @@ const storedUser = JSON.parse(localStorage.getItem("user")) || { user: {} };
 
                     <Divider className="mb-1" />
 
-                    <div className="scroll">
-                      {leaveNotifications .filter((item) =>   item.Status && item.Status !== "Pending" ).map((item, idx) => (
-                        <MenuItem key={item._id || idx} onClick={handleCloseNotificationsDrop}>
-                          <div className="d-flex">
-                            <div>
-                              <UserImg img={user} />
-                            </div>
-                            <div className="dropdown-info">
-                              <p className="mb-0">
-                                Your leave from{" "}
-                                <b>{new Date(item.leaveFrom).toLocaleDateString()}</b> <br />to{" "}
-                                <b>{new Date(item.leaveTo).toLocaleDateString()}</b>{" "}
-                                was{" "}
-                                <span
-                                  style={{
-                                    color:
-                                      item.Status === "Approved"
-                                        ? "green"
-                                        : item.Status === "Rejected"
-                                          ? "red"
-                                          : "orange",
-                                    fontWeight: "bold",
-                                  }}
-                                >
-                                  {item.Status}
+            <div className="scroll">
+  {notifications.length > 0 ? (
+    notifications.map((item, index) => (
+      <MenuItem key={index} onClick={handleCloseNotificationsDrop}>
+        <div>
+                  <UserImg img={user} />
+                </div>
 
-                                </span>
-                              </p>
-                            </div>
-                          </div>
-                        </MenuItem>
-                      ))}
-                      {taskdata.filter(item => item?.name).map((item) => (
-                        <MenuItem key={item._id} onClick={handleCloseNotificationsDrop}>
-                          <div className="d-flex">
-                            <div>
-                              <UserImg img={user} />
-                            </div>
-                            <div className="dropdown-info">
-                              <h4>
-                                <span>
-                                  <b>{item.name?.name}</b>
-                                  <br />
-                                  <b>Title : {item.title}</b>
-                                </span>
-                              </h4>
-                              <p className="text-sky mb-0">
-                                Due Date : {new Date(item.duedate).toLocaleDateString()}
-                              </p>
-                            </div>
-                          </div>
-                        </MenuItem>
-                      ))}
-                    </div>
+        <div className="toast-content">
+          <p className="toast-title">{item?.name}</p>
+
+          <p className="toast-message">
+            Your leave from <b>{item?.data?.leaveFrom}</b> to{" "}<br/>
+            <b>{item?.data?.leaveTo}</b> was{" "}
+            <b
+              style={{
+                color:
+                  item?.data?.Status === "Approved"
+                    ? "green"
+                    : item?.data?.Status === "Rejected"
+                    ? "red"
+                    : "orange",
+              }}
+            >
+              {item?.data?.Status}
+            </b>
+          </p>
+
+        </div>
+      </MenuItem>
+    ))
+  ) : (
+    <p className="px-3 py-2 text-muted">No new notifications</p>
+  )}
+</div>
+
                     <div className="pl-5 pr-5 pb-1 mt-2 w-100">
                       <Button className="btn-blue w-100 py-2 px-3">
                         View all notifications

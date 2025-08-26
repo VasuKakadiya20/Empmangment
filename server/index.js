@@ -71,19 +71,30 @@ app.get('/', (req, res) => {
 
 const io = new Server(server, {
   cors: {
-    origin: "https://admin-ten-navy.vercel.app",   
+    origin: [
+      "https://empmangment.vercel.app",     
+      "https://admin-ten-navy.vercel.app",   
+    ],
     methods: ["GET", "POST"]
   }
 });
+
 
 app.set("socketio", io);
 io.on("connection", (socket) => {
   console.log("🔗 User connected:", socket.id);
 
+  socket.on("joinRoom", (username) => {
+    console.log(`👤 User ${username} joined room`);
+    socket.join(username);
+  });
+
+
   socket.on("disconnect", () => {
     console.log("❌ User disconnected:", socket.id);
   });
 });
+
 
 mongoose.connect(process.env.CONNECTION_STRING)
   .then(() => {

@@ -103,34 +103,66 @@ router.delete("/delete/:name", async (req, res) => {
 });
 
 
-router.put('/:id', async(req,res)=>{
-  const  Leave = await leave.findByIdAndUpdate(
-    req.params.id,{
-       name:req.body.name,
-           leavetype:req.body.leavetype,
-           leaveFrom:req.body.leaveFrom,
-           leaveTo:req.body.leaveTo,
-           Numberofdays:req.body.Numberofdays,
-           Status:req.body.Status,
-           Reason:req.body.Reason,
-           RequestedOn:req.body.RequestedOn,
-           ApprovedBy:req.body.ApprovedBy,
-           ApprovedDate:req.body.ApprovedDate,
-    },
-    {new:true}
-  );
+router.put('/:id', async (req, res) => {
+  try {
+    const updatedLeave = await leave.findByIdAndUpdate(
+      req.params.id,
+      {
+        name: req.body.name,
+        leavetype: req.body.leavetype,
+        leaveFrom: req.body.leaveFrom,
+        leaveTo: req.body.leaveTo,
+        Numberofdays: req.body.Numberofdays,
+        Status: req.body.Status,
+        Reason: req.body.Reason,
+        RequestedOn: req.body.RequestedOn,
+        ApprovedBy: req.body.ApprovedBy,
+        ApprovedDate: req.body.ApprovedDate,
+      },
+      { new: true }
+    );
 
-  if(!Leave){
-    res.status(404).json({
-      message:'this is can not update',
-      status:false
-    })
+    if (!updatedLeave) {
+      return res.status(404).json({
+        message: "This leave cannot be updated",
+        status: false
+      });
+    }
+
+    let message = "";
+
+    if (req.body.Status === "Approved") {
+      message = `✅ Your leave request from ${updatedLeave.leaveFrom} to ${updatedLeave.leaveTo} has been Approved`;
+    } 
+    else if (req.body.Status === "Rejected") {
+      message = `❌ Your leave request from ${updatedLeave.leaveFrom} to ${updatedLeave.leaveTo} has been Rejected`;
+    }
+
+    if (message) {
+      const io = req.app.get("socketio");
+      io.to(updatedLeave.name).emit("leaveStatusChange", {
+        name: updatedLeave.name,
+        message,
+         data: updatedLeave,
+        time: new Date()
+      });
+    }
+
+    return res.status(200).json({
+      message: "Leave is updated",
+      status: true,
+      data: updatedLeave
+    });
+
+  } catch (err) {
+    return res.status(500).json({
+      message: "Server error",
+      status: false,
+      error: err.message
+    });
   }
-  res.status(200).json({
-    message:'Leave is update',
-    status:true
-  })
-})
+});
+
 
 
 router.get("/status/:name", async (req, res) => {
