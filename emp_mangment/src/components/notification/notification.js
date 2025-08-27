@@ -158,38 +158,57 @@ export default function EmployeeNotifications() {
   const [socket, setSocket] = useState(null);
   const [empName, setEmpName] = useState("");
 
+  // 🔹 Watch for login/logout changes
   useEffect(() => {
-    const storedUser  = JSON.parse(localStorage.getItem("user")) || { user: {} };
-    setEmpName(storedUser .user?.name || "Employee");
+    const updateUser = () => {
+      const storedUser = JSON.parse(localStorage.getItem("user")) || { user: {} };
+      setEmpName(storedUser.user?.name || "");
+    };
+
+    updateUser(); // run on mount
+
+    // run when localStorage changes (like logout/login)
+    window.addEventListener("storage", updateUser);
+
+    return () => {
+      window.removeEventListener("storage", updateUser);
+    };
   }, []);
 
+  // 🔹 Setup socket whenever empName changes
   useEffect(() => {
-    if (!empName) return;
+    if (!empName) {
+      // if user logs out, disconnect socket
+      if (socket) {
+        socket.disconnect();
+        setSocket(null);
+      }
+      return;
+    }
 
-
-    const newSocket = io("https://empmangment-backend.onrender.com", { transports: ["websocket"] });
+    const newSocket = io("https://empmangment-backend.onrender.com", {
+      transports: ["websocket"],
+    });
     setSocket(newSocket);
 
     newSocket.on("connect", () => {
       console.log("Connected to socket server:", newSocket.id);
-      console.log("emp name: ",empName);
+      console.log("emp name: ", empName);
       newSocket.emit("joinRoom", empName);
     });
 
     const playNotificationSound = () => {
-      const audio = new Audio("/sounds/notification.mp3"); 
-      audio.play().catch(err => console.error("Audio play failed:", err));
+      const audio = new Audio("/sounds/notification.mp3");
+      audio.play().catch((err) => console.error("Audio play failed:", err));
     };
 
+    // 🔔 Leave Status Change
     newSocket.on("leaveStatusChange", (data) => {
       console.log("Leave status update:", data);
-      playNotificationSound(); 
+      playNotificationSound();
 
       let stored = JSON.parse(localStorage.getItem("emp_notifications")) || [];
-      stored.push({
-        ...data,
-        seen: false,
-      });
+      stored.push({ ...data, seen: false });
       localStorage.setItem("emp_notifications", JSON.stringify(stored));
 
       toast.custom((t) => (
@@ -237,15 +256,14 @@ export default function EmployeeNotifications() {
       ));
     });
 
-    newSocket.on("taskassinged", ({ message, data }) => {
+    // 🔔 Task Assigned
+    newSocket.on("taskassinged", ({ data }) => {
       console.log("Task Assigned:", data);
-      playNotificationSound(); 
+      playNotificationSound();
+
       try {
         let stored = JSON.parse(localStorage.getItem("task_notifications")) || [];
-        stored.push({
-          ...data,
-          seen: false,
-        });
+        stored.push({ ...data, seen: false });
         localStorage.setItem("task_notifications", JSON.stringify(stored));
       } catch (error) {
         console.error("Error storing task notifications:", error);
@@ -297,7 +315,7 @@ export default function EmployeeNotifications() {
     });
 
     return () => {
-      if (newSocket && empName) {
+      if (newSocket) {
         newSocket.emit("leaveRoom", empName);
         newSocket.off("leaveStatusChange");
         newSocket.off("taskassinged");
