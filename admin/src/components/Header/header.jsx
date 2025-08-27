@@ -202,10 +202,10 @@ const handleCloseNotificationsDrop = () => {
                     </div>
                     <div className="use-info res-hide">
                       <h4>
-                        {storedUser.user.name || "admin"}
+                        {storedUser.role || "admin"}
                         <MdArrowDropDown style={{ fontSize: "22px" }} />
                       </h4>
-                      <p className="mb-0">{storedUser.user.Email || "admin@example.com"}</p>
+                      <p className="mb-0">{storedUser.user || "admin@example.com"}</p>
                     </div>
                   </Button>
                   <Menu
