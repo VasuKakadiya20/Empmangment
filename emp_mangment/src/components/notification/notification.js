@@ -172,6 +172,7 @@ export default function EmployeeNotifications() {
 
     newSocket.on("connect", () => {
       console.log("Connected to socket server:", newSocket.id);
+      console.log("emp name: ",empName);
       newSocket.emit("joinRoom", empName);
     });
 
