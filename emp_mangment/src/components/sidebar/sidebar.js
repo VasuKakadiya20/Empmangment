@@ -21,7 +21,7 @@ const Sidebar = () => {
   };
 
   const storedUser = JSON.parse(localStorage.getItem("user")) || {};
-  const role = storedUser.role || "Admin"; 
+  const role = storedUser.role || "Employee"; 
 
   return (
     <div className="sidebar">
