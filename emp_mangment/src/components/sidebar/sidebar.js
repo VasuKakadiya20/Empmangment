@@ -27,8 +27,8 @@ const Sidebar = () => {
     <div className="sidebar">
       <div className="sidebar-profile">
         <img src={Admin} alt="User Avatar" className="profile-avatar" />
-        <h5 className="profile-name">{storedUser.user?.name || "Admin"}</h5>
-        <p className="profile-role">{role}</p>
+        <h5 className="profile-name">{storedUser.user?.name || "Employee"}</h5>
+        <p className="profile-role">{role || "Employee" }</p>
       </div>
 
       <ul>
