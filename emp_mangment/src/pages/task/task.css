@@ -108,6 +108,21 @@ tbody tr:hover {
   color: #c62828;
 }
 
+.status.pending {
+  background-color: #fd7e1426;
+  color: #fd7e14;
+}
+
+.status.In_Progress {
+  background-color: #e1f5ec;
+  color: #2e7d32;
+}
+
+.status.Completed{
+    background-color: #e1f5ec;
+  color: #2e7d32;
+}
+
 .action-icon {
   margin-right: 5px;
   cursor: pointer;
