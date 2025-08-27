@@ -151,7 +151,6 @@
     //   return null;
     // }
 
-
 import React, { useEffect, useState } from "react";
 import { io } from "socket.io-client";
 import toast from "react-hot-toast";
@@ -163,9 +162,10 @@ export default function EmployeeNotifications() {
   const [empName, setEmpName] = useState("");
 
   useEffect(() => {
-    const storedUser = JSON.parse(localStorage.getItem("user")) || { user: {} };
-    setEmpName(storedUser.user?.name || "Employee");
-  }, [localStorage.getItem("user")]); 
+    const storedUser  = JSON.parse(localStorage.getItem("user")) || { user: {} };
+    setEmpName(storedUser .user?.name || "Employee");
+  }, []);
+
   useEffect(() => {
     if (!empName) return;
 
@@ -175,12 +175,17 @@ export default function EmployeeNotifications() {
 
     newSocket.on("connect", () => {
       console.log("Connected to socket server:", newSocket.id);
-
       newSocket.emit("joinRoom", empName);
     });
 
+    const playNotificationSound = () => {
+      const audio = new Audio("/sounds/notification.mp3"); 
+      audio.play().catch(err => console.error("Audio play failed:", err));
+    };
+
     newSocket.on("leaveStatusChange", (data) => {
       console.log("Leave status update:", data);
+      playNotificationSound(); 
 
       let stored = JSON.parse(localStorage.getItem("emp_notifications")) || [];
       stored.push({
@@ -234,10 +239,9 @@ export default function EmployeeNotifications() {
       ));
     });
 
-    // Listener for task assignment notifications
     newSocket.on("taskassinged", ({ message, data }) => {
       console.log("Task Assigned:", data);
-
+      playNotificationSound(); 
       try {
         let stored = JSON.parse(localStorage.getItem("task_notifications")) || [];
         stored.push({
@@ -294,7 +298,6 @@ export default function EmployeeNotifications() {
       ));
     });
 
-    // Cleanup: leave room and disconnect
     return () => {
       if (newSocket && empName) {
         newSocket.emit("leaveRoom", empName);
