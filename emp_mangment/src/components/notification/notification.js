@@ -148,6 +148,167 @@
     //   return null;
     // }
 
+// import React, { useEffect, useState } from "react";
+// import { io } from "socket.io-client";
+// import toast from "react-hot-toast";
+// import "./notification.css";
+// import userimg from "../../assets/images/user.png";
+
+// export default function EmployeeNotifications() {
+//   const [socket, setSocket] = useState(null);
+//   const [empName, setEmpName] = useState("");
+
+//   useEffect(() => {
+//     const storedUser  = JSON.parse(localStorage.getItem("user")) || { user: {} };
+//     setEmpName(storedUser .user?.name || "Employee");
+//   }, []);
+
+//   useEffect(() => {
+//     if (!empName) return;
+
+
+//     const newSocket = io("https://empmangment-backend.onrender.com", { transports: ["websocket"] });
+//     setSocket(newSocket);
+
+//     newSocket.on("connect", () => {
+//       console.log("Connected to socket server:", newSocket.id);
+//       console.log("emp name: ",empName);
+//       newSocket.emit("joinRoom", empName);
+//     });
+
+//     const playNotificationSound = () => {
+//       const audio = new Audio("/sounds/notification.mp3"); 
+//       audio.play().catch(err => console.error("Audio play failed:", err));
+//     };
+
+//     newSocket.on("leaveStatusChange", (data) => {
+//       console.log("Leave status update:", data);
+//       playNotificationSound(); 
+
+//       let stored = JSON.parse(localStorage.getItem("emp_notifications")) || [];
+//       stored.push({
+//         ...data,
+//         seen: false,
+//       });
+//       localStorage.setItem("emp_notifications", JSON.stringify(stored));
+
+//       toast.custom((t) => (
+//         <div
+//           className={`toast-container ${t.visible ? "toast-enter" : "toast-leave"}`}
+//           style={{
+//             background: "#fff",
+//             padding: "12px",
+//             borderRadius: "8px",
+//             boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
+//             display: "flex",
+//             alignItems: "center",
+//             gap: "10px",
+//             maxWidth: "300px",
+//           }}
+//         >
+//           <div className="toast-avatar">
+//             <img
+//               src={userimg}
+//               alt={data?.name}
+//               style={{ width: "40px", height: "40px", borderRadius: "50%" }}
+//             />
+//           </div>
+//           <div className="toast-content">
+//             <p className="toast-title" style={{ fontWeight: "600", margin: 0 }}>
+//               {data?.name}
+//             </p>
+//             <p className="toast-message" style={{ margin: 0 }}>
+//               {data?.message}
+//             </p>
+//           </div>
+//           <button
+//             onClick={() => toast.dismiss(t.id)}
+//             style={{
+//               marginLeft: "auto",
+//               background: "transparent",
+//               border: "none",
+//               cursor: "pointer",
+//               fontSize: "16px",
+//             }}
+//           >
+//             ✕
+//           </button>
+//         </div>
+//       ));
+//     });
+
+//     newSocket.on("taskassinged", ({ message, data }) => {
+//       console.log("Task Assigned:", data);
+//       playNotificationSound(); 
+//       try {
+//         let stored = JSON.parse(localStorage.getItem("task_notifications")) || [];
+//         stored.push({
+//           ...data,
+//           seen: false,
+//         });
+//         localStorage.setItem("task_notifications", JSON.stringify(stored));
+//       } catch (error) {
+//         console.error("Error storing task notifications:", error);
+//       }
+
+//       toast.custom((t) => (
+//         <div
+//           className={`toast-container ${t.visible ? "toast-enter" : "toast-leave"}`}
+//           style={{
+//             background: "#fff",
+//             padding: "12px",
+//             borderRadius: "8px",
+//             boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
+//             display: "flex",
+//             alignItems: "center",
+//             gap: "10px",
+//             maxWidth: "300px",
+//           }}
+//         >
+//           <div className="toast-avatar">
+//             <img
+//               src={userimg}
+//               alt={data?.name?.name || "Employee"}
+//               style={{ width: "40px", height: "40px", borderRadius: "50%" }}
+//             />
+//           </div>
+//           <div className="toast-content">
+//             <p className="toast-title" style={{ fontWeight: "600", margin: 0 }}>
+//               {data?.name?.name}
+//             </p>
+//             <p className="toast-message" style={{ margin: 0 }}>
+//               {`Hello ${data?.name?.name}, your task '${data?.title}' is due on ${data?.duedate}.`}
+//             </p>
+//           </div>
+//           <button
+//             onClick={() => toast.dismiss(t.id)}
+//             style={{
+//               marginLeft: "auto",
+//               background: "transparent",
+//               border: "none",
+//               cursor: "pointer",
+//               fontSize: "16px",
+//             }}
+//           >
+//             ✕
+//           </button>
+//         </div>
+//       ));
+//     });
+
+//     return () => {
+//       if (newSocket && empName) {
+//         newSocket.emit("leaveRoom", empName);
+//         newSocket.off("leaveStatusChange");
+//         newSocket.off("taskassinged");
+//         newSocket.disconnect();
+//       }
+//     };
+//   }, [empName]);
+
+//   return null;
+// }
+
 import React, { useEffect, useState } from "react";
 import { io } from "socket.io-client";
 import toast from "react-hot-toast";
@@ -158,149 +319,79 @@ export default function EmployeeNotifications() {
   const [socket, setSocket] = useState(null);
   const [empName, setEmpName] = useState("");
 
+  // 🔹 Track user changes from localStorage (logout/login)
   useEffect(() => {
-    const storedUser  = JSON.parse(localStorage.getItem("user")) || { user: {} };
-    setEmpName(storedUser .user?.name || "Employee");
+    const updateUser = () => {
+      const storedUser = JSON.parse(localStorage.getItem("user")) || { user: {} };
+      setEmpName(storedUser.user?.name || "");
+    };
+
+    updateUser(); // Run immediately on mount
+    window.addEventListener("storage", updateUser); // Detect changes in other tabs
+
+    return () => window.removeEventListener("storage", updateUser);
   }, []);
 
+  // 🔹 Also update when component re-renders after login/logout in the same tab
   useEffect(() => {
-    if (!empName) return;
+    const storedUser = JSON.parse(localStorage.getItem("user")) || { user: {} };
+    setEmpName(storedUser.user?.name || "");
+  }, [localStorage.getItem("user")]); // force update when user changes in same tab
 
+  // 🔹 Setup socket connection when empName changes
+  useEffect(() => {
+    if (!empName) {
+      // User logged out → disconnect
+      if (socket) {
+        socket.disconnect();
+        setSocket(null);
+      }
+      return;
+    }
 
-    const newSocket = io("https://empmangment-backend.onrender.com", { transports: ["websocket"] });
+    const newSocket = io("https://empmangment-backend.onrender.com", {
+      transports: ["websocket"],
+    });
     setSocket(newSocket);
 
     newSocket.on("connect", () => {
-      console.log("Connected to socket server:", newSocket.id);
-      console.log("emp name: ",empName);
+      console.log("Connected:", newSocket.id);
+      console.log("emp name:", empName);
       newSocket.emit("joinRoom", empName);
     });
 
     const playNotificationSound = () => {
-      const audio = new Audio("/sounds/notification.mp3"); 
-      audio.play().catch(err => console.error("Audio play failed:", err));
+      const audio = new Audio("/sounds/notification.mp3");
+      audio.play().catch((err) => console.error("Audio play failed:", err));
     };
 
+    // 🔔 Leave Status
     newSocket.on("leaveStatusChange", (data) => {
       console.log("Leave status update:", data);
-      playNotificationSound(); 
+      playNotificationSound();
 
       let stored = JSON.parse(localStorage.getItem("emp_notifications")) || [];
-      stored.push({
-        ...data,
-        seen: false,
-      });
+      stored.push({ ...data, seen: false });
       localStorage.setItem("emp_notifications", JSON.stringify(stored));
 
-      toast.custom((t) => (
-        <div
-          className={`toast-container ${t.visible ? "toast-enter" : "toast-leave"}`}
-          style={{
-            background: "#fff",
-            padding: "12px",
-            borderRadius: "8px",
-            boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
-            display: "flex",
-            alignItems: "center",
-            gap: "10px",
-            maxWidth: "300px",
-          }}
-        >
-          <div className="toast-avatar">
-            <img
-              src={userimg}
-              alt={data?.name}
-              style={{ width: "40px", height: "40px", borderRadius: "50%" }}
-            />
-          </div>
-          <div className="toast-content">
-            <p className="toast-title" style={{ fontWeight: "600", margin: 0 }}>
-              {data?.name}
-            </p>
-            <p className="toast-message" style={{ margin: 0 }}>
-              {data?.message}
-            </p>
-          </div>
-          <button
-            onClick={() => toast.dismiss(t.id)}
-            style={{
-              marginLeft: "auto",
-              background: "transparent",
-              border: "none",
-              cursor: "pointer",
-              fontSize: "16px",
-            }}
-          >
-            ✕
-          </button>
-        </div>
-      ));
+      toast.success(`${data?.name}: ${data?.message}`);
     });
 
-    newSocket.on("taskassinged", ({ message, data }) => {
+    // 🔔 Task Assigned
+    newSocket.on("taskassinged", ({ data }) => {
       console.log("Task Assigned:", data);
-      playNotificationSound(); 
-      try {
-        let stored = JSON.parse(localStorage.getItem("task_notifications")) || [];
-        stored.push({
-          ...data,
-          seen: false,
-        });
-        localStorage.setItem("task_notifications", JSON.stringify(stored));
-      } catch (error) {
-        console.error("Error storing task notifications:", error);
-      }
+      playNotificationSound();
 
-      toast.custom((t) => (
-        <div
-          className={`toast-container ${t.visible ? "toast-enter" : "toast-leave"}`}
-          style={{
-            background: "#fff",
-            padding: "12px",
-            borderRadius: "8px",
-            boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
-            display: "flex",
-            alignItems: "center",
-            gap: "10px",
-            maxWidth: "300px",
-          }}
-        >
-          <div className="toast-avatar">
-            <img
-              src={userimg}
-              alt={data?.name?.name || "Employee"}
-              style={{ width: "40px", height: "40px", borderRadius: "50%" }}
-            />
-          </div>
-          <div className="toast-content">
-            <p className="toast-title" style={{ fontWeight: "600", margin: 0 }}>
-              {data?.name?.name}
-            </p>
-            <p className="toast-message" style={{ margin: 0 }}>
-              {`Hello ${data?.name?.name}, your task '${data?.title}' is due on ${data?.duedate}.`}
-            </p>
-          </div>
-          <button
-            onClick={() => toast.dismiss(t.id)}
-            style={{
-              marginLeft: "auto",
-              background: "transparent",
-              border: "none",
-              cursor: "pointer",
-              fontSize: "16px",
-            }}
-          >
-            ✕
-          </button>
-        </div>
-      ));
+      let stored = JSON.parse(localStorage.getItem("task_notifications")) || [];
+      stored.push({ ...data, seen: false });
+      localStorage.setItem("task_notifications", JSON.stringify(stored));
+
+      toast.success(`Task for ${data?.name?.name}: ${data?.title}`);
     });
 
     return () => {
-      if (newSocket && empName) {
+      if (newSocket) {
         newSocket.emit("leaveRoom", empName);
-        newSocket.off("leaveStatusChange");
-        newSocket.off("taskassinged");
         newSocket.disconnect();
       }
     };
@@ -308,3 +399,4 @@ export default function EmployeeNotifications() {
 
   return null;
 }
+
