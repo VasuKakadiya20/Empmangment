@@ -35,11 +35,15 @@ router.post('/create' ,async (req,res) =>{
                 success:false
             })
         }
-        const io =req.app.get("socketio")
-        io.to(Task.name).emit("taskassinged",{
-          message:"📢 You Given New Task !",
-          data:Task
-        })
+      await Task.populate("name", "name"); 
+
+const io = req.app.get("socketio");
+const empName = Task.name.name; 
+
+io.to(empName).emit("taskassinged", {
+  message: "📢 You Given New Task !",
+  data: Task,
+});
 
         res.status(201).json(Task)
     }catch(error){

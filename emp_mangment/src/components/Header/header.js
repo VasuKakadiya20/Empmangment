@@ -27,26 +27,42 @@ export const Header = () => {
   const [taskdata, settaskdata] = useState([])
   const [leaveNotifications, setLeaveNotifications] = useState([]);
   const [isOpennotificationsDrop, setIsOpenNotificationsDrop] = useState(null);
-const storedUser = JSON.parse(localStorage.getItem("user")) || { user: {} };
-const [notifications, setNotifications] = useState(
-  JSON.parse(localStorage.getItem("emp_notifications")) || []
-);
+  const storedUser = JSON.parse(localStorage.getItem("user")) || { user: {} };
+  const [notifications, setNotifications] = useState(
+    JSON.parse(localStorage.getItem("emp_notifications")) || []
+  );
+  const [tasknotification, settasknotification] = useState(
+    JSON.parse(localStorage.getItem("task_notifications")) || []
+  )
 
-useEffect(() => {
-  const interval = setInterval(() => {
-    setNotifications(JSON.parse(localStorage.getItem("emp_notifications")) || []);
-  }, 1000); 
-  return () => clearInterval(interval);
-}, []);
-const handleOpenNotificationsDrop = () => {
-  setIsOpenNotificationsDrop(true);
-};
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setNotifications(JSON.parse(localStorage.getItem("emp_notifications")) || []);
+      settasknotification(JSON.parse(localStorage.getItem("task_notifications")) || []);
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
+  const handleOpenNotificationsDrop = () => {
+    setIsOpenNotificationsDrop(true);
+  };
 
 const handleCloseNotificationsDrop = () => {
   setIsOpenNotificationsDrop(false);
-  localStorage.removeItem("emp_notifications");
-  setNotifications([]);
+
+  const storedUser = JSON.parse(localStorage.getItem("user")) || { user: {} };
+  const empName = storedUser.user?.name;
+
+  const allNotifications = JSON.parse(localStorage.getItem("emp_notifications")) || [];
+  const remainingNotifications = allNotifications.filter(item => item?.name !== empName);
+  localStorage.setItem("emp_notifications", JSON.stringify(remainingNotifications));
+  setNotifications(remainingNotifications);
+
+  const allTaskNotifications = JSON.parse(localStorage.getItem("task_notifications")) || [];
+  const remainingTaskNotifications = allTaskNotifications.filter(item => item?.name?.name !== empName);
+  localStorage.setItem("task_notifications", JSON.stringify(remainingTaskNotifications));
+  settasknotification(remainingTaskNotifications);
 };
+
 
   const context = useContext(mycontext);
   const navigate = useNavigate();
@@ -60,45 +76,38 @@ const handleCloseNotificationsDrop = () => {
   };
 
   const openNotifications = Boolean(isOpennotificationsDrop);
-  // const handleOpenNotificationsDrop = () => {
-  //   setIsOpenNotificationsDrop(true);
-  // };
 
-  // const handleCloseNotificationsDrop = () => {
-  //   setIsOpenNotificationsDrop(false);
-  // };
 
   const logout = () => {
     context.setislogin(false);
     localStorage.removeItem("user");
+
     handleCloseMyAccDrop();
     navigate("/");
   }
 
-useEffect(() => {
-  const empname = storedUser.user?.name || "";
+  useEffect(() => {
+    const empname = storedUser.user?.name || "";
 
-  fetchDataFromApi(`/task/taske/${empname}`).then((res) => {
-    if (Array.isArray(res)) {
-      settaskdata(res);
-    } else {
-      settaskdata([]); 
-    }
-  });
+    fetchDataFromApi(`/task/taske/${empname}`).then((res) => {
+      if (Array.isArray(res)) {
+        settaskdata(res);
+      } else {
+        settaskdata([]);
+      }
+    });
 
-  fetchDataFromApi(`/leave/status/${empname}`).then((res) => {
-    console.log("Leave API response:", res);
-
-    // ✅ Ensure always array
-    if (Array.isArray(res)) {
-      setLeaveNotifications(res);
-    } else if (res) {
-      setLeaveNotifications([res]); // wrap single object
-    } else {
-      setLeaveNotifications([]); // fallback
-    }
-  });
-}, []);
+    fetchDataFromApi(`/leave/status/${empname}`).then((res) => {
+      console.log("Leave API response:", res);
+      if (Array.isArray(res)) {
+        setLeaveNotifications(res);
+      } else if (res) {
+        setLeaveNotifications([res]); 
+      } else {
+        setLeaveNotifications([]);
+      }
+    });
+  }, []);
 
 
 
@@ -132,98 +141,105 @@ useEffect(() => {
             )}
 
             <div className="col-sm-7 d-flex align-items-center justify-content-end gap-3 part3">
-                <div className="dropdownWrapper position-relative ml-5">
+              <div className="dropdownWrapper position-relative ml-5">
 
-                  <Button
-                    className="rounded-circle mr-3"
-                    onClick={handleOpenNotificationsDrop}>
-                    {" "}
-                    <MdOutlineNotifications />
-                  </Button>
+                <Button
+                  className="rounded-circle mr-3"
+                  onClick={handleOpenNotificationsDrop}>
+                  {" "}
+                  <MdOutlineNotifications />
+                </Button>
 
 
-                  <Button
-                    className="rounded-circle mr-3 isopennav"
-                    onClick={() => context.openNav()}>
-                    {" "}
-                    <IoMenu />
-                  </Button>
+                <Button
+                  className="rounded-circle mr-3 isopennav"
+                  onClick={() => context.openNav()}>
+                  {" "}
+                  <IoMenu />
+                </Button>
 
-                  <Menu
-                    anchorEl={isOpennotificationsDrop}
-                    id="notifications"
-                    className="notifications dropdown_list head"
-                    open={openNotifications}
-                    onClose={handleOpenNotificationsDrop}
-                    onClick={handleCloseNotificationsDrop}
-                    slotProps={{
-                      paper: {
-                        elevation: 0,
-                        sx: {
-                          overflow: "visible",
-                          filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
-                          "& .MuiAvatar-root": {
-                            width: 32,
-                            height: 32,
-                            ml: -0.5,
-                            mr: 1,
-                          },
+                <Menu
+                  anchorEl={isOpennotificationsDrop}
+                  id="notifications"
+                  className="notifications dropdown_list head"
+                  open={openNotifications}
+                  onClose={handleOpenNotificationsDrop}
+                  onClick={handleCloseNotificationsDrop}
+                  slotProps={{
+                    paper: {
+                      elevation: 0,
+                      sx: {
+                        overflow: "visible",
+                        filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
+                        "& .MuiAvatar-root": {
+                          width: 32,
+                          height: 32,
+                          ml: -0.5,
+                          mr: 1,
                         },
                       },
-                    }}
-                    transformOrigin={{ horizontal: "right", vertical: "top" }}
-                    anchorOrigin={{ horizontal: "right", vertical: "bottom" }}>
-                    <div className="heads pl-3 pb-0">
-                      <h4 id="orders" style={{ fontSize: "1.3rem" }}>
-                        Notificatrions
-                      </h4>
-                    </div>
+                    },
+                  }}
+                  transformOrigin={{ horizontal: "right", vertical: "top" }}
+                  anchorOrigin={{ horizontal: "right", vertical: "bottom" }}>
+                  <div className="heads pl-3 pb-0">
+                    <h4 id="orders" style={{ fontSize: "1.3rem" }}>
+                      Notificatrions
+                    </h4>
+                  </div>
 
-                    <Divider className="mb-1" />
+                  <Divider className="mb-1" />
 
-            <div className="scroll">
-  {notifications.length > 0 ? (
-    notifications.map((item, index) => (
-      <MenuItem key={index} onClick={handleCloseNotificationsDrop}>
-        <div>
-                  <UserImg img={user} />
-                </div>
+               <div className="scroll">
+  {(notifications.length > 0 || tasknotification.length > 0) ? (
+    <>
+      {notifications
+        .filter(item => item?.name === storedUser.user?.name) // Only current user's leave notifications
+        .map((item, index) => (
+          <MenuItem key={`leave-${index}`} onClick={handleCloseNotificationsDrop}>
+            <div><UserImg img={user} /></div>
+            <div className="toast-content">
+              <p className="toast-title">{item?.name}</p>
+              <p className="toast-message">
+                Your leave from <b>{item?.data?.leaveFrom}</b> to <br />
+                <b>{item?.data?.leaveTo}</b> was{" "}
+                <b style={{ color: item?.data?.Status === "Approved" ? "green" : item?.data?.Status === "Rejected" ? "red" : "orange" }}>
+                  {item?.data?.Status}
+                </b>
+              </p>
+            </div>
+          </MenuItem>
+      ))}
 
-        <div className="toast-content">
-          <p className="toast-title">{item?.name}</p>
-
-          <p className="toast-message">
-            Your leave from <b>{item?.data?.leaveFrom}</b> to{" "}<br/>
-            <b>{item?.data?.leaveTo}</b> was{" "}
-            <b
-              style={{
-                color:
-                  item?.data?.Status === "Approved"
-                    ? "green"
-                    : item?.data?.Status === "Rejected"
-                    ? "red"
-                    : "orange",
-              }}
-            >
-              {item?.data?.Status}
-            </b>
-          </p>
-
-        </div>
-      </MenuItem>
-    ))
+      {tasknotification
+        .filter(item => item?.name?.name === storedUser.user?.name) 
+        .map((item, index) => (
+          <MenuItem key={`task-${index}`} onClick={handleCloseNotificationsDrop}>
+            <div><UserImg img={user} /></div>
+            <div className="toast-content">
+              <p className="toast-title">{item?.name?.name}</p>
+              <p className="toast-message">
+                Hello <b>{item?.name?.name}</b>,<br />
+                your task '<b>{item?.title}</b>'<br />
+                is due on <b>{item?.duedate}</b>.
+              </p>
+            </div>
+          </MenuItem>
+      ))}
+    </>
   ) : (
     <p className="px-3 py-2 text-muted">No new notifications</p>
   )}
 </div>
 
-                    <div className="pl-5 pr-5 pb-1 mt-2 w-100">
-                      <Button className="btn-blue w-100 py-2 px-3">
-                        View all notifications
-                      </Button>
-                    </div>
-                  </Menu>
-                </div>
+
+                  <div className="pl-5 pr-5 pb-1 mt-2 w-100">
+                    <Button className="btn-blue w-100 py-2 px-3">
+                      View all notifications
+                    </Button>
+                  </div>
+                </Menu>
+              </div>
 
 
               {context.islogin !== true ? (
