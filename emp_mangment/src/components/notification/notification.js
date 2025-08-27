@@ -152,7 +152,6 @@
     // }
 
 
-    // src/components/EmployeeNotifications.js
 import React, { useEffect, useState } from "react";
 import { io } from "socket.io-client";
 import toast from "react-hot-toast";
@@ -163,27 +162,23 @@ export default function EmployeeNotifications() {
   const [socket, setSocket] = useState(null);
   const [empName, setEmpName] = useState("");
 
-  // Watch for user changes in localStorage
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem("user")) || { user: {} };
     setEmpName(storedUser.user?.name || "Employee");
-  }, [localStorage.getItem("user")]); // updates if localStorage changes
-
+  }, [localStorage.getItem("user")]); 
   useEffect(() => {
     if (!empName) return;
 
-    // Connect socket
+
     const newSocket = io("https://empmangment-backend.onrender.com", { transports: ["websocket"] });
     setSocket(newSocket);
 
     newSocket.on("connect", () => {
       console.log("Connected to socket server:", newSocket.id);
 
-      // Join the room of the current user
       newSocket.emit("joinRoom", empName);
     });
 
-    // Listener for leave status updates
     newSocket.on("leaveStatusChange", (data) => {
       console.log("Leave status update:", data);
 
