@@ -194,7 +194,7 @@ const handleCloseNotificationsDrop = () => {
   {(notifications.length > 0 || tasknotification.length > 0) ? (
     <>
       {notifications
-        .filter(item => item?.name === storedUser.user?.name) // Only current user's leave notifications
+        .filter(item => item?.name === storedUser.user?.name)
         .map((item, index) => (
           <MenuItem key={`leave-${index}`} onClick={handleCloseNotificationsDrop}>
             <div><UserImg img={user} /></div>
@@ -258,10 +258,10 @@ const handleCloseNotificationsDrop = () => {
                     </div>
                     <div className="use-info res-hide">
                       <h4>
-                        {storedUser.user.name || "admin"}
+                        {storedUser.user.name || "Employee"}
                         <MdArrowDropDown style={{ fontSize: "22px" }} />
                       </h4>
-                      <p className="mb-0">{storedUser.user.Email || "admin@example.com"}</p>
+                      <p className="mb-0">{storedUser.user.Email || "Employee@example.com"}</p>
                     </div>
                   </Button>
                   <Menu
