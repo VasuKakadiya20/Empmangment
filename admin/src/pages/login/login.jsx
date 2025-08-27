@@ -9,7 +9,7 @@ import React, { useState, useEffect, useContext } from "react";
 const LoginSignupForm = () => {
  const context = useContext(mycontext);
   const [form, setForm] = useState({
-    Email: "admin@example.com",  
+    Email: "admin123@example.com",  
     password: "admin123",      
   });
   const navigate = useNavigate();
@@ -45,7 +45,7 @@ const LoginSignupForm = () => {
       return;
     }
 
-    const adminUser = "admin@example.com";
+    const adminUser = "admin123@example.com";
     const adminPass = "admin123";
 
     if (form.Email === adminUser && form.password === adminPass) {
