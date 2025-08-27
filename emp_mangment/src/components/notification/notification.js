@@ -1,4 +1,3 @@
-    // // src/components/EmployeeNotifications.js
     // import React, { useEffect } from "react";
     // import { io } from "socket.io-client";
     // import toast from "react-hot-toast";
@@ -138,8 +137,6 @@
     //     </div>
     //   ));
     // });
-
-
     //     // Cleanup to prevent duplicate listeners
     //     return () => {
     //       socket.off("leaveStatusChange");
