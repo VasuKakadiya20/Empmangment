@@ -173,7 +173,7 @@ export default function EmployeeNotifications() {
     if (!empName) return;
 
     // Connect socket
-    const newSocket = io("http://localhost:4000", { transports: ["websocket"] });
+    const newSocket = io("https://empmangment-backend.onrender.com", { transports: ["websocket"] });
     setSocket(newSocket);
 
     newSocket.on("connect", () => {
