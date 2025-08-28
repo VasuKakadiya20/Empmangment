@@ -25,7 +25,8 @@ export const Header = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [leaveNotifications, setLeaveNotifications] = useState([]);
   const [isOpennotificationsDrop, setIsOpenNotificationsDrop] = useState(null);
-const storedUser = JSON.parse(localStorage.getItem("user")) || { user: {} };
+const storedUser = JSON.parse(localStorage.getItem("user")) || {};
+
 const [notifications, setNotifications] = useState(
   JSON.parse(localStorage.getItem("notifications")) || []
 );
