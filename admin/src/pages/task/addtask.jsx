@@ -40,7 +40,6 @@ const Addtask = () => {
     title:"",
     duedate:"",
     details:"",
-    status:"",
       })
     } catch (err) {
       toast.error("Something went wrong");
@@ -103,27 +102,12 @@ const Addtask = () => {
                                     <input type="Date"  name="duedate" value={form.duedate}  onChange={handleChange} />
                                 </div>
 
-                                 <div class="form-group">
-                                  <label>Status*</label>
-                                  <select name="status"
-                                    value={form.status} onChange={handleChange} >
-                                    <option value="">Select The status</option>
-                                    <option >pending</option>
-                                    <option value="In_Progress">In Progress</option>
-                                    <option >Completed</option>
-                                  </select>
-                                </div>
-
-                              </div>
-
-                            <div className="form-row">
-                                 <div class="form-group">
+                                <div class="form-group">
                                  <label>Details*</label>
                                       <textarea name="details" value={form.details}  onChange={handleChange} />
                                  </div>
-                                  <div class="form-group"></div>
-                                 
-                                </div>
+
+                              </div>
                     
                 <button type="submit" className="submit-btn mt-3">Submit</button>
               </form>

@@ -41,17 +41,24 @@ const Sidebar = () => {
             </Button>
           </Link>
         </li>
-
-        <li>
-          <Link to="/leave/add">
-          <Button className={`w-100 ${activeTab === 1 ? "active" : ""}`}>
-              <span className="icons"><SlNote /></span>
-              Add Leave
-              <span className="arrows"><FaAngleRight /></span>
-            </Button>
-          </Link>
-        </li>
-
+     <li>
+              <Button
+                className={`w-100 ${activeTab === 4 && isToggleSubmenu ? "active" : ""}`}
+                onClick={() => isOpenSubmenu(4)}
+              >
+                <span className="icons"><SlNote /></span>
+                Leave
+                <span className="arrows"><FaAngleRight /></span>
+              </Button>
+              <div
+                className={`submenu-wrapper ${activeTab === 4 && isToggleSubmenu ? "expanded" : "collapsed"}`}
+              >
+                <ul className="submenu">
+                  <li><Link to="/leave/Status">Leave Status</Link></li>
+                  <li> <Link to="/leave/add">Add Leave</Link></li>
+                </ul>
+              </div>
+            </li>
         <li>
           <Link to="/taskemp">
           <Button className={`w-100 ${activeTab === 2 ? "active" : ""}`}>

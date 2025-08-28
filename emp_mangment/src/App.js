@@ -11,6 +11,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Taskemplist from './pages/task/taskemp';
 import EmployeeNotifications from './components/notification/notification';
 import { Toaster } from "react-hot-toast";
+import LeaveRequests from './pages/Leave/leave';
 const mycontext = createContext()
 
 function App() {
@@ -77,6 +78,7 @@ function App() {
                 <Route path="/" element={<LoginSignupForm />} exact={true} />
                 <Route path="/attendence/add" element={<AddAttendance />} exact={true} />
                 <Route path='/leave/add'element = {<AddLeave/>} exact={true}/>
+                <Route path='/leave/Status'element = {<LeaveRequests/>} exact={true}/>
                 <Route path='/taskemp'element ={<Taskemplist/>}exact={true}/>
               </Routes>
             </div>

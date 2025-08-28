@@ -83,23 +83,9 @@
   margin-top: 10px !important;
 }
 
-.submit-btn {
- background-color: #0987e0 !important;
-color: white;
-  border: none;
-  padding: 12px 30px;
-  font-size: 15px;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background-color 0.2s ease-in-out;
-}
-
-.submit-btn:hover {
-  background-color: #086bb5 !important;
-}
 
 .time-btn {
-  background-color: #209CEE;
+  background-color: #28a745; /* Green base */
   color: #fff;
   border: none;
   padding: 8px 16px;
@@ -107,12 +93,13 @@ color: white;
   font-size: 14px;
   cursor: pointer;
   transition: background 0.3s ease;
-  white-space: nowrap;
+  margin-bottom: 6px; /* gap between button and time */
 }
 
 .time-btn:hover {
-  background-color: #1274b1;
+  background-color: #218838; /* Darker green on hover */
 }
+
 
 .time-display {
   font-size: 14px;
@@ -159,33 +146,6 @@ color: white;
   width: 100%;     
 }
 
-
-.time-btn {
-  background-color: #209CEE;
-  color: #fff;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 6px;
-  font-size: 14px;
-  cursor: pointer;
-  transition: background 0.3s ease;
-  margin-bottom: 6px; /* gap between button and time */
-}
-
-.time-btn:hover {
-  background-color: #1274b1;
-}
-
-.time-display {
-  font-size: 14px;
-  font-weight: 500;
-  color: #333;
-  background: #f2f2f2;
-  padding: 8px 14px;
-  border-radius: 6px;
-  min-width: 80px;
-  text-align: center;
-}
 .form-footer {
   margin-left: 100px !important;
   justify-content: center;
