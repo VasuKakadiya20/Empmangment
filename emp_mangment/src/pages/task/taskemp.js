@@ -206,7 +206,7 @@ useEffect(() => {
                                                                     />
                                                                 </div>
 
-                                                                <div class="button-group">
+                                                                <div class="button-group mt-3">
                                                                     <button onClick={handleSaveUpdate} class="save-btn">Save</button>
                                                                     <button onClick={handleCloseDialog} class="cancel-btn">Cancel</button>
                                                                 </div>
