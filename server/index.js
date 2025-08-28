@@ -73,7 +73,7 @@ const io = new Server(server, {
   cors: {
     origin: [
       "https://empmangment.vercel.app",     
-      "https://admin-ten-navy.vercel.app",   
+      "https://admin-vasu-1234.vercel.app",   
     ],
     methods: ["GET", "POST"]
   }
