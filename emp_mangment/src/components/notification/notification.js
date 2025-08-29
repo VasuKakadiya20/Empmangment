@@ -320,21 +320,32 @@ export default function EmployeeNotifications() {
   const [empName, setEmpName] = useState("");
 
   useEffect(() => {
+    if ("Notification" in window && Notification.permission !== "granted") {
+      Notification.requestPermission();
+    }
+  }, []);
+
+  const showSystemNotification = (title, body) => {
+    if ("Notification" in window && Notification.permission === "granted") {
+      new Notification(title, {
+        body,
+        icon: '/favicon.ico', 
+      });
+    }
+  };
+
+  useEffect(() => {
     const updateUser = () => {
       const storedUser = JSON.parse(localStorage.getItem("user")) || { user: {} };
       setEmpName(storedUser.user?.name || "");
     };
 
-    updateUser(); 
-    window.addEventListener("storage", updateUser); 
+    updateUser();
+    window.addEventListener("storage", updateUser);
 
     return () => window.removeEventListener("storage", updateUser);
   }, []);
 
-  useEffect(() => {
-    const storedUser = JSON.parse(localStorage.getItem("user")) || { user: {} };
-    setEmpName(storedUser.user?.name || "");
-  }, [localStorage.getItem("user")]); 
   useEffect(() => {
     if (!empName) {
       if (socket) {
@@ -363,26 +374,27 @@ export default function EmployeeNotifications() {
     newSocket.on("leaveStatusChange", (data) => {
       console.log("Leave status update:", data);
       playNotificationSound();
+      showSystemNotification(data?.name, data?.message);
 
       let stored = JSON.parse(localStorage.getItem("emp_notifications")) || [];
       stored.push({ ...data, seen: false });
       localStorage.setItem("emp_notifications", JSON.stringify(stored));
 
-           toast.custom((t) => (
-            <div
-              className={`toast-container ${t.visible ? "toast-enter" : "toast-leave"}`}
-              style={{
-                background: "#fff",
-                padding: "12px",
-                borderRadius: "8px",
-                boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
-                display: "flex",
-                alignItems: "center",
-                gap: "10px",
-                maxWidth: "300px",
-              }}
-            >
-             <div className="toast-avatar">
+      toast.custom((t) => (
+        <div
+          className={`toast-container ${t.visible ? "toast-enter" : "toast-leave"}`}
+          style={{
+            background: "#fff",
+            padding: "12px",
+            borderRadius: "8px",
+            boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
+            display: "flex",
+            alignItems: "center",
+            gap: "10px",
+            maxWidth: "300px",
+          }}
+        >
+          <div className="toast-avatar">
             <img
               src={userimg}
               alt={data?.name}
@@ -410,18 +422,23 @@ export default function EmployeeNotifications() {
             ✕
           </button>
         </div>
-          ));
+      ));
     });
+
 
     newSocket.on("taskassinged", ({ data }) => {
       console.log("Task Assigned:", data);
       playNotificationSound();
+      showSystemNotification(
+        "Task Assigned",
+        `Hello ${data?.name?.name}, your task '${data?.title}' is due on ${data?.duedate}.`
+      );
 
       let stored = JSON.parse(localStorage.getItem("task_notifications")) || [];
       stored.push({ ...data, seen: false });
       localStorage.setItem("task_notifications", JSON.stringify(stored));
 
-         toast.custom((t) => (
+      toast.custom((t) => (
         <div
           className={`toast-container ${t.visible ? "toast-enter" : "toast-leave"}`}
           style={{
@@ -444,10 +461,10 @@ export default function EmployeeNotifications() {
           </div>
           <div className="toast-content">
             <p className="toast-title" style={{ fontWeight: "600", margin: 0 }}>
-              {data?.name?.name }
+              {data?.name?.name}
             </p>
             <p className="toast-message" style={{ margin: 0 }}>
-              {`Hello ${data?.name?.name}, your task '${data?.title }' is due on ${data?.duedate }.`}
+              {`Hello ${data?.name?.name}, your task '${data?.title}' is due on ${data?.duedate}.`}
             </p>
           </div>
           <button
@@ -476,4 +493,3 @@ export default function EmployeeNotifications() {
 
   return null;
 }
-
