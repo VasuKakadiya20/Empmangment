@@ -29,7 +29,7 @@
   justify-content:space-between !important;
   align-items: center;
   padding: 1.2rem;
-  background-color: #35a6f7;
+  background-color: #113a69 !important;
   border-bottom: 1px solid #ddd;
   flex-wrap: wrap;
   gap: 20px !important;
@@ -115,6 +115,11 @@ tbody tr:hover {
   color: #2e7d32;
 }
 
+.status.Error{
+    background-color: #fdecea;
+  color: #c62828;
+}
+
 .status.Completed{
     background-color: #e1f5ec;
   color: #2e7d32;
@@ -128,7 +133,7 @@ tbody tr:hover {
 }
 
 .action-icon:hover {
-  color: #98aad8;
+  color: #113a69 !important;
 }
 
 

@@ -24,7 +24,7 @@ const Sidebar = () => {
   const role = storedUser.role || "Employee"; 
 
   return (
-    <div className="sidebar">
+    <div className="sidebar mt-3">
       <div className="sidebar-profile">
         <img src={Admin} alt="User Avatar" className="profile-avatar" />
         <h5 className="profile-name">{storedUser.user?.name || "Employee"}</h5>

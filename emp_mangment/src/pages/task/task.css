@@ -108,6 +108,11 @@ tbody tr:hover {
   color: #c62828;
 }
 
+.status.Error{
+    background-color: #fdecea;
+  color: #c62828;
+}
+
 .status.pending {
   background-color: #fd7e1426;
   color: #fd7e14;
@@ -131,7 +136,7 @@ tbody tr:hover {
 }
 
 .action-icon:hover {
-  color: #98aad8;
+   color: #113a69 !important;
 }
 
 

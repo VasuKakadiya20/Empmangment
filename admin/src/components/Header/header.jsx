@@ -8,7 +8,7 @@ import MenuItem from "@mui/material/MenuItem";
 import { MdOutlineMenu } from "react-icons/md";
 import SearchBox from "../SearchBox/SearchBox";
 import { IoMdPersonAdd } from "react-icons/io";
-import logo from "../../assets/images/logo.png";
+import logo from "../../assets/images/logo.jpg";
 import user from "../../assets/images/user.png";
 import { MdOutlineEmail } from "react-icons/md";
 import { MdArrowDropDown } from "react-icons/md";
@@ -79,12 +79,12 @@ const handleCloseNotificationsDrop = () => {
       <header className="d-flex align-items-center">
         <div className="container-fluid w-100">
           <div className="row d-flex align-items-center w-100">
-            <div className="col-sm-2 part1">
-              <Link to={"#"} className="d-flex align-items-center logo gap-2">
-                <img src={logo} alt="logo" />
-                <span className="ml-2">TeamTrack</span>
-              </Link>
-            </div>
+          <div className="col-sm-2 part1">
+  <Link to={"#"} className="d-flex align-items-center logo gap-2">
+    <img src={logo} alt="logo" className="img-fluid w-100" />
+  </Link>
+</div>
+
             {context.windowWidth > 992 && (
               <div className="col-sm-3 d-flex align-items-center part2 res-hide gap-2">
                 <Button
@@ -180,7 +180,7 @@ const handleCloseNotificationsDrop = () => {
         )}
                     </div>
                     <div className="pl-5 pr-5 pb-1 mt-2 w-100">
-                      <Button className="btn-blue w-100 py-2 px-3">
+                      <Button className="btn-blue submit-btn w-100 py-2 px-3">
                         View all notifications
                       </Button>
                     </div>

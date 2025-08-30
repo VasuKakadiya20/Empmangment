@@ -5,11 +5,9 @@ import "react-toastify/dist/ReactToastify.css";
 import userimg from "../../assets/images/user.png"
 import { toast, ToastContainer } from "react-toastify";
 import DialogContent from "@mui/material/DialogContent";
-import ProjectSurvey from "../../components/chart/chart";
-import EmployeeCharts from "../../components/chart2/chart2";
 import { editdata, fetchDataFromApi } from "../../uttils/api";
 import React, { useContext, useEffect, useState } from "react";
-import HomeAttendance from "../../components/DeshbordAttendance/homeattendeancee";
+// import HomeAttendance from "../../components/DeshbordAttendance/homeattendeancee";
 
 const Dashboard = () => {
   const [emp, setemp] = useState([])
@@ -67,8 +65,7 @@ const Dashboard = () => {
 
   return (
     <>
-    <ProjectSurvey/>
-      <div className="attendance ">
+      <div className="attendance mt-5 imp">
         <div className="attendance-container mt-5">
           <div className="table-wrapper">
             <div className="table-header">
@@ -235,8 +232,7 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
-      <EmployeeCharts/>
-      <HomeAttendance/>
+      {/* <HomeAttendance/> */}
     </>
   );
 };

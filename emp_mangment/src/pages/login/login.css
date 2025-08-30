@@ -43,7 +43,7 @@
   left: 0;
   width: 50%;
   height: 100%;
-  background: #5483fc;
+  background: #113a69 !important;
   /* background: linear-gradient(to right, #003973, #0052d4); */
   transition: left 0.3s ease;
   border-radius: 12px;
@@ -79,14 +79,13 @@
 }
 
 .auth-link a {
-  color: #0052d4;
+  color: #113a69;
   text-decoration: none;
   font-weight: 500;
 }
 
 .auth-submit {
-  /* background: linear-gradient(to right, #003973, #0052d4); */
-    background: #5483fc;
+   background-color: #113a69 !important;
   color: #fff;
   border: none;
   width: 100%;
@@ -99,8 +98,7 @@
 }
 
 .auth-submit:hover {
-      background: #1152f7;
-  /* background: linear-gradient(to right, #00214e, #003973); */
+background-color: #063161 !important;
 }
 
 .auth-bottom-text {

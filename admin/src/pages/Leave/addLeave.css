@@ -46,7 +46,7 @@
   justify-content:space-between !important;
   align-items: center;
   padding: 1.2rem;
-  background-color: #35a6f7;
+  background-color: #113a69 !important;
   border-bottom: 1px solid #ddd;
   flex-wrap: wrap;
   gap: 20px !important;
@@ -87,7 +87,7 @@
 }
 
 .submit-btn {
- background-color: #0987e0 !important;
+background-color: #113a69 !important;
 color: white;
   border: none;
   padding: 12px 30px;

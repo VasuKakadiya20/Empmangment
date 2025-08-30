@@ -117,7 +117,7 @@ const LeaveRequests = () => {
                 </tr>
               </thead>
               <tbody>
-                {leaveData.map((item, index) => (
+                {leaveData.sort((a, b) => new Date(b.RequestedOn) - new Date(a.RequestedOn)).map((item, index) => (
                   <tr key={item.id}>
                     <td><input type="checkbox" /></td>
                     <td className="emp-name">

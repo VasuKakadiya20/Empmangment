@@ -106,7 +106,7 @@ const Tasklist = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {taskdata.map((item, index) => (
+                                {taskdata.sort((a, b) => new Date(b.duedate) - new Date(a.duedate)).map((item, index) => (
                                     <tr key={item.id}>
                                         <td><input type="checkbox" /></td>
                                         <td className="emp-name">

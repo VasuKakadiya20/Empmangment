@@ -61,7 +61,7 @@ const Addtask = () => {
         theme="colored"
       />
 
-      <div className="attendance mt-5">
+      <div className="attendance mt-5 imp">
         <div className="attendance-container mt-5">
           <div className="table-wrapper">
             <div className="table-header">

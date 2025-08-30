@@ -114,7 +114,7 @@ useEffect(() => {
                             </thead>
                             <tbody>
                                 {taskdata.length > 0 ? (
-                                    taskdata.map((item) => (
+                                    taskdata.sort((a, b) => new Date(b.duedate) - new Date(a.duedate)).map((item) => (
                                         <tr key={item._id}>
                                             <td><input type="checkbox" /></td>
                                             <td className="emp-name">
@@ -192,6 +192,7 @@ useEffect(() => {
                                                                             <option >pending</option>
                                                                             <option value="In_Progress">In Progress</option>
                                                                             <option >Completed</option>
+                                                                            <option >Error</option>
                                                                         </select>
                                                                         <i class="fas fa-chevron-down"></i>
                                                                     </div>

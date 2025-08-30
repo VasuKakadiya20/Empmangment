@@ -1,6 +1,7 @@
 .attendance {
   padding: 1rem 0;
   min-height: auto;
+  margin-top: 0px !important;
 }
 
 .attendance-container {
@@ -31,7 +32,7 @@
   justify-content:space-between !important;
   align-items: center;
   padding: 1.2rem;
-  background-color: #35a6f7;
+ background-color: #113a69 !important;
   border-bottom: 1px solid #ddd;
   flex-wrap: wrap;
   gap: 20px !important;
@@ -116,7 +117,7 @@ tbody tr:hover {
 }
 
 .action-icon:hover {
-  color: #98aad8;
+  color: #113a69 !important;
 }
 
 
