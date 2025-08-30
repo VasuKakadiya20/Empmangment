@@ -329,7 +329,7 @@ export default function EmployeeNotifications() {
     if ("Notification" in window && Notification.permission === "granted") {
       new Notification(title, {
         body,
-        icon: '/favicon.ico', 
+        icon: '/Brainart.ico', 
       });
     }
   };
