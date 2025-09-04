@@ -1,5 +1,6 @@
 const express = require('express');
 const { employee } = require('../models/employee');
+const cloudinary = require('cloudinary').v2;
 const router  = express.Router();
 
 router.get('/', async (req, res) => {
@@ -19,35 +20,45 @@ router.get('/', async (req, res) => {
 
 
 router.post('/create', async (req, res) => {
-    try{
+  try {
+    const { profileImage } = req.body;
+    let imgUrl = "";
 
-  let Employees = new employee({
-    name: req.body.name,
-    Role: req.body.Role,
-    Department: req.body.Department,
-    Mobile: req.body.Mobile,
-    JoiningDate: req.body.JoiningDate,
-    Email: req.body.Email,
-    Gender: req.body.Gender,
-    Address: req.body.Address,
-    EmployeeStatus: req.body.EmployeeStatus,
-  });
-  console.log(Employees);
+    if (profileImage) {
+      const uploadResult = await cloudinary.uploader.upload(profileImage, {
+        folder: "employees",
+      });
+      imgUrl = uploadResult.secure_url;
+    }
 
-  Employees = await Employees.save();
-  if (!Employees) {
-    return res.status(500).json({
-      error: "Error saving employees",
-      success: false
+    let Employees = new employee({
+      name: req.body.name,
+      Role: req.body.Role,
+      Department: req.body.Department,
+      Mobile: req.body.Mobile,
+      JoiningDate: req.body.JoiningDate,
+      Email: req.body.Email,
+      Gender: req.body.Gender,
+      Address: req.body.Address,
+      EmployeeStatus: req.body.EmployeeStatus,
+      profileImage: imgUrl,  
     });
-  }
-  res.status(201).json(Employees);  
-    }catch (err) {
-    console.error(err); 
+
+    Employees = await Employees.save();
+    if (!Employees) {
+      return res.status(500).json({
+        error: "Error saving employee",
+        success: false,
+      });
+    }
+
+    res.status(201).json(Employees);
+  } catch (err) {
+    console.error(err);
     res.status(500).json({ error: err.message });
   }
-  
 });
+
 
 router.get('/:id' ,async(req,res)=>{
   const Employees = await employee.findById(req.params.id);

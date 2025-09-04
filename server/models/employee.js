@@ -37,6 +37,10 @@
             type:String,
             required:true
         },
+          profileImage: {   // ✅ single image string
+        type: String,
+        default: ""
+    },
     })
     
     exports.employee = mongoose.model('employee',employeeSchema) 
