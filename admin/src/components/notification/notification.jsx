@@ -74,7 +74,7 @@ export default function AdminNotifications() {
 
          let stored = JSON.parse(localStorage.getItem("chatmassge")) || [];
       stored.push({...data,seen:false});
-      localStorage.setItem("notifications" , JSON.stringify(stored));
+      localStorage.setItem("new_notifications" , JSON.stringify(stored));
 
         playNotificationSound();
       }
