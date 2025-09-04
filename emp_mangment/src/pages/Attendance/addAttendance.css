@@ -85,7 +85,7 @@
 
 
 .time-btn {
-  background-color: #28a745; /* Green base */
+  background-color: #28a745; 
   color: #fff;
   border: none;
   padding: 8px 16px;
@@ -93,13 +93,12 @@
   font-size: 14px;
   cursor: pointer;
   transition: background 0.3s ease;
-  margin-bottom: 6px; /* gap between button and time */
+  margin-bottom: 6px; 
 }
 
 .time-btn:hover {
-  background-color: #218838; /* Darker green on hover */
+  background-color: #218838; 
 }
-
 
 .time-display {
   font-size: 14px;

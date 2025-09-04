@@ -230,8 +230,6 @@ const handleCloseNotificationsDrop = () => {
     <p className="px-3 py-2 text-muted">No new notifications</p>
   )}
 </div>
-
-
                   <div className="pl-5 pr-5 pb-1 mt-2 w-100">
                     <Button className="btn-blue submit-btn w-100 py-2 px-3">
                       View all notifications

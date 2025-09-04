@@ -50,9 +50,6 @@ useEffect(() => {
   window.scrollTo(0, 0);
 }, []);
 
- 
-
-
     const updatetask = (_id) => {
         setOpenDialog(true);
         fetchDataFromApi(`/task/${_id}`).then((res) => {
@@ -76,7 +73,6 @@ useEffect(() => {
             console.error(error);
         }
     };
-
 
     return (
         <>

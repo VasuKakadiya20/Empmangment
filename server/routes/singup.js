@@ -33,7 +33,6 @@ router.post('/create', async(req,res)=>{
   }
 })
 
-
 router.post('/login', async (req, res) => {
   const { Email, password } = req.body;
 
@@ -52,4 +51,3 @@ router.post('/login', async (req, res) => {
 });
 
 module.exports = router;
-

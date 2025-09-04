@@ -279,7 +279,6 @@ table {
       color: white;
     }
 
-    /* Optional: subtle input focus effect */
     input:focus,
     select:focus {
       border-color: #0052cc;

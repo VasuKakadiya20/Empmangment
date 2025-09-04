@@ -96,6 +96,7 @@ const Sidebar = () => {
                 <ul className="submenu">
                   <li><Link to="/task">Task List</Link></li>
                   <li><Link to="/task/add">Task Add</Link></li>
+                  <li><Link to="/chat">chat</Link></li>
                 </ul>
               </div>
             </li>

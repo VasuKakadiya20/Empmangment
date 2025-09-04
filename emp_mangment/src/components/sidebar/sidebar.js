@@ -10,6 +10,7 @@ import { FiUsers } from "react-icons/fi";
 import { IoMdNotifications } from "react-icons/io";
 import { MdOutlineTaskAlt } from "react-icons/md";
 import Admin from "../../assets/images/user.png"
+import { CiChat1 } from "react-icons/ci";
 
 const Sidebar = () => {
   const [activeTab, setActiveTab] = useState(null);
@@ -64,6 +65,15 @@ const Sidebar = () => {
           <Button className={`w-100 ${activeTab === 2 ? "active" : ""}`}>
               <span className="icons"><MdOutlineTaskAlt  /></span>
             Task
+              <span className="arrows"><FaAngleRight /></span>
+            </Button>
+          </Link>
+        </li>
+        <li>
+          <Link to="/chat">
+          <Button className={`w-100 ${activeTab === 2 ? "active" : ""}`}>
+              <span className="icons"><CiChat1  /></span>
+            chat
               <span className="arrows"><FaAngleRight /></span>
             </Button>
           </Link>

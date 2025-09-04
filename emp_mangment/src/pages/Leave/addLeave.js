@@ -9,14 +9,14 @@
     const context = useContext(mycontext);
 
     const [form, setForm] = useState({
-      name: "",  // will be set from localStorage
+      name: "", 
       leavetype: "",
       leaveFrom: "",
       leaveTo: "",
       Numberofdays: "",
       Status: "",
       Reason: "",
-      RequestedOn: "", // This will be set to today's date
+      RequestedOn: "", 
       ApprovedBy: "",
       ApprovedDate: ""
     });
@@ -35,7 +35,7 @@
       const empname = storedUser .user?.name || ""; 
 
       if (empname) {
-        setForm((prev) => ({ ...prev, name: empname, RequestedOn: new Date().toISOString().split('T')[0] })); // Set today's date
+        setForm((prev) => ({ ...prev, name: empname, RequestedOn: new Date().toISOString().split('T')[0] })); 
       } else {
         console.warn("⚠️ No name found in localStorage.user");
       }
@@ -57,7 +57,7 @@
           Numberofdays: "",
           Status: "",
           Reason: "",
-          RequestedOn: new Date().toISOString().split('T')[0], // Reset to today's date
+          RequestedOn: new Date().toISOString().split('T')[0], 
           ApprovedBy: "",
           ApprovedDate: ""
         });
@@ -81,8 +81,7 @@
                 <h2 className="form-title">New Entry</h2>
                 <form className="employee-form" onSubmit={handleSubmit}>
                   <input type="hidden" name="name" value={form.name} />
-                  <input type="hidden" name="RequestedOn" value={form.RequestedOn} /> {/* Hidden input for RequestedOn */}
-
+                  <input type="hidden" name="RequestedOn" value={form.RequestedOn} /> 
                   <div className="form-row">
                     <div className="form-group">
                       <label>Leave type*</label>

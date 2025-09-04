@@ -58,12 +58,16 @@ const signupRoutes = require('./routes/singup');
 const attendanceRoutes = require('./routes/attendanceData');
 const leaveRoutes = require('./routes/leave');
 const taskRoutes = require('./routes/task');
+const meassage = require('./routes/message')
+const chatRoutes = require('./routes/chat')
 
 app.use('/emp', employeeRoutes);
 app.use('/signup', signupRoutes);
 app.use('/att', attendanceRoutes);
 app.use('/leave', leaveRoutes);
 app.use('/task', taskRoutes);
+app.use('/msg' , meassage)
+app.use('/chat',chatRoutes)
 
 app.get('/', (req, res) => {
   res.send('Hello World');

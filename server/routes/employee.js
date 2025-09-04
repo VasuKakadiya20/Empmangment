@@ -49,7 +49,6 @@ router.post('/create', async (req, res) => {
   
 });
 
-
 router.get('/:id' ,async(req,res)=>{
   const Employees = await employee.findById(req.params.id);
   if(!Employees){
@@ -99,8 +98,5 @@ router.put('/:id', async(req,res)=>{
     status:true
   })
 })
-
-
-
 
 module.exports = router;

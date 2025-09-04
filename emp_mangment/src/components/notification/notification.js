@@ -483,6 +483,63 @@ export default function EmployeeNotifications() {
       ));
     });
 
+    newSocket.on("chatmassge",({ data}) =>{
+      console.log("new meassge" , data);
+      playNotificationSound();
+      showSystemNotification(
+        "new message",
+       `Admin send you: ${data?.message?.substr(0, 20)}...`
+      );
+
+      let stored = JSON.parse(localStorage.getItem("new_meassge")) || [];
+      stored.push({...data,seen:false});
+      localStorage.setItem("new_meassge" , JSON.stringify(stored));
+
+      toast.custom((t) =>{
+        <div
+          className={`toast-container ${t.visible ? "toast-enter" : "toast-leave"}`}
+          style={{
+            background: "#fff",
+            padding: "12px",
+            borderRadius: "8px",
+            boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
+            display: "flex",
+            alignItems: "center",
+            gap: "10px",
+            maxWidth: "300px",
+          }}
+        >
+          <div className="toast-avatar">
+            <img
+              src={userimg}
+              alt={data?.name?.name || "Employee"}
+              style={{ width: "40px", height: "40px", borderRadius: "50%" }}
+            />
+          </div>
+          <div className="toast-content">
+            <p className="toast-title" style={{ fontWeight: "600", margin: 0 }}>
+              {data?.receiver}
+            </p>
+             <p className="toast-message" style={{ margin: 0 }}>
+            {`Admin send you: ${data?.message?.substr(0, 20)}...`}
+            </p>
+          </div>
+          <button
+            onClick={() => toast.dismiss(t.id)}
+            style={{
+              marginLeft: "auto",
+              background: "transparent",
+              border: "none",
+              cursor: "pointer",
+              fontSize: "16px",
+            }}
+          >
+            ✕
+          </button>
+        </div>
+      })
+    })
+
     return () => {
       if (newSocket) {
         newSocket.emit("leaveRoom", empName);

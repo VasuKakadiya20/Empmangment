@@ -73,14 +73,6 @@ h1,h2,h3,h4,h5,h6,p{
     font-weight: 600 !important;
 }
 
-/* .link:hover{
-    color: #0858f7 !important;
-}
-
-.link .color {
-    color: #737c8f !important;
-    text-decoration: none !important;
-} */
 header {
     width: 100%;
     height: 90px;
@@ -99,7 +91,6 @@ header .logo {
 
 header .logo img {
     width: 85% !important;
-   /* height: 95px; */
 }
 
 header .logo span {
@@ -161,7 +152,6 @@ header .part2{
 .myacc {
     text-align: left !important;
     color: #77BEF0 !important;
-    /* text-transform: capitalize; */
 }
 
 .user-img {
@@ -306,9 +296,6 @@ header .part2{
     color: red !important;
 }
 
-/* end the heder css */
-
-/* sidebar start  */
 .part3{
   justify-content: space-evenly !important;
 }
@@ -400,10 +387,6 @@ header .part2{
     background: #ecedf0 !important;
 }
 
-/* .main .sidebar-wrapper .sidebar ul li button.active .icons svg{
-    color: #0858f7 !important;
-} */
-
 .main .sidebar-wrapper .sidebar ul li button.active .arrows{
     transform: rotate(90deg);
 }
@@ -438,9 +421,6 @@ header .part2{
     transition: all 0.3s;
 }
 
-/* .main .sidebar-wrapper .sidebar ul .submenu li a:hover{
-    color: #6c6e81 !important;
-} */
 .submenu-wrapper {
     display: none;
     padding-left: 0px;

@@ -12,6 +12,8 @@ import Taskemplist from './pages/task/taskemp';
 import EmployeeNotifications from './components/notification/notification';
 import { Toaster } from "react-hot-toast";
 import LeaveRequests from './pages/Leave/leave';
+import Chat from './pages/chat/chat';
+
 const mycontext = createContext()
 
 function App() {
@@ -80,6 +82,7 @@ function App() {
                 <Route path='/leave/add'element = {<AddLeave/>} exact={true}/>
                 <Route path='/leave/Status'element = {<LeaveRequests/>} exact={true}/>
                 <Route path='/taskemp'element ={<Taskemplist/>}exact={true}/>
+                <Route path='/chat'element ={<Chat/>}exact={true}/>
               </Routes>
             </div>
           </div>

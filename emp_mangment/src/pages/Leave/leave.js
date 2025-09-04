@@ -9,8 +9,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { FaChevronRight } from "react-icons/fa";
 import InputLabel from '@mui/material/InputLabel';
 import userimg from "../../assets/images/user.png"
-import { toast, ToastContainer } from "react-toastify";
-import { deletedata, editdata, fetchDataFromApi } from "../../uttils/api";
+import { fetchDataFromApi } from "../../uttils/api";
 import FormControl from '@mui/material/FormControl';
 
 
@@ -33,19 +32,6 @@ const LeaveRequests = () => {
 
   return (
     <>
-      <ToastContainer
-        position="top-right"
-        autoClose={3000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="colored"
-      />
-
       <div className="attendance mt-5">
         <div className="attendance-container mt-5">
           <h2 className="table-title">Leave Status</h2>

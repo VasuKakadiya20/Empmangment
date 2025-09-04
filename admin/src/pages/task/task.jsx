@@ -183,6 +183,7 @@ const Tasklist = () => {
                                                                         <option >pending</option>
                                                                         <option value="In_Progress">In Progress</option>
                                                                         <option >Completed</option>
+                                                                        <option >Error</option>
                                                                     </select>
                                                                     <i class="fas fa-chevron-down"></i>
                                                                 </div>

@@ -40,6 +40,3 @@
     })
     
     exports.employee = mongoose.model('employee',employeeSchema) 
-
-
-    

@@ -39,7 +39,6 @@ router.post('/create' ,async (req,res)=>{
             })
         }
 
-        // 🔔 Emit event to all connected admins
         const io = req.app.get("socketio");
         io.emit("leave_request", {
           message: `📢 New leave request from ${Leave.name} (${Leave.leavetype})`,
@@ -102,7 +101,6 @@ router.delete("/delete/:name", async (req, res) => {
   }
 });
 
-
 router.put('/:id', async (req, res) => {
   try {
     const updatedLeave = await leave.findByIdAndUpdate(
@@ -163,8 +161,6 @@ router.put('/:id', async (req, res) => {
   }
 });
 
-
-
 router.get("/status/:name", async (req, res) => {
   try {
     const { name } = req.params;
@@ -186,7 +182,5 @@ router.get("/status/:name", async (req, res) => {
     });
   }
 });
-
-
 
 module.exports = router;

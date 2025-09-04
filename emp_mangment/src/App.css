@@ -160,7 +160,6 @@ header .part2{
 .myacc {
     text-align: left !important;
     color: #77BEF0 !important;
-    /* text-transform: capitalize; */
 }
 
 .user-img {
@@ -399,10 +398,6 @@ header .part2{
     background: #ecedf0 !important;
 }
 
-/* .main .sidebar-wrapper .sidebar ul li button.active .icons svg{
-    color: #0858f7 !important;
-} */
-
 .main .sidebar-wrapper .sidebar ul li button.active .arrows{
     transform: rotate(90deg);
 }
@@ -437,9 +432,6 @@ header .part2{
     transition: all 0.3s;
 }
 
-/* .main .sidebar-wrapper .sidebar ul .submenu li a:hover{
-    color: #6c6e81 !important;
-} */
 .submenu-wrapper {
     display: none;
     padding-left: 0px;
