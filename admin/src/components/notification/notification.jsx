@@ -29,7 +29,9 @@ export default function AdminNotifications() {
 
     socket.on("leave_request", (data) => {
       console.log("Leave request received:", data);
-
+       let stored = JSON.parse(localStorage.getItem("leave_request")) || [];
+      stored.push({...data,seen:false});
+      localStorage.setItem("notifications" , JSON.stringify(stored));
       if (permissionGranted) {
         new Notification("Leave Request", {
           body: `${data?.data?.name} requested ${data?.data?.leavetype} leave`,
@@ -69,6 +71,10 @@ export default function AdminNotifications() {
           body: `${data?.data?.sender} send you ${data?.data?.message?.substr(0, 20)}...`,
           icon: userimg, 
         });
+
+         let stored = JSON.parse(localStorage.getItem("chatmassge")) || [];
+      stored.push({...data,seen:false});
+      localStorage.setItem("notifications" , JSON.stringify(stored));
 
         playNotificationSound();
       }
