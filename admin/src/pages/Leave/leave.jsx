@@ -21,9 +21,9 @@ import { deletedata, editdata, fetchDataFromApi } from "../../uttils/api";
 const LeaveRequests = () => {
   const [age, setAge] = React.useState('');
   const [openDialog, setOpenDialog] = useState(false);
-  const [employees, setEmployees] = useState([]);
   const [updatedate, setupdatedate] = useState([])
   const [leaveData, setleaveData] = useState([])
+       const [empImages, setEmpImages] = useState({});
   const handleChange = (event) => {
     setAge(event.target.value);
   };
@@ -35,11 +35,24 @@ const LeaveRequests = () => {
   useEffect(() => {
     fetchDataFromApi('/leave/').then((res) => {
       setleaveData(res)
+
+         res.forEach((leave) => {
+                      if (leave.name) {
+                          fetchDataFromApi(`/emp/${leave.name}`).then((emp) => {
+                              setEmpImages((prev) => ({
+                                  ...prev,
+                                  [leave.name]: emp.profileImage
+                              }));
+                          }).catch(() => {
+                              setEmpImages((prev) => ({
+                                  ...prev,
+                                  [leave.name]: userimg
+                              }));
+                          });
+                      }
+                  });
     })
 
-    fetchDataFromApi(`/emp/`).then((res) => {
-      setEmployees(res);
-    })
 
     window.scrollTo(0, 0);
   }, [])
@@ -121,7 +134,10 @@ const LeaveRequests = () => {
                   <tr key={item.id}>
                     <td><input type="checkbox" /></td>
                     <td className="emp-name">
-                      <img src={userimg} alt={item.name} />
+                       <img
+                        src={empImages[item.name] || userimg}
+                        alt={item.name}
+            />
                       {item.name}
                     </td>
                     <td>{item.leavetype}</td>

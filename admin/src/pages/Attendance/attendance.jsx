@@ -23,10 +23,27 @@ const Attendance = () => {
   const [attendance, setattendance] = useState([])
   const [openDialog, setOpenDialog] = useState(false);
   const [updatedate, setupdatedate] = useState([])
+  const [empImages, setEmpImages] = useState({});
 
   useEffect(() => {
     fetchDataFromApi('/att/').then((res) => {
       setattendance(res)
+
+       res.forEach((att) => {
+                      if (att.name) {
+                          fetchDataFromApi(`/emp/${att.name}`).then((emp) => {
+                              setEmpImages((prev) => ({
+                                  ...prev,
+                                  [att.name]: emp.profileImage
+                              }));
+                          }).catch(() => {
+                              setEmpImages((prev) => ({
+                                  ...prev,
+                                  [att.name]: userimg
+                              }));
+                          });
+                      }
+                  });
     })
     window.scrollTo(0, 0);
   }, [])
@@ -85,7 +102,10 @@ const Attendance = () => {
                   <tr key={index}>
                     <td><input type="checkbox" /></td>
                     <td className="emp-name">
-                      <img src={userimg} alt={item.name?.name} />
+                       <img
+                    src={empImages[item.name] || userimg}
+                    alt={item.name}
+                />
                       {item.name}
                     </td>
                     <td>{item.date}</td>

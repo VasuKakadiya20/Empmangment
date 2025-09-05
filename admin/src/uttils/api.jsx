@@ -14,9 +14,24 @@ export const editdata = async (url, updatedata) => {
   return res;
 };
 
-export const postData = async (url, fromdata) => {
+// export const postData = async (url, fromdata) => {
+//   try {
+//     const { data } = await axios.post("https://empmangment-backend.onrender.com" + url, fromdata);
+//     return data;
+//   } catch (error) {
+//     console.error("POST Error:", error.response?.data || error.message);
+//     throw error;
+//   }
+// };
+export const postData = async (url, formData, isFormData = false) => {
   try {
-    const { data } = await axios.post("https://empmangment-backend.onrender.com" + url, fromdata);
+    const config = {
+      headers: {
+        "Content-Type": isFormData ? "multipart/form-data" : "application/json",
+      },
+    };
+
+    const { data } = await axios.post("https://empmangment-backend.onrender.com" + url, formData, config);
     return data;
   } catch (error) {
     console.error("POST Error:", error.response?.data || error.message);

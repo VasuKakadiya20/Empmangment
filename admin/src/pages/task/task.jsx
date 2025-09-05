@@ -22,6 +22,7 @@ const Tasklist = () => {
     const [taskdata, settaskdata] = useState([])
     const [openDialog, setOpenDialog] = useState(false);
     const [updatedate, setupdatedate] = useState([])
+    const [empImages, setEmpImages] = useState({});
     const handleChange = (event) => {
         setAge(event.target.value);
     };
@@ -32,11 +33,27 @@ const Tasklist = () => {
 
     useEffect(() => {
         fetchDataFromApi('/task/').then((res) => {
-            settaskdata(res)
-        })
+            settaskdata(res);
+
+            res.forEach((task) => {
+                if (task.name?.name) {
+                    fetchDataFromApi(`/emp/${task.name.name}`).then((emp) => {
+                        setEmpImages((prev) => ({
+                            ...prev,
+                            [task.name.name]: emp.profileImage
+                        }));
+                    }).catch(() => {
+                        setEmpImages((prev) => ({
+                            ...prev,
+                            [task.name.name]: userimg
+                        }));
+                    });
+                }
+            });
+        });
 
         window.scrollTo(0, 0);
-    }, [])
+    }, []);
 
     const updatetask = (_id) => {
         setOpenDialog(true);
@@ -110,7 +127,10 @@ const Tasklist = () => {
                                     <tr key={item.id}>
                                         <td><input type="checkbox" /></td>
                                         <td className="emp-name">
-                                            <img src={userimg} alt={item.name?.name} />
+                                            <img
+                                                src={empImages[item.name?.name] || userimg}
+                                                alt={item.name?.name}
+                                            />
                                             {item.name?.name}
                                         </td>
                                         <td>{item.title}</td>

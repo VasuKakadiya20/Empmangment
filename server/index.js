@@ -68,6 +68,7 @@ const taskRoutes = require('./routes/task');
 const meassage = require('./routes/message')
 const chatRoutes = require('./routes/chat')
 
+app.use('/uploads', express.static('uploads'));
 app.use('/emp', employeeRoutes);
 app.use('/signup', signupRoutes);
 app.use('/att', attendanceRoutes);
