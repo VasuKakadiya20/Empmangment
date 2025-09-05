@@ -211,7 +211,7 @@ function Chat() {
             }
           };
           fetchMessages();
-          const interval = setInterval(fetchMessages, 2000);
+          const interval = setInterval(fetchMessages, 5000);
           return () => clearInterval(interval);
         }
       } catch (err) {
