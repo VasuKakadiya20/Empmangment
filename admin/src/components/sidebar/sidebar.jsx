@@ -9,7 +9,7 @@ import { BsFillClipboardDataFill } from "react-icons/bs";
 import { FiUsers } from "react-icons/fi";
 import { IoMdNotifications } from "react-icons/io";
 import { MdOutlineTaskAlt } from "react-icons/md";
-import Admin from "../../assets/images/user.png"
+import Admin from "../../assets/images/logo2.png"
 
 const Sidebar = () => {
   const [activeTab, setActiveTab] = useState(null);

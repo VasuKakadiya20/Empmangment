@@ -16,6 +16,7 @@ import FormControl from '@mui/material/FormControl';
 const LeaveRequests = () => {
   const [age, setAge] = React.useState('');
   const [leaveData, setleaveData] = useState([])
+   const [userProfile, setUserProfile] = useState(null);
   const handleChange = (event) => {
     setAge(event.target.value);
   };
@@ -26,6 +27,12 @@ const LeaveRequests = () => {
     fetchDataFromApi(`/leave/status/${empname}`).then((res) => {
       setleaveData(res)
     })
+
+      fetchDataFromApi(`/emp/${empname}`).then((emp) => {
+      setUserProfile(emp.profileImage || userimg);
+    }).catch(() => {
+      setUserProfile(userimg); // fallback
+    });
 
     window.scrollTo(0, 0);
   }, [])
@@ -58,7 +65,7 @@ const LeaveRequests = () => {
                   <tr key={item.id}>
                     <td><input type="checkbox" /></td>
                     <td className="emp-name">
-                      <img src={userimg} alt={item.name} />
+                      <img src={userProfile || userimg}  alt={item.name} />
                       {item.name}
                     </td>
                     <td>{item.leavetype}</td>

@@ -20,6 +20,7 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import { MdOutlineNotifications } from "react-icons/md";
 import LockOutlineIcon from "@mui/icons-material/LockOutline";
 import { fetchDataFromApi } from "../../uttils/api";
+import admin from "../../assets/images/logo2.png"
 
 export const Header = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -198,7 +199,7 @@ const handleCloseNotificationsDrop = () => {
                     onClick={handleOpenMyAccDrop}>
                     <div className="user-img">
                       <span className="rounded-circle">
-                        <img src={user} alt="user" />
+                        <img src={admin} alt="Admin" />
                       </span>
                     </div>
                     <div className="use-info res-hide">

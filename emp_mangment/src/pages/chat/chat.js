@@ -181,6 +181,7 @@ function Chat() {
   const [messages, setMessages] = useState([]);
   const [text, setText] = useState("");
   const chatBodyRef = useRef(null);
+   const [userProfile, setUserProfile] = useState(null);
 
   const employee = JSON.parse(localStorage.getItem("user")) || { user: {} };
   const empName = employee.user?.name;
@@ -220,6 +221,13 @@ function Chat() {
     };
 
     fetchChatAndMessages();
+
+      fetchDataFromApi(`/emp/${empName}`).then((emp) => {
+            setUserProfile(emp.profileImage || user);
+          }).catch(() => {
+            setUserProfile(user); 
+          });
+    
   }, [chatId, employee.user?.name]);
 
   useEffect(() => {
@@ -274,7 +282,7 @@ function Chat() {
               <p>{msg.message}</p>
             </div>
             <img
-              src={msg.sender === "admin" ? admin : user}
+              src={msg.sender === "admin" ? admin : userProfile}
               alt="profile"
               className="chat-avatar"
             />

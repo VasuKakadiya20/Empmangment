@@ -20,6 +20,7 @@ function ChatWindow({ chatId, employeeName }) {
   const [messages, setMessages] = useState([]);
   const [text, setText] = useState("");
     const chatBodyRef = useRef(null);
+     const [userProfile, setUserProfile] = useState(null);
 
   useEffect(() => {
     if (chatId) {
@@ -29,10 +30,19 @@ function ChatWindow({ chatId, employeeName }) {
       })
     }
      fetchMessages();
-          const interval = setInterval(fetchMessages, 5000);
-          return () => clearInterval(interval);
+          // const interval = setInterval(fetchMessages, 5000);
+          // return () => clearInterval(interval);
   }
   }, [chatId]);
+
+  useEffect(()=>{
+       fetchDataFromApi(`/emp/${employeeName}`).then((emp) => {
+        setUserProfile(emp.profileImage);
+      }).catch(() => {
+        setUserProfile(user); 
+      });
+
+  })
 
     useEffect(() => {
       if (chatBodyRef.current) {
@@ -68,7 +78,7 @@ function ChatWindow({ chatId, employeeName }) {
       <div className="chat-header">
         <div className="chat-left">
           <FaArrowLeft className="icon" />
-          <img src={user} alt="profile" className="profile-img" />
+          <img src={userProfile || user} alt="profile" className="profile-img" />
           <span className="chat-name">{employeeName}</span>
         </div>
         <div className="chat-right">
@@ -87,7 +97,7 @@ function ChatWindow({ chatId, employeeName }) {
             }`}
           >
             <img
-              src={msg.sender === "admin" ? admin : user}
+              src={msg.sender === "admin" ? admin : userProfile}
               alt="profile"
               className="chat-avatar"
             />

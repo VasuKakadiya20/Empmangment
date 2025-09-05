@@ -22,6 +22,7 @@ const Taskemplist = () => {
     const [taskdata, settaskdata] = useState([])
     const [openDialog, setOpenDialog] = useState(false);
     const [updatedate, setupdatedate] = useState([])
+    const [userProfile, setUserProfile] = useState(null);
     const handleChange = (event) => {
         setAge(event.target.value);
     };
@@ -46,6 +47,11 @@ useEffect(() => {
         console.error("❌ Error fetching tasks:", err);
       });
   }
+  fetchDataFromApi(`/emp/${empname}`).then((emp) => {
+        setUserProfile(emp.profileImage || userimg);
+      }).catch(() => {
+        setUserProfile(userimg); 
+      });
 
   window.scrollTo(0, 0);
 }, []);
@@ -114,7 +120,7 @@ useEffect(() => {
                                         <tr key={item._id}>
                                             <td><input type="checkbox" /></td>
                                             <td className="emp-name">
-                                                <img src={userimg} alt={item.name?.name} />
+                                                <img src={userProfile || userimg}  alt={item.name?.name} />
                                                 {item.name?.name}
                                             </td>
                                             <td>{item.title}</td>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Button from '@mui/material/Button';
 import { MdDashboard } from "react-icons/md";
 import { FaAngleRight } from "react-icons/fa6";
@@ -9,25 +9,37 @@ import { BsFillClipboardDataFill } from "react-icons/bs";
 import { FiUsers } from "react-icons/fi";
 import { IoMdNotifications } from "react-icons/io";
 import { MdOutlineTaskAlt } from "react-icons/md";
-import Admin from "../../assets/images/user.png"
+import user from "../../assets/images/user.png"
 import { CiChat1 } from "react-icons/ci";
+import { fetchDataFromApi } from '../../uttils/api';
 
 const Sidebar = () => {
   const [activeTab, setActiveTab] = useState(null);
   const [isToggleSubmenu, setIsToggleSubmenu] = useState(false);
+   const [userProfile, setUserProfile] = useState(null);
+     const storedUser = JSON.parse(localStorage.getItem("user")) || {};
+  const role = storedUser.role || "Employee"; 
+    const empname = storedUser.user?.name || ""; 
+
+   useEffect(()=>{
+      fetchDataFromApi(`/emp/${empname}`).then((emp) => {
+          setUserProfile(emp.profileImage || user);
+        }).catch(() => {
+          setUserProfile(user); 
+        });
+   })
 
   const isOpenSubmenu = (index) => {
     setActiveTab(index);
     setIsToggleSubmenu(!isToggleSubmenu);
   };
 
-  const storedUser = JSON.parse(localStorage.getItem("user")) || {};
-  const role = storedUser.role || "Employee"; 
+
 
   return (
     <div className="sidebar mt-3">
       <div className="sidebar-profile">
-        <img src={Admin} alt="User Avatar" className="profile-avatar" />
+        <img src={userProfile || user } alt="User Avatar" className="profile-avatar" />
         <h5 className="profile-name">{storedUser.user?.name || "Employee"}</h5>
         <p className="profile-role">{role || "Employee" }</p>
       </div>

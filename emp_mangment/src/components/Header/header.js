@@ -28,6 +28,7 @@ export const Header = () => {
   const [leaveNotifications, setLeaveNotifications] = useState([]);
   const [isOpennotificationsDrop, setIsOpenNotificationsDrop] = useState(null);
   const storedUser = JSON.parse(localStorage.getItem("user")) || { user: {} };
+   const [userProfile, setUserProfile] = useState(null);
   const [notifications, setNotifications] = useState(
     JSON.parse(localStorage.getItem("emp_notifications")) || []
   );
@@ -107,6 +108,13 @@ const handleCloseNotificationsDrop = () => {
         setLeaveNotifications([]);
       }
     });
+
+      fetchDataFromApi(`/emp/${empname}`).then((emp) => {
+                setUserProfile(emp.profileImage || user);
+              }).catch(() => {
+                setUserProfile(user); 
+              });
+
   }, []);
 
 
@@ -250,7 +258,7 @@ const handleCloseNotificationsDrop = () => {
                     onClick={handleOpenMyAccDrop}>
                     <div className="user-img">
                       <span className="rounded-circle">
-                        <img src={user} alt="user" />
+                        <img src={userProfile || user}  alt="user"/>
                       </span>
                     </div>
                     <div className="use-info res-hide">
