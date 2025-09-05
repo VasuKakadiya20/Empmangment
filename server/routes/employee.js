@@ -74,7 +74,7 @@ router.get('/:name', async (req, res) => {
 
     res.status(200).json({
       name: emp.name,
-      profileImage: `http://localhost:4000${emp.profileImage}` 
+      profileImage: `https://empmangment-backend.onrender.com${emp.profileImage}` 
     });
   } catch (error) {
     res.status(500).json({ error: error.message });
