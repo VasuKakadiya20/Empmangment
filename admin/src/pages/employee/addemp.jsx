@@ -165,7 +165,6 @@ const AddEmployeeForm = () => {
 
   const [profileImage, setProfileImage] = useState(null);
 
-  // ✅ handle text fields
   const handleChange = (e) => {
     setForm({
       ...form,
@@ -173,7 +172,6 @@ const AddEmployeeForm = () => {
     });
   };
 
-  // ✅ handle image file
   const handleFileChange = (e) => {
     setProfileImage(e.target.files[0]);
   };
@@ -181,7 +179,6 @@ const AddEmployeeForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // ✅ Create FormData
       const formData = new FormData();
       Object.keys(form).forEach((key) => {
         formData.append(key, form[key]);
@@ -190,7 +187,6 @@ const AddEmployeeForm = () => {
         formData.append("profileImage", profileImage);
       }
 
-      // ✅ Send multipart/form-data
       const res = await postData(`/emp/create`, formData, true); 
       toast.success("Employee added successfully!");
       console.log("Success:", res);

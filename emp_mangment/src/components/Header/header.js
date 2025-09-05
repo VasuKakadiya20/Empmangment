@@ -9,6 +9,7 @@ import { MdOutlineMenu } from "react-icons/md";
 import SearchBox from "../SearchBox/SearchBox";
 import { IoMdPersonAdd } from "react-icons/io";
 import logo from "../../assets/images/logo.jpg";
+import logo2 from "../../assets/images/logo2.png";
 import user from "../../assets/images/user.png";
 import { MdOutlineEmail } from "react-icons/md";
 import { MdArrowDropDown } from "react-icons/md";
@@ -204,7 +205,7 @@ const handleCloseNotificationsDrop = () => {
         .filter(item => item?.name === storedUser.user?.name)
         .map((item, index) => (
           <MenuItem key={`leave-${index}`} onClick={handleCloseNotificationsDrop}>
-            <div><UserImg img={user} /></div>
+            <div><UserImg img={logo2} /></div>
             <div className="toast-content">
               <p className="toast-title">{item?.name}</p>
               <p className="toast-message">
@@ -222,7 +223,7 @@ const handleCloseNotificationsDrop = () => {
         .filter(item => item?.name?.name === storedUser.user?.name) 
         .map((item, index) => (
           <MenuItem key={`task-${index}`} onClick={handleCloseNotificationsDrop}>
-            <div><UserImg img={user} /></div>
+            <div><UserImg img={logo2} /></div>
             <div className="toast-content">
               <p className="toast-title">{item?.name?.name}</p>
               <p className="toast-message">
