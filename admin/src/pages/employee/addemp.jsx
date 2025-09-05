@@ -280,16 +280,20 @@ const AddEmployeeForm = () => {
                     </select>
                   </div>
                 </div>
-
-                <div className="form-group full-width">
+ <div className="form-row">
+     <div className="form-group">
                   <label>Address</label>
                   <textarea placeholder="Enter the Address" name="Address" value={form.Address} onChange={handleChange} />
                 </div>
 
-                <div className="form-group full-width">
+                 <div className="form-group">
                   <label>Profile Image</label>
                   <input type="file" name="profileImage" onChange={handleFileChange} accept="image/*" />
                 </div>
+ </div>
+               
+
+               
 
                 <button type="submit" className="submit-btn mt-3">Submit</button>
               </form>
