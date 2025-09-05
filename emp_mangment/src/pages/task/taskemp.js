@@ -172,9 +172,11 @@ useEffect(() => {
                                                                 <div className="form-row">
                                                                     <div class="form-group">
                                                                         <label>Due Date*</label>
-                                                                        <input type="Date" name="duedate" value={updatedate?.duedate}
-                                                                            onChange={(e) => setupdatedate({ ...updatedate, duedate: e.target.value })}
-                                                                            readOnly
+                                                                        <input
+                                                                            type="Date"
+                                                                            name="duedate"
+                                                                            value={updatedate?.duedate}
+                                                                            disabled
                                                                         />
                                                                     </div>
 
