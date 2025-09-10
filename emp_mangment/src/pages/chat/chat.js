@@ -205,15 +205,14 @@ function Chat() {
             try {
              fetchDataFromApi(`/msg/${id}`).then((res) =>{
                setMessages(res);
-              //  console.log("chat data:",res)
              })
             } catch (err) {
               console.error(err);
             }
           };
           fetchMessages();
-          const interval = setInterval(fetchMessages, 5000);
-          return () => clearInterval(interval);
+          // const interval = setInterval(fetchMessages, 5000);
+          // return () => clearInterval(interval);
         }
       } catch (err) {
         console.error(err);
