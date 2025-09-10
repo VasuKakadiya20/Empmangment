@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { io } from "socket.io-client";
 import toast from "react-hot-toast";
 import "./notification.css";
-import userimg from "../../assets/images/user.png";
+import userimg from "../../assets/images/logo2.png";
 
 export default function EmployeeNotifications() {
   const [socket, setSocket] = useState(null);
