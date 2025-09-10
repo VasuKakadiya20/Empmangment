@@ -86,7 +86,7 @@ router.get('/:id', async (req, res) => {
   if (!Employees) {
     return res.status(404).json({ message: 'Employee not found' });
   }
-  res.status(200).send(Employees);
+  res.status(200).json(Employees);
 });
 
 router.delete('/:id', async (req, res) => {
