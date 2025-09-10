@@ -22,7 +22,7 @@ const Sidebar = () => {
     const empname = storedUser.user?.name || ""; 
 
    useEffect(()=>{
-      fetchDataFromApi(`/emp/${empname}`).then((emp) => {
+      fetchDataFromApi(`/emp/img/${empname}`).then((emp) => {
           setUserProfile(emp.profileImage || user);
         }).catch(() => {
           setUserProfile(user); 

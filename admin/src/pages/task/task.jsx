@@ -37,7 +37,7 @@ const Tasklist = () => {
 
             res.forEach((task) => {
                 if (task.name?.name) {
-                    fetchDataFromApi(`/emp/${task.name.name}`).then((emp) => {
+                    fetchDataFromApi(`/emp/img/${task.name.name}`).then((emp) => {
                         setEmpImages((prev) => ({
                             ...prev,
                             [task.name.name]: emp.profileImage

@@ -38,7 +38,7 @@ const LeaveRequests = () => {
 
          res.forEach((leave) => {
                       if (leave.name) {
-                          fetchDataFromApi(`/emp/${leave.name}`).then((emp) => {
+                          fetchDataFromApi(`/emp/img/${leave.name}`).then((emp) => {
                               setEmpImages((prev) => ({
                                   ...prev,
                                   [leave.name]: emp.profileImage

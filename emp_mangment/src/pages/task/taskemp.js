@@ -47,7 +47,7 @@ useEffect(() => {
         console.error("❌ Error fetching tasks:", err);
       });
   }
-  fetchDataFromApi(`/emp/${empname}`).then((emp) => {
+  fetchDataFromApi(`/emp/img/${empname}`).then((emp) => {
         setUserProfile(emp.profileImage || userimg);
       }).catch(() => {
         setUserProfile(userimg); 

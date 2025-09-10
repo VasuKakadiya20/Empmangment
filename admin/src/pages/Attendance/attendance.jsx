@@ -31,7 +31,7 @@ const Attendance = () => {
 
        res.forEach((att) => {
                       if (att.name) {
-                          fetchDataFromApi(`/emp/${att.name}`).then((emp) => {
+                          fetchDataFromApi(`/emp/img/${att.name}`).then((emp) => {
                               setEmpImages((prev) => ({
                                   ...prev,
                                   [att.name]: emp.profileImage

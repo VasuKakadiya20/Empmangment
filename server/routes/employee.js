@@ -60,7 +60,7 @@ router.post('/create', upload.single('profileImage'), async (req, res) => {
   }
 });
 
-router.get('/:name', async (req, res) => {
+router.get('/img/:name', async (req, res) => {
   try {
     const emp = await employee.findOne({ name: req.params.name });
 
@@ -82,12 +82,20 @@ router.get('/:name', async (req, res) => {
 });
 
 router.get('/:id', async (req, res) => {
-  const Employees = await employee.findById(req.params.id);
-  if (!Employees) {
-    return res.status(404).json({ message: 'Employee not found' });
+  try {
+    const Employees = await employee.findById(req.params.id);
+
+    if (!Employees) {
+      return res.status(404).json({ message: 'Employee not found' });
+    }
+
+    res.status(200).json(Employees);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: error.message });
   }
-  res.status(200).json(Employees);
 });
+
 
 router.delete('/:id', async (req, res) => {
   const deleteemployee = await employee.findByIdAndDelete(req.params.id);

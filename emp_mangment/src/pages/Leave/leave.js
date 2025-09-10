@@ -28,7 +28,7 @@ const LeaveRequests = () => {
       setleaveData(res)
     })
 
-      fetchDataFromApi(`/emp/${empname}`).then((emp) => {
+      fetchDataFromApi(`/emp/img/${empname}`).then((emp) => {
       setUserProfile(emp.profileImage || userimg);
     }).catch(() => {
       setUserProfile(userimg); // fallback

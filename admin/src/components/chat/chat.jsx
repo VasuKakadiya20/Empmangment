@@ -36,7 +36,7 @@ function ChatWindow({ chatId, employeeName }) {
   }, [chatId]);
 
   useEffect(()=>{
-       fetchDataFromApi(`/emp/${employeeName}`).then((emp) => {
+       fetchDataFromApi(`/emp/img/${employeeName}`).then((emp) => {
         setUserProfile(emp.profileImage);
       }).catch(() => {
         setUserProfile(user); 

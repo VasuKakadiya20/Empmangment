@@ -123,7 +123,7 @@ function EmployeeList({ onSelectChat }) {
         const updatedEmployees = await Promise.all(
           res.map(async (emp) => {
             try {
-              const empData = await fetchDataFromApi(`/emp/${emp.employeeName}`);
+              const empData = await fetchDataFromApi(`/emp/img/${emp.employeeName}`);
               return { ...emp, profileImage: empData.profileImage || userImg };
             } catch {
               return { ...emp, profileImage: userImg }; // fallback

@@ -122,7 +122,7 @@ export default function AdminNotifications() {
   const [permissionGranted, setPermissionGranted] = useState(false);
 
 const getUserImage = async (name) => {
-    const emp = await fetchDataFromApi(`/emp/${name}`);
+    const emp = await fetchDataFromApi(`/emp/img/${name}`);
     return emp?.profileImage || userimg; 
 };
 

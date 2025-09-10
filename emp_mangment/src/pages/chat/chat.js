@@ -222,7 +222,7 @@ function Chat() {
 
     fetchChatAndMessages();
 
-      fetchDataFromApi(`/emp/${empName}`).then((emp) => {
+      fetchDataFromApi(`/emp/img/${empName}`).then((emp) => {
             setUserProfile(emp.profileImage || user);
           }).catch(() => {
             setUserProfile(user); 

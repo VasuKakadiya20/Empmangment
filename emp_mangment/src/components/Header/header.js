@@ -110,7 +110,7 @@ const handleCloseNotificationsDrop = () => {
       }
     });
 
-      fetchDataFromApi(`/emp/${empname}`).then((emp) => {
+      fetchDataFromApi(`/emp/img/${empname}`).then((emp) => {
                 setUserProfile(emp.profileImage || user);
               }).catch(() => {
                 setUserProfile(user); 
