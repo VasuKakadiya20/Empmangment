@@ -163,6 +163,7 @@ const AddEmployeeForm = () => {
     EmployeeStatus: "",
   });
 
+  // CHANGED: Added state for profile image
   const [profileImage, setProfileImage] = useState(null);
 
   const handleChange = (e) => {
@@ -172,6 +173,7 @@ const AddEmployeeForm = () => {
     });
   };
 
+  // CHANGED: Handle file input change
   const handleFileChange = (e) => {
     setProfileImage(e.target.files[0]);
   };
@@ -179,6 +181,7 @@ const AddEmployeeForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      // CHANGED: Use FormData to include image
       const formData = new FormData();
       Object.keys(form).forEach((key) => {
         formData.append(key, form[key]);
@@ -187,10 +190,12 @@ const AddEmployeeForm = () => {
         formData.append("profileImage", profileImage);
       }
 
+      // CHANGED: postData now sends FormData (third param true)
       const res = await postData(`/emp/create`, formData, true); 
       toast.success("Employee added successfully!");
       console.log("Success:", res);
 
+      // CHANGED: Reset image state along with text fields
       setForm({
         name: "",
         Role: "",
@@ -202,7 +207,7 @@ const AddEmployeeForm = () => {
         Address: "",
         EmployeeStatus: "",
       });
-      setProfileImage(null);
+      setProfileImage(null); // CHANGED: reset file input
 
     } catch (err) {
       toast.error("Something went wrong");
@@ -221,6 +226,7 @@ const AddEmployeeForm = () => {
 
             <div className="add-employee-container">
               <h2 className="form-title">New Entry</h2>
+              {/* CHANGED: added encType for file upload */}
               <form className="employee-form" onSubmit={handleSubmit} encType="multipart/form-data">
 
                 <div className="form-row">
@@ -276,20 +282,19 @@ const AddEmployeeForm = () => {
                     </select>
                   </div>
                 </div>
- <div className="form-row">
-     <div className="form-group">
-                  <label>Address</label>
-                  <textarea placeholder="Enter the Address" name="Address" value={form.Address} onChange={handleChange} />
-                </div>
 
-                 <div className="form-group">
-                  <label>Profile Image</label>
-                  <input type="file" name="profileImage" onChange={handleFileChange} accept="image/*" />
-                </div>
- </div>
-               
+                <div className="form-row">
+                  <div className="form-group">
+                    <label>Address</label>
+                    <textarea placeholder="Enter the Address" name="Address" value={form.Address} onChange={handleChange} />
+                  </div>
 
-               
+                  {/* CHANGED: Added profile image file input */}
+                  <div className="form-group">
+                    <label>Profile Image</label>
+                    <input type="file" name="profileImage" onChange={handleFileChange} accept="image/*" />
+                  </div>
+                </div>
 
                 <button type="submit" className="submit-btn mt-3">Submit</button>
               </form>

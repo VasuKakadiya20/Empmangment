@@ -136,7 +136,7 @@ const AllEmployees = () => {
                      <img
     src={
       item.profileImage
-        ? `https://empmangment-backend.onrender.com${item.profileImage}`
+        ? `${item.profileImage}`
         : userimg 
     }
     alt={item.name}/>

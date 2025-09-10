@@ -14,30 +14,30 @@ export const editdata = async (url, updatedata) => {
   return res;
 };
 
-// export const postData = async (url, fromdata) => {
-//   try {
-//     const { data } = await axios.post("https://empmangment-backend.onrender.com" + url, fromdata);
-//     return data;
-//   } catch (error) {
-//     console.error("POST Error:", error.response?.data || error.message);
-//     throw error;
-//   }
-// };
-export const postData = async (url, formData, isFormData = false) => {
+export const postData = async (url, fromdata) => {
   try {
-    const config = {
-      headers: {
-        "Content-Type": isFormData ? "multipart/form-data" : "application/json",
-      },
-    };
-
-    const { data } = await axios.post("https://empmangment-backend.onrender.com" + url, formData, config);
+    const { data } = await axios.post("https://empmangment-backend.onrender.com" + url, fromdata);
     return data;
   } catch (error) {
     console.error("POST Error:", error.response?.data || error.message);
     throw error;
   }
 };
+// export const postData = async (url, formData, isFormData = false) => {
+//   try {
+//     const config = {
+//       headers: {
+//         "Content-Type": isFormData ? "multipart/form-data" : "application/json",
+//       },
+//     };
+
+//     const { data } = await axios.post("http://localhost:4000" + url, formData, config);
+//     return data;
+//   } catch (error) {
+//     console.error("POST Error:", error.response?.data || error.message);
+//     throw error;
+//   }
+// };
 
 export const loginData = async (url, formData) => {
   try {

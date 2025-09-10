@@ -93,7 +93,7 @@ const Dashboard = () => {
                     <td><input type="checkbox" /></td>
                     <td className="emp-name">
                       <img src={ item.profileImage
-                              ? `https://empmangment-backend.onrender.com${item.profileImage}`
+                              ? `${item.profileImage}`
                               : userimg } alt={item.name} />
                       {item.name}
                     </td>

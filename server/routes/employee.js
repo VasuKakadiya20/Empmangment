@@ -3,7 +3,14 @@ const { employee } = require('../models/employee');
 const cloudinary = require('cloudinary').v2;
 const multer = require('multer');
 const path = require('path');
+const fs = require('fs');
 const router  = express.Router();
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -14,29 +21,31 @@ const storage = multer.diskStorage({
   },
 });
 
-const upload = multer({ storage: storage });
+const upload = multer({ storage });
 
 router.get('/', async (req, res) => {
-    try {
-        
-        const employeelist = await employee.find();
-
-        if (!employeelist) {
-            return res.status(500).json({ success: false });
-        }
-
-        res.send(employeelist);
-    } catch (error) {
-        res.status(500).json({ success: false, error: error.message });
+  try {
+    const employeelist = await employee.find();
+    if (!employeelist) {
+      return res.status(500).json({ success: false });
     }
+    res.send(employeelist);
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
 });
-
 
 router.post('/create', upload.single('profileImage'), async (req, res) => {
   try {
     let imgUrl = '';
+
     if (req.file) {
-      imgUrl = `/uploads/${req.file.filename}`; 
+
+      const result = await cloudinary.uploader.upload(req.file.path, {
+        folder: 'employees',   
+      });
+      imgUrl = result.secure_url;
+      fs.unlinkSync(req.file.path);
     }
 
     let Employees = new employee({
@@ -74,7 +83,7 @@ router.get('/img/:name', async (req, res) => {
 
     res.status(200).json({
       name: emp.name,
-      profileImage: `https://empmangment-backend.onrender.com${emp.profileImage}` 
+      profileImage: emp.profileImage, 
     });
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -84,18 +93,15 @@ router.get('/img/:name', async (req, res) => {
 router.get('/:id', async (req, res) => {
   try {
     const Employees = await employee.findById(req.params.id);
-
     if (!Employees) {
       return res.status(404).json({ message: 'Employee not found' });
     }
-
     res.status(200).json(Employees);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: error.message });
   }
 });
-
 
 router.delete('/:id', async (req, res) => {
   const deleteemployee = await employee.findByIdAndDelete(req.params.id);
@@ -120,7 +126,12 @@ router.put('/:id', upload.single('profileImage'), async (req, res) => {
     };
 
     if (req.file) {
-      updateData.profileImage = `/uploads/${req.file.filename}`;
+      const result = await cloudinary.uploader.upload(req.file.path, {
+        folder: 'employees',
+      });
+      updateData.profileImage = result.secure_url;
+
+      fs.unlinkSync(req.file.path);
     }
 
     const Employees = await employee.findByIdAndUpdate(req.params.id, updateData, { new: true });
