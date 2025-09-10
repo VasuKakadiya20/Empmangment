@@ -19,7 +19,6 @@ import { data, Link, useNavigate } from "react-router-dom";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import { MdOutlineNotifications } from "react-icons/md";
 import LockOutlineIcon from "@mui/icons-material/LockOutline";
-import { fetchDataFromApi } from "../../uttils/api";
 import admin from "../../assets/images/logo2.png"
 
 export const Header = () => {
@@ -61,13 +60,6 @@ const handleCloseNotificationsDrop = () => {
   };
 
   const openNotifications = Boolean(isOpennotificationsDrop);
-  // const handleOpenNotificationsDrop = () => {
-  //   setIsOpenNotificationsDrop(true);
-  // };
-
-  // const handleCloseNotificationsDrop = () => {
-  //   setIsOpenNotificationsDrop(false);
-  // };
 
   const logout = () => {
     context.setislogin(false);
@@ -159,7 +151,7 @@ const handleCloseNotificationsDrop = () => {
             <MenuItem key={index} onClick={handleCloseNotificationsDrop}>
               <div className="d-flex">
                 <div>
-                  <UserImg img={user} />
+                  <UserImg img={item?.img} />
                 </div>
                 <div className="dropdown-info">
                   <h4>
