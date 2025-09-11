@@ -58,7 +58,8 @@ router.post('/create', upload.single('profileImage'), async (req, res) => {
       Gender: req.body.Gender,
       Address: req.body.Address,
       EmployeeStatus: req.body.EmployeeStatus,
-      profileImage: imgUrl,  
+      profileImage: imgUrl,
+      Salary:req.body.Salary
     });
 
     Employees = await Employees.save();
@@ -123,6 +124,7 @@ router.put('/:id', upload.single('profileImage'), async (req, res) => {
       Gender: req.body.Gender,
       Address: req.body.Address,
       EmployeeStatus: req.body.EmployeeStatus,
+      Salary:req.body.Salary
     };
 
     if (req.file) {

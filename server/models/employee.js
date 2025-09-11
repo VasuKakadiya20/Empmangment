@@ -41,6 +41,10 @@
         type: String,
         default: ""
     },
+    Salary:{
+        type:Number,
+        required:true
+    }
     })
     
     exports.employee = mongoose.model('employee',employeeSchema) 

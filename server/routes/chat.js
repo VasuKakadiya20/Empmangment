@@ -73,4 +73,31 @@ router.delete("/:id" , async(req,res) =>{
     })
 })
 
+router.delete("/delete/:name", async (req, res) => {
+  try {
+   const empname = req.params.name; 
+
+    const deletedData = await Chat.deleteMany({ employeeName: empname });
+
+    if (deletedData.deletedCount === 0) {
+      return res.status(404).json({
+        message: "No attendance data found for this employee!",
+        Status: false
+      });
+    }
+
+    res.status(200).json({
+      message: "Attendance data deleted successfully!",
+      Status: true
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      message: "Error deleting attendance data",
+      error: error.message,
+      Status: false
+    });
+  }
+});
+
 module.exports = router;

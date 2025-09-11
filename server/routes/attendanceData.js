@@ -103,4 +103,26 @@ router.get('/:id' ,async(req,res)=>{
   return res.status(200).send(attendance);
 })
 
+router.get("/attendance/:name", async (req, res) => {
+  try {
+    const { name } = req.params;
+    const attendance = await attendanceData.find({ name })
+
+    if (!attendance) {
+      return res.status(404).json({
+        message: "No leave record found",
+        status: false
+      });
+    }
+
+  return res.status(200).send(attendance);
+  } catch (err) {
+    res.status(500).json({
+      message: "Server error",
+      status: false,
+      error: err.message
+    });
+  }
+});
+
 module.exports = router;

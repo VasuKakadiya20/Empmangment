@@ -85,6 +85,12 @@ const AllEmployees = () => {
     })
   }
 
+  const deletechat = (name)=>{
+    deletedata(`/chat/delete/${name}`).then((res)=>{
+      console.log("chat deleted!")
+    })
+  }
+
   const deletetask = (_id) =>{
     deletedata(`/task/delete/${_id}`).then((res)=>{
       console.log ('deleted from the task!')
@@ -159,7 +165,8 @@ const AllEmployees = () => {
                           deletedataemp(item._id);
                           deletedleave(item.name);
                           deleteattendance(item.name);
-                          deletetask(item._id)
+                          deletetask(item._id);
+                          deletechat(item.name);
                       }}/>
                       </div>
                       <Dialog
@@ -248,7 +255,23 @@ const AllEmployees = () => {
                                     </select>
                                   </div>
 
+                                 <div className="form-group">
+                                    <label>Salary*</label>
+                                    <input type="Text" name="Salary"
+                                      value={updatedata.Salary}
+                                      onChange={(e) => setupdatedate({ ...updatedata, Salary: e.target.value })}
+                                      placeholder="Enter The Salary..." required />
+                                  </div>
+                                
+                                </div>
 
+                         <div className="form-row">
+                                <div className='form-group '>
+                                  <label>Address</label>
+                                  <textarea placeholder='enter the Address' name='Address'
+                                    value={updatedata.Address}
+                                    onChange={(e) => setupdatedate({ ...updatedata, Address: e.target.value })} />
+                                </div>
                                   <div className="form-group ">
                                     <label>Employee Status*</label>
                                     <select name="EmployeeStatus"
@@ -260,14 +283,7 @@ const AllEmployees = () => {
                                       <option value="Inactive">Inactive</option>
                                     </select>
                                   </div>
-                                </div>
-
-                                <div className='form-group full-width'>
-                                  <label>Address</label>
-                                  <textarea placeholder='enter the Address' name='Address'
-                                    value={updatedata.Address}
-                                    onChange={(e) => setupdatedate({ ...updatedata, Address: e.target.value })} />
-                                </div>
+                                  </div>
 
                                 <div class="button-group">
                                   <button onClick={handleSaveUpdate} class="save-btn" type="submit">Save</button>

@@ -9,7 +9,8 @@ import { BsFillClipboardDataFill } from "react-icons/bs";
 import { FiUsers } from "react-icons/fi";
 import { IoMdNotifications } from "react-icons/io";
 import { MdOutlineTaskAlt } from "react-icons/md";
-import Admin from "../../assets/images/logo2.png"
+import Admin from "../../assets/images/logo2.png";
+import { RiSecurePaymentLine } from "react-icons/ri";
 
 const Sidebar = () => {
   const [activeTab, setActiveTab] = useState(null);
@@ -99,6 +100,15 @@ const Sidebar = () => {
                   <li><Link to="/chat">chat</Link></li>
                 </ul>
               </div>
+            </li>
+     <li>
+              <Link to="/payroll">
+                <Button className={`w-100 ${activeTab === 5 ? "active" : ""}`}>
+                  <span className="icons"><RiSecurePaymentLine /></span>
+                  pay Roll
+                  <span className="arrows"><FaAngleRight /></span>
+                </Button>
+              </Link>
             </li>
 
             <li>
