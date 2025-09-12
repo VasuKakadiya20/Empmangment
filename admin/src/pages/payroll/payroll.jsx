@@ -102,19 +102,19 @@ const downloadPayslipPDF = (item) => {
   doc.setFontSize(16);
   doc.setFont("helvetica", "normal");
   doc.text(`Employee Name: ${name}`, 20, 50);
-  doc.text(`Basic Salary: Rs ${basicSalary}`, 20, 60);
+  doc.text(`Salary: Rs ${basicSalary}`, 20, 60);
 
   autoTable(doc, {
     startY: 75, 
     head: [["Description", "Value"]],
     body: [
-      ["Total Leaves", totalLeaves],
-      ["Full Days", fullDays],
-      ["Half Days", halfDays],
-      ["Deduction Rs", Math.round(totalDeduction)],
-      ["Payable Salary Rs", netSalary],
+      ["Full Days :-", `${fullDays} Days`],
+      ["Half Days :-", `${halfDays} Days`],
+      ["Leaves :-", `${totalLeaves} Days`],
+      ["Deduction Rs :-", Math.round(totalDeduction)],
+      ["Payable Salary Rs :-", netSalary],
     ],
-    theme: "grid",
+  theme: "grid",
   headStyles: {
   fillColor: [17, 58, 105],  
   textColor: 255,
@@ -160,6 +160,7 @@ const downloadPayslipPDF = (item) => {
                   <th>Full Days</th>
                   <th>Half Days</th>
                   <th>Net Salary</th>
+                  <th>All Data</th>
                   <th>Payslip</th>
                 </tr>
               </thead>
@@ -181,6 +182,7 @@ const downloadPayslipPDF = (item) => {
                    <td>{item.fullDays}</td>
                     <td>{item.halfDays}</td>
                     <td>₹ {item.netSalary}</td>
+                    <td></td>
                     <td>
                    <FaFileInvoice
                     className="action-icon"

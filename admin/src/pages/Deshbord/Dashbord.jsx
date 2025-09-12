@@ -7,6 +7,12 @@ import { toast, ToastContainer } from "react-toastify";
 import DialogContent from "@mui/material/DialogContent";
 import { editdata, fetchDataFromApi } from "../../uttils/api";
 import React, { useContext, useEffect, useState } from "react";
+import Box from "@mui/material/Box";
+import FormControl from "@mui/material/FormControl";
+import InputLabel from "@mui/material/InputLabel";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 // import HomeAttendance from "../../components/DeshbordAttendance/homeattendeancee";
 
 const Dashboard = () => {
@@ -19,6 +25,12 @@ const Dashboard = () => {
   context.setIsHideSidebarAndHeader(false); 
   window.scrollTo(0, 0); 
 }, []);
+
+  const [page, setPage] = useState(10);
+
+  const handleChange = (event) => {
+    setPage(event.target.value);
+  };
 
 
   useEffect(() => {
@@ -67,6 +79,7 @@ const Dashboard = () => {
     <>
       <div className="attendance mt-5 imp">
         <div className="attendance-container mt-5">
+             <h2 className="table-title">Dashborad</h2>
           <div className="table-wrapper">
             <div className="table-header">
               <span>Employee</span>
@@ -231,6 +244,34 @@ const Dashboard = () => {
                 ))}
               </tbody>
             </table>
+               <div className="pagination">
+              <div className="page">
+                <Box sx={{ minWidth: 120 }}>
+                  <FormControl fullWidth>
+                    <InputLabel id="demo-simple-select-label">Page</InputLabel>
+                    <Select
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select"
+                      value={page}
+                      label="page"
+                      onChange={handleChange}
+                    >
+                      <MenuItem value={10}>10</MenuItem>
+                      <MenuItem value={20}>20</MenuItem>
+                      <MenuItem value={30}>30</MenuItem>
+                    </Select>
+                  </FormControl>
+                </Box>
+              </div>    
+              <span className="arrows">
+                <span style={{ marginRight: "20px" }}>
+                  <FaChevronLeft />
+                </span>
+                <span>
+                  <FaChevronRight />
+                </span>
+              </span>
+            </div>
           </div>
         </div>
       </div>

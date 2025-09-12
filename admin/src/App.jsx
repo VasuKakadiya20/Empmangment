@@ -17,6 +17,7 @@ import AdminNotifications from './components/notification/notification.jsx';
 import { Toaster } from "react-hot-toast";
 import Chat from './pages/task/chat.jsx';
 import PayrollPage from './pages/payroll/payroll.jsx';
+import PayrollTable2 from './pages/payroll/payroll2.jsx';
 
 const mycontext = createContext();
 
@@ -93,6 +94,7 @@ function App() {
                 <Route path='/task/add' element = {<Addtask/>} exact={true}/>
                 <Route path='/chat' element = {<Chat/>} exact={true}/>
                 <Route path='/payroll' element = {<PayrollPage/>} exact={true}/>
+                <Route path='/payroll2' element = {<PayrollTable2/>} exact = {true} />
               </Routes>
             </div>
           </div>

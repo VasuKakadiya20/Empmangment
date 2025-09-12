@@ -110,6 +110,15 @@ const Sidebar = () => {
                 </Button>
               </Link>
             </li>
+              <li>
+              <Link to="/payroll2">
+                <Button className={`w-100 ${activeTab === 5 ? "active" : ""}`}>
+                  <span className="icons"><RiSecurePaymentLine /></span>
+                  pay Roll2
+                  <span className="arrows"><FaAngleRight /></span>
+                </Button>
+              </Link>
+            </li>
 
             <li>
               <Link to="/Dashboard">
