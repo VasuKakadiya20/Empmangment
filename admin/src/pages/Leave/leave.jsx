@@ -214,7 +214,7 @@ const LeaveRequests = () => {
                                   <input type="Date"
                                     value={updatedate?.leaveFrom}
                                     onChange={(e) => setupdatedate({ ...updatedate, leaveFrom: e.target.value })} 
-                                    readOnly
+                                    disabled
                                     />
                                 </div>
 
@@ -223,7 +223,7 @@ const LeaveRequests = () => {
                                   <input type="Date"
                                     value={updatedate?.leaveTo}
                                     onChange={(e) => setupdatedate({ ...updatedate, leaveTo: e.target.value })} 
-                                    readOnly
+                                     disabled
                                     />
                                 </div>
                               </div>
@@ -258,7 +258,7 @@ const LeaveRequests = () => {
                                   <input type="Date"
                                     value={updatedate?.RequestedOn}
                                     onChange={(e) => setupdatedate({ ...updatedate, RequestedOn: e.target.value })} 
-                                    readOnly
+                                     disabled
                                     />
                                 </div>
 

@@ -280,7 +280,7 @@ const PayrollTable2 = () => {
           <h2 className="table-title">Payroll Management</h2>
           <div className="table-wrapper">
             <div className="table-header">
-              <span>Employee Payroll</span>
+              <span>Employee Payroll 2</span>
             </div>
             <table>
               <thead>

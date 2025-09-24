@@ -158,7 +158,7 @@ background-color: #063161 !important;
 }
 
 .auth-dropdown select:focus {
-  border-color: #1976d2;
+   border-color: #113a69 !important;
   box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.2);
 }
 

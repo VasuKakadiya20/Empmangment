@@ -5,139 +5,149 @@ import { FaFileInvoice, FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import Box from "@mui/material/Box";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
-import Select from "@mui/material/Select";
-import MenuItem from "@mui/material/MenuItem";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import jsPDF from "jspdf"; 
-import { autoTable } from "jspdf-autotable"; 
+import jsPDF from "jspdf";
+import { autoTable } from "jspdf-autotable";
+import DialogContent from "@mui/material/DialogContent";
+import Dialog from "@mui/material/Dialog";
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
 
 const PayrollTable = () => {
   const [payrollData, setPayrollData] = useState([]);
+  const [openDialog, setOpenDialog] = useState(false);
+  const [selectedEmployee, setSelectedEmployee] = useState(null);
   const [page, setPage] = useState(10);
 
   const handleChange = (event) => {
     setPage(event.target.value);
   };
 
-useEffect(() => {
-  const loadPayrollForAll = async () => {
-    try {
-      const employees = await fetchDataFromApi("/emp/");
-
-      const currentMonth = new Date().getMonth();
-      const currentYear = new Date().getFullYear();
-
-      const payrollPromises = employees.map(async (emp) => {
-        const basicSalary = emp.Salary || 0;
-        const perDay = basicSalary / 24;
-
-        const leaveData = await fetchDataFromApi(`/leave/status/${emp.name}`);
-        const approvedLeaves = leaveData.filter((l) => l.Status === "Approved");
-        let totalLeaves = 0;
-        approvedLeaves.forEach((l) => {
-          const leaveStart = new Date(l.leaveFrom);
-          const leaveEnd = new Date(l.leaveTo);
-          for (let d = new Date(leaveStart); d <= leaveEnd; d.setDate(d.getDate() + 1)) {
-            if (d.getMonth() === currentMonth && d.getFullYear() === currentYear) {
-              totalLeaves += 1;
-            }
-          }
-        });
-
-        const attData = await fetchDataFromApi(`/att/attendance/${emp.name}`);
-        const monthlyAttendance = attData.filter((a) => {
-          const attDate = new Date(a.date);
-          return attDate.getMonth() === currentMonth && attDate.getFullYear() === currentYear;
-        });
-
-        let fullDays = 0;
-        let halfDays = 0;
-
-        monthlyAttendance.forEach((day) => {
-          if (day.totalHours) {
-            const [h, m] = day.totalHours.split(":").map(Number);
-            const minutes = h * 60 + m;
-            if (minutes >= 495) fullDays += 1;
-            else halfDays += 1;
-          }
-        });
-
-        const deduction = totalLeaves * perDay + halfDays * (perDay / 2);
-        const netSalary = basicSalary - deduction;
-       return {
-          name: emp.name,
-          profileImage: emp.profileImage,
-          basicSalary,
-          totalLeaves,
-          fullDays,
-          halfDays,
-          netSalary: Math.round(netSalary),
-        };
-      });
-      
-
-      const results = await Promise.all(payrollPromises); 
-      setPayrollData(results); 
-    } catch (err) {
-      toast.error("Error fetching payroll data");
-    }
+  const handleOpenDialog = (employee) => {
+    setSelectedEmployee(employee);
+    setOpenDialog(true);
   };
 
-  loadPayrollForAll();
-}, []);
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+    setSelectedEmployee(null);
+  };
 
-const downloadPayslipPDF = (item) => {
-  const { name, totalLeaves, fullDays, halfDays, basicSalary, netSalary } = item;
-  const halfDayDeduction = (basicSalary / 24 / 2) * halfDays;
-  const leaveDeduction = (basicSalary / 24) * totalLeaves;
-  const totalDeduction = leaveDeduction + halfDayDeduction;
+  useEffect(() => {
+    const loadPayrollForAll = async () => {
+      try {
+        const employees = await fetchDataFromApi("/emp/");
+        const currentMonth = new Date().getMonth();
+        const currentYear = new Date().getFullYear();
 
-  const doc = new jsPDF();
+        const payrollPromises = employees.map(async (emp) => {
+          const BasicSalary = emp.Salary || 0;
+          const perDay = BasicSalary / 24;
 
-  doc.setFontSize(24); 
-  doc.setFont("helvetica", "bold");
-  doc.text("Payroll Slip", 105, 25, { align: "center" });
+          const leaveData = await fetchDataFromApi(`/leave/status/${emp.name}`);
+          const approvedLeaves = leaveData.filter((l) => l.Status === "Approved");
+          let TotalLeaves = 0;
+          approvedLeaves.forEach((l) => {
+            const leaveStart = new Date(l.leaveFrom);
+            const leaveEnd = new Date(l.leaveTo);
+            for (let d = new Date(leaveStart); d <= leaveEnd; d.setDate(d.getDate() + 1)) {
+              if (d.getMonth() === currentMonth && d.getFullYear() === currentYear) {
+                TotalLeaves += 1;
+              }
+            }
+          });
 
-  doc.setFontSize(16);
-  doc.setFont("helvetica", "normal");
-  doc.text(`Employee Name: ${name}`, 20, 50);
-  doc.text(`Salary: Rs ${basicSalary}`, 20, 60);
+          const attData = await fetchDataFromApi(`/att/attendance/${emp.name}`);
+          const monthlyAttendance = attData.filter((a) => {
+            const attDate = new Date(a.date);
+            return attDate.getMonth() === currentMonth && attDate.getFullYear() === currentYear;
+          });
 
-  autoTable(doc, {
-    startY: 75, 
-    head: [["Description", "Value"]],
-    body: [
-      ["Full Days :-", `${fullDays} Days`],
-      ["Half Days :-", `${halfDays} Days`],
-      ["Leaves :-", `${totalLeaves} Days`],
-      ["Deduction Rs :-", Math.round(totalDeduction)],
-      ["Payable Salary Rs :-", netSalary],
-    ],
-  theme: "grid",
-  headStyles: {
-  fillColor: [17, 58, 105],  
-  textColor: 255,
-  fontStyle: "bold",
-  fontSize: 14,
-},
-    styles: {
-      fontSize: 14, 
-      cellPadding: 6, 
-    },
-  });
+          let FullDays = 0;
+          let HalfDays = 0;
+          monthlyAttendance.forEach((day) => {
+            if (day.totalHours) {
+              const [h, m] = day.totalHours.split(":").map(Number);
+              const minutes = h * 60 + m;
+              if (minutes >= 495) FullDays += 1;
+              else HalfDays += 1;
+            }
+          });
 
-  doc.setFontSize(12);
-  doc.text(
-    "Generated by TeamTrack - Admin",
-    105,
-    doc.internal.pageSize.height - 15,
-    { align: "center" }
-  );
+          const deduction = TotalLeaves * perDay + HalfDays * (perDay / 2);
+          const netSalary = BasicSalary - deduction;
+          return {
+            Name: emp.name,
+            profileImage: emp.profileImage,
+            BasicSalary,
+            TotalLeaves,
+            FullDays,
+            HalfDays,
+            NetSalary: Math.round(netSalary),
+          };
+        });
 
-  doc.save(`${name}_Payslip.pdf`);
-};
+        const results = await Promise.all(payrollPromises);
+        setPayrollData(results);
+      } catch (err) {
+        toast.error("Error fetching payroll data");
+      }
+    };
+    loadPayrollForAll();
+  }, []);
 
+  const downloadPayslipPDF = (item) => {
+    const { Name, TotalLeaves, FullDays, HalfDays, BasicSalary } = item;
+    const halfDayDeduction = (BasicSalary / 24 / 2) * HalfDays;
+    const leaveDeduction = (BasicSalary / 24) * TotalLeaves;
+    const TotalDeduction = leaveDeduction + halfDayDeduction;
+    const NetSalary = BasicSalary - TotalDeduction
+
+    const doc = new jsPDF();
+
+    doc.setFontSize(24);
+    doc.setFont("helvetica", "bold");
+    doc.text("Payroll Slip", 105, 25, { align: "center" });
+
+    doc.setFontSize(16);
+    doc.setFont("helvetica", "normal");
+    doc.text(`Employee Name : ${Name}`, 20, 50); 
+    doc.text(`Salary : Rs ${BasicSalary}`, 20, 60);
+
+    autoTable(doc, {
+      startY: 75,
+      head: [["Description", "Value"]],
+      body: [
+        ["Full Days :-", `${FullDays} Days`],
+        ["Half Days :-", `${HalfDays} Days`],
+        ["Leaves :-", `${TotalLeaves} Days`],
+        ["Deduction Rs :-", Math.round(TotalDeduction)],
+        ["Payable Salary Rs :-", Math.round(NetSalary)],
+      ],
+      theme: "grid",
+      headStyles: {
+        fillColor: [17, 58, 105],
+        textColor: 255,
+        fontStyle: "bold",
+        fontSize: 14,
+      },
+      styles: {
+        fontSize: 14,
+        cellPadding: 6,
+      },
+    });
+ 
+    doc.setFontSize(12);
+    doc.text(
+      "Generated by TeamTrack - Admin",
+      105,
+      doc.internal.pageSize.height - 15,
+      { align: "center" }
+    );
+
+    doc.save(`${Name}_Payslip.pdf`);
+  };
 
   return (
     <>
@@ -160,37 +170,98 @@ const downloadPayslipPDF = (item) => {
                   <th>Full Days</th>
                   <th>Half Days</th>
                   <th>Net Salary</th>
-                  <th>All Data</th>
                   <th>Payslip</th>
                 </tr>
               </thead>
               <tbody>
                 {payrollData.map((item, index) => (
-                  <tr key={index}>
+                  <tr key={index} onClick={() => handleOpenDialog(item)} style={{ cursor: 'pointer' }}>
                     <td>
                       <input type="checkbox" />
                     </td>
-                    <td className="emp-name">
+                    <td className="emp-name" >
                       <img
                         src={item.profileImage ? item.profileImage : userimg}
-                        alt={item.name}
+                        alt={item.Name}
                       />
-                      {item.name}
+                      {item.Name}
                     </td>
-                    <td>₹ {item.basicSalary}</td>
-                    <td>{item.totalLeaves}</td>
-                   <td>{item.fullDays}</td>
-                    <td>{item.halfDays}</td>
-                    <td>₹ {item.netSalary}</td>
-                    <td></td>
+                    <td>₹ {item.BasicSalary}</td>
+                    <td>{item.TotalLeaves}</td>
+                    <td>{item.FullDays}</td> 
+                    <td>{item.HalfDays}</td>
+                    <td>₹ {item.NetSalary}</td>
                     <td>
-                   <FaFileInvoice
-                    className="action-icon"
-                    onClick={() => downloadPayslipPDF(item)}
-                    />
+                      <FaFileInvoice
+                        className="action-icon"
+                       onClick={(e) => {
+                        e.stopPropagation();
+                        downloadPayslipPDF(item);
+                      }}
+                      />
                     </td>
                   </tr>
                 ))}
+                   <Dialog
+                      open={openDialog}
+                      onClose={handleCloseDialog}
+                      maxWidth="md"
+                      fullWidth
+                     BackdropProps={{
+                    sx: {
+                        backgroundColor: 'transparent',
+                        backdropFilter: 'blur(2px)',
+                    },
+                }}
+                PaperProps={{
+                    sx: {
+                        boxShadow: 'none',
+                        backgroundColor: '#fff',
+                        borderRadius: 2,
+                    },
+                }}
+                    >
+                      <DialogContent className="dialog-form-container">
+                        <h2 className="text-align-center">Employee Payroll Details</h2>
+                        {selectedEmployee && (
+                          <div className="form-container">
+                            <div className="form-row">
+                              <div className="form-group">
+                                <label>Name</label>
+                                <input type="text" value={selectedEmployee.Name} readOnly />
+                              </div>
+                              <div className="form-group">
+                                <label>Basic Salary</label>
+                                <input type="text" value={`₹ ${selectedEmployee.BasicSalary}`} readOnly />
+                              </div>
+                            </div>
+                            <div className="form-row">
+                              <div className="form-group">
+                                <label>Full Days</label>
+                                <input type="text" value={selectedEmployee.FullDays} readOnly />
+                              </div>
+                              <div className="form-group">
+                                <label>Half Days</label>
+                                <input type="text" value={selectedEmployee.HalfDays} readOnly />
+                              </div>
+                            </div>
+                            <div className="form-row">
+                              <div className="form-group">
+                                <label>Approved Leaves</label>
+                                <input type="text" value={selectedEmployee.TotalLeaves} readOnly />
+                              </div>
+                              <div className="form-group">
+                                <label>Net Salary</label>
+                                <input type="text" value={`₹ ${selectedEmployee.NetSalary}`} readOnly />
+                              </div>
+                            </div>
+                            <div className="button-group">
+                              <button onClick={handleCloseDialog} className="cancel-btn">Close</button>
+                            </div>
+                          </div>
+                        )}
+                      </DialogContent>
+                    </Dialog>
               </tbody>
             </table>
 
@@ -212,7 +283,7 @@ const downloadPayslipPDF = (item) => {
                     </Select>
                   </FormControl>
                 </Box>
-              </div>    
+              </div>
               <span className="arrows">
                 <span style={{ marginRight: "20px" }}>
                   <FaChevronLeft />
